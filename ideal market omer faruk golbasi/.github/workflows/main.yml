@@ -1,0 +1,44 @@
+name: Daily Ideal Scraper
+
+on:
+  schedule:
+    # Runs at 00:00 UTC (03:00 TSİ) every day
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  scrape_and_upload:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 supabase python-dotenv pandas lxml
+
+      - name: Run Scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          cd "ideal market omer faruk golbasi"
+          python scraper.py
+
+      - name: Commit and push CSV files
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+          git add "ideal market omer faruk golbasi/data/"
+          git commit -m "Auto-update daily prices CSV for $(date +'%Y-%m-%d')" || exit 0
+          git push origin HEAD:${{ github.ref }}
