@@ -8,14 +8,17 @@ from curl_cffi import requests
 from camoufox.sync_api import Camoufox
 
 # --- DOSYA YOLLARI ---
-DATAS_DIR = r"C:\Users\arhan\PycharmProjects\inflationstudymirror\Datas\Cosmetics\Watson"
+_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "..", ".."))
+DATAS_DIR = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "Cosmetics", "Watsons")
+os.makedirs(DATAS_DIR, exist_ok=True)
 MASTER_DB_PATH = os.path.join(DATAS_DIR, "watsons_master_db.json")
 SITEMAP_CACHE_PATH = os.path.join(DATAS_DIR, "sitemap_cache.json")
 
 
 def get_cookies():
     print("🔄 Camoufox ile tarayıcı açılıyor (Akamai Bypass)...")
-    with Camoufox(headless=False) as browser:
+    with Camoufox(headless=True) as browser:
         page = browser.new_page()
         page.goto("https://www.watsons.com.tr/", wait_until="domcontentloaded")
         page.wait_for_timeout(4000)

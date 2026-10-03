@@ -4,7 +4,6 @@ from zoneinfo import ZoneInfo
 from bs4 import BeautifulSoup
 import undetected_chromedriver as uc
 
-CHROME_VERSION = 147
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 OUT_DIR     = os.path.join(SCRIPT_DIR, "Datas", "M&S")
 PROFILE_DIR = os.path.join(SCRIPT_DIR, "SeleniumProfile_MS")
@@ -19,8 +18,9 @@ def driver_ac():
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
     opts.add_argument("--start-maximized")
+    opts.add_argument("--headless=new")
     opts.add_argument("--log-level=3")
-    d = uc.Chrome(options=opts, version_main=CHROME_VERSION)
+    d = uc.Chrome(options=opts)
     d.set_page_load_timeout(60)
     return d
 

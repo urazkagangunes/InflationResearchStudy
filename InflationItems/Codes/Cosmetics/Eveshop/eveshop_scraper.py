@@ -1,11 +1,9 @@
 """
-loccitane_scraper.py — L'Occitane TR Günlük Ürün Fiyat Scraper'ı
+eveshop_scraper.py — Eve Shop Günlük Ürün Fiyat Scraper'ı
 
-loccitane.com.tr Shopify üzerinde çalışır.
-Shopify'ın açık JSON API'si kullanılır:
-  GET /collections/all/products.json?limit=250&page=N
-
-Tarayıcı gerektirmez, hızlı ve güvenilirdir.
+eveshop.com.tr Shopify altyapısı kullanır.
+Açık JSON API kullanılır:
+  GET /products.json?limit=250&page=N
 """
 
 import asyncio
@@ -15,26 +13,25 @@ import os
 import random
 from datetime import datetime
 
-BASE_URL = "https://www.loccitane.com.tr"
-PRODUCTS_ENDPOINT = f"{BASE_URL}/collections/all/products.json"
+BASE_URL = "https://www.eveshop.com.tr"
+PRODUCTS_ENDPOINT = f"{BASE_URL}/products.json"
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                  "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Accept": "application/json",
 }
 
 PAGE_LIMIT = 250
-DELAY_RANGE = (0.3, 0.8)
+DELAY_RANGE = (0.3, 0.7)
 
 
 def get_save_path():
     this_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(this_dir, "..", "..", "..", ".."))
-    datas_dir = os.path.join(project_root, "InflationItems", "Datas", "Cosmetics", "LOccitane")
+    datas_dir = os.path.join(project_root, "InflationItems", "Datas", "Cosmetics", "Eveshop")
     os.makedirs(datas_dir, exist_ok=True)
     today = datetime.now().strftime("%Y-%m-%d")
-    return os.path.join(datas_dir, f"LOccitane_{today}.csv")
+    return os.path.join(datas_dir, f"eveshop_{today}.csv")
 
 
 async def fetch_page(session, page):
@@ -57,8 +54,6 @@ async def fetch_page(session, page):
 
 async def run():
     save_path = get_save_path()
-
-    # Bugün zaten çalıştırıldıysa atla
     if os.path.exists(save_path):
         print(f"⛔ Bugünün dosyası zaten mevcut: {save_path}")
         return
@@ -67,7 +62,7 @@ async def run():
     seen = set()
     page = 1
 
-    print(f"🚀 L'Occitane TR scraper başladı (Shopify JSON API)...")
+    print("🚀 Eveshop scraper başladı (Shopify JSON API)...")
 
     async with aiohttp.ClientSession(headers=HEADERS) as session:
         while True:
@@ -83,10 +78,10 @@ async def run():
 
             for p in products:
                 title = p.get("title", "N/A").strip()
+                product_type = p.get("product_type", "")
                 variants = p.get("variants", [])
-                # Tüm varyantları ayrı satır olarak kaydet (farklı fiyatlar olabilir)
                 for v in variants:
-                    sku = v.get("sku", "") or v.get("id", "")
+                    sku = v.get("sku", "") or str(v.get("id", ""))
                     key = f"{title}|{sku}"
                     if key in seen:
                         continue
@@ -95,9 +90,11 @@ async def run():
                         price = float(v.get("price", 0))
                     except (ValueError, TypeError):
                         price = 0.0
+
                     all_items.append({
-                        "title": title,
+                        "product_name": title,
                         "variant": v.get("title", ""),
+                        "category": product_type,
                         "price": price,
                     })
 
@@ -110,7 +107,7 @@ async def run():
         return
 
     with open(save_path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=["title", "variant", "price"])
+        writer = csv.DictWriter(f, fieldnames=["product_name", "variant", "category", "price"])
         writer.writeheader()
         writer.writerows(all_items)
 

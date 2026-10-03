@@ -218,6 +218,7 @@ def create_driver():
     options = uc.ChromeOptions()
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--headless=new")
 
     # --- Prevent Chrome from sleeping when out of focus ---
     options.add_argument("--disable-background-timer-throttling")
@@ -225,7 +226,7 @@ def create_driver():
     options.add_argument("--disable-renderer-backgrounding")
     # ------------------------------------------------------
 
-    return uc.Chrome(options=options, version_main=147)
+    return uc.Chrome(options=options)
 
 
 def run_boyner_scraper():

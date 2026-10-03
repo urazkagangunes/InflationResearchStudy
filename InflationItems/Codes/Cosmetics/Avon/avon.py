@@ -389,6 +389,21 @@ def save_global_unique(all_products):
             file.write("name;price\n")
             file.write("\n".join(alcohol_rows))
 
+    # --- Standart tek dosya çıktısı: InflationItems/Datas/Cosmetics/Avon/avon_YYYY-MM-DD.csv ---
+    try:
+        this_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.abspath(os.path.join(this_dir, "..", "..", "..", ".."))
+        datas_avon_dir = os.path.join(project_root, "InflationItems", "Datas", "Cosmetics", "Avon")
+        os.makedirs(datas_avon_dir, exist_ok=True)
+        consolidated_csv = os.path.join(datas_avon_dir, f"avon_{today}.csv")
+        with open(consolidated_csv, "w", encoding="utf-8-sig", newline="") as file:
+            file.write("product_name,price\n")
+            for name, price in sorted(all_products.values(), key=lambda item: item[0].lower()):
+                file.write(f'"{name}",{price}\n')
+        print(f"[CONSOLIDATED FILE] {consolidated_csv}")
+    except Exception as e:
+        print(f"[CONSOLIDATED ERROR] {e}")
+
     print(f"[GLOBAL SAVED] normal rows={len(normal_rows)}")
     print(f"[GLOBAL SAVED] tobacco rows={len(tobacco_rows)}")
     print(f"[GLOBAL SAVED] alcohol rows={len(alcohol_rows)}")

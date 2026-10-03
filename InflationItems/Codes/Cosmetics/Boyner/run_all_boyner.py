@@ -18,14 +18,12 @@ PART_IDENTIFIERS = ["part1", "part2", "part3", "part4"]
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-def run_parallel_scrapers():
+def run_sequential_scrapers():
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    processes = []
 
-    print("\n🚀 STARTING PARALLEL EXECUTION...")
+    print("\n🚀 STARTING SEQUENTIAL EXECUTION...")
     print("=" * 50)
 
-    # 1. Launch scripts with a staggered delay to prevent driver collision
     for index, script_name in enumerate(SCRIPTS_TO_RUN):
         script_path = os.path.join(current_dir, script_name)
 
@@ -33,24 +31,19 @@ def run_parallel_scrapers():
             print(f"  ❌ ERROR: Could not find {script_name} in {current_dir}")
             continue
 
-        print(f"  ▶️ Launching {script_name}...")
-        process = subprocess.Popen([sys.executable, script_path])
-        processes.append(process)
+        print(f"\n  ▶️ [{index + 1}/{len(SCRIPTS_TO_RUN)}] Running {script_name}...")
+        start_time = time.time()
 
-        # STAGGERED LAUNCH: Wait 7 seconds before launching the next script.
-        # This prevents the 'FileExistsError' browser patching crash.
-        if index < len(SCRIPTS_TO_RUN) - 1:
-            print("     ⏳ Pausing 7 seconds to let the browser driver initialize...")
-            time.sleep(7)
+        # Sıralı çalıştır — bitene kadar bekle
+        result = subprocess.run([sys.executable, script_path])
 
-    print("\n✅ All 4 scrapers are now safely running in the background.")
-    print("   Please wait for them to finish. This may take a few minutes...\n")
+        elapsed = time.time() - start_time
+        if result.returncode == 0:
+            print(f"  ✅ {script_name} tamamlandı ({elapsed:.0f}s)")
+        else:
+            print(f"  ❌ {script_name} HATA ile bitti (exit: {result.returncode}, {elapsed:.0f}s)")
 
-    # 2. Wait for all scripts to finish
-    for process in processes:
-        process.wait()
-
-    print("\n✅ All scrapers have successfully finished their tasks!")
+    print("\n✅ Tüm scraperlar sırayla tamamlandı!")
 
 
 def merge_csv_files():
@@ -107,5 +100,5 @@ def merge_csv_files():
 
 
 if __name__ == "__main__":
-    run_parallel_scrapers()
+    run_sequential_scrapers()
     merge_csv_files()
