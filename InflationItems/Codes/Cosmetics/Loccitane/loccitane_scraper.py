@@ -1,11 +1,11 @@
 """
-loccitane_scraper.py — L'Occitane TR Günlük Ürün Fiyat Scraper'ı
+loccitane_scraper.py — L'Occitane Turkey Daily Product Price Scraper
 
-loccitane.com.tr Shopify üzerinde çalışır.
-Shopify'ın açık JSON API'si kullanılır:
+loccitane.com.tr runs on Shopify.
+Uses the public JSON endpoint:
   GET /collections/all/products.json?limit=250&page=N
 
-Tarayıcı gerektirmez, hızlı ve güvenilirdir.
+No headless browser required, fast and reliable.
 """
 
 import asyncio
@@ -46,45 +46,43 @@ async def fetch_page(session, page):
             timeout=aiohttp.ClientTimeout(total=30)
         ) as resp:
             if resp.status != 200:
-                print(f"  Sayfa {page}: HTTP {resp.status}")
+                print(f"  Page {page}: HTTP {resp.status}")
                 return None
             data = await resp.json(content_type=None)
             return data.get("products", [])
     except Exception as e:
-        print(f"  Sayfa {page} hata: {type(e).__name__}: {e}")
+        print(f"  Page {page} error: {type(e).__name__}: {e}")
         return None
 
 
 async def run():
     save_path = get_save_path()
 
-    # Bugün zaten çalıştırıldıysa atla
     if os.path.exists(save_path):
-        print(f"⛔ Bugünün dosyası zaten mevcut: {save_path}")
+        print(f"⛔ File already exists for today: {save_path}")
         return
 
     all_items = []
     seen = set()
     page = 1
 
-    print(f"🚀 L'Occitane TR scraper başladı (Shopify JSON API)...")
+    print("🚀 L'Occitane TR scraper started (Shopify JSON API)...")
 
     async with aiohttp.ClientSession(headers=HEADERS) as session:
         while True:
             products = await fetch_page(session, page)
 
             if products is None:
-                print(f"  Sayfa {page} alınamadı, duruyorum.")
+                print(f"  Could not load page {page}, stopping.")
                 break
 
             if not products:
-                print(f"  Sayfa {page}: boş — tamamlandı.")
+                print(f"  Page {page}: empty — finished.")
                 break
 
             for p in products:
                 title = p.get("title", "N/A").strip()
                 variants = p.get("variants", [])
-                # Tüm varyantları ayrı satır olarak kaydet (farklı fiyatlar olabilir)
                 for v in variants:
                     sku = v.get("sku", "") or v.get("id", "")
                     key = f"{title}|{sku}"
@@ -101,12 +99,12 @@ async def run():
                         "price": price,
                     })
 
-            print(f"  Sayfa {page}: {len(products)} ürün (toplam: {len(all_items)})")
+            print(f"  Page {page}: {len(products)} products (total: {len(all_items)})")
             page += 1
             await asyncio.sleep(random.uniform(*DELAY_RANGE))
 
     if not all_items:
-        print("❌ Hiç ürün çekilemedi.")
+        print("❌ No products collected.")
         return
 
     with open(save_path, "w", newline="", encoding="utf-8-sig") as f:
@@ -114,7 +112,7 @@ async def run():
         writer.writeheader()
         writer.writerows(all_items)
 
-    print(f"\n✅ {len(all_items)} satır → {save_path}")
+    print(f"\n✅ {len(all_items)} records → {save_path}")
 
 
 if __name__ == "__main__":

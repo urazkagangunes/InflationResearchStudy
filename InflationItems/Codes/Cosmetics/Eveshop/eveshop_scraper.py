@@ -1,8 +1,8 @@
 """
-eveshop_scraper.py — Eve Shop Günlük Ürün Fiyat Scraper'ı
+eveshop_scraper.py — Eve Shop Daily Product Price Scraper
 
-eveshop.com.tr Shopify altyapısı kullanır.
-Açık JSON API kullanılır:
+eveshop.com.tr uses the Shopify platform.
+Uses the public JSON endpoint:
   GET /products.json?limit=250&page=N
 """
 
@@ -43,37 +43,37 @@ async def fetch_page(session, page):
             timeout=aiohttp.ClientTimeout(total=30)
         ) as resp:
             if resp.status != 200:
-                print(f"  Sayfa {page}: HTTP {resp.status}")
+                print(f"  Page {page}: HTTP {resp.status}")
                 return None
             data = await resp.json(content_type=None)
             return data.get("products", [])
     except Exception as e:
-        print(f"  Sayfa {page} hata: {type(e).__name__}: {e}")
+        print(f"  Page {page} error: {type(e).__name__}: {e}")
         return None
 
 
 async def run():
     save_path = get_save_path()
     if os.path.exists(save_path):
-        print(f"⛔ Bugünün dosyası zaten mevcut: {save_path}")
+        print(f"⛔ File already exists for today: {save_path}")
         return
 
     all_items = []
     seen = set()
     page = 1
 
-    print("🚀 Eveshop scraper başladı (Shopify JSON API)...")
+    print("🚀 Eveshop scraper started (Shopify JSON API)...")
 
     async with aiohttp.ClientSession(headers=HEADERS) as session:
         while True:
             products = await fetch_page(session, page)
 
             if products is None:
-                print(f"  Sayfa {page} alınamadı, duruyorum.")
+                print(f"  Could not load page {page}, stopping.")
                 break
 
             if not products:
-                print(f"  Sayfa {page}: boş — tamamlandı.")
+                print(f"  Page {page}: empty — finished.")
                 break
 
             for p in products:
@@ -98,12 +98,12 @@ async def run():
                         "price": price,
                     })
 
-            print(f"  Sayfa {page}: {len(products)} ürün (toplam: {len(all_items)})")
+            print(f"  Page {page}: {len(products)} products (total: {len(all_items)})")
             page += 1
             await asyncio.sleep(random.uniform(*DELAY_RANGE))
 
     if not all_items:
-        print("❌ Hiç ürün çekilemedi.")
+        print("❌ No products collected.")
         return
 
     with open(save_path, "w", newline="", encoding="utf-8-sig") as f:
@@ -111,7 +111,7 @@ async def run():
         writer.writeheader()
         writer.writerows(all_items)
 
-    print(f"\n✅ {len(all_items)} satır → {save_path}")
+    print(f"\n✅ {len(all_items)} records saved → {save_path}")
 
 
 if __name__ == "__main__":

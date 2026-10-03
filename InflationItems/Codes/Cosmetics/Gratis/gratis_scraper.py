@@ -1,9 +1,10 @@
 """
-gratis_scraper.py — Gratis Günlük Ürün Fiyat Scraper'ı
+gratis_scraper.py — Gratis Daily Product Price Scraper
 
-gratis.com/sitemap/Product-tr-TRY.xml üzerinden ürün linklerini alır,
-her ürün sayfasındaki Schema.org LD+JSON etiketinden ad ve fiyatı çeker.
-Asenkron çalışır, son derece hızlı ve stabildir.
+Fetches product URLs via gratis.com/sitemap/Product-tr-TRY.xml,
+extracts title and price from Schema.org LD+JSON tags on each product page.
+Uses gentle rate limiting (50-80 requests/min), periodic CSV flushing,
+and an automatic circuit breaker (aborts safely if rate-limited continuously).
 """
 
 import asyncio
@@ -12,6 +13,7 @@ import csv
 import json
 import logging
 import os
+import random
 import re
 import sys
 import time
@@ -28,39 +30,86 @@ SITEMAP_URL = "https://www.gratis.com/sitemap/Product-tr-TRY.xml"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "tr-TR,tr;q=0.9",
+    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+    "Referer": "https://www.google.com/",
 }
 
-CONCURRENT_REQUESTS = 12
+# --- RATE LIMITING: Target 50 - 80 requests per minute ---
+CONCURRENT_REQUESTS = 2
+REQUEST_DELAY_RANGE = (0.8, 1.5)
+
+# --- CIRCUIT BREAKER: Stop if rate limit persists ---
+MAX_CONSECUTIVE_BLOCKS = 10  # If 10 consecutive requests return 403/429, abort safely
+consecutive_blocks = 0
+abort_signal = False
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
 
 async def get_product_urls(session: aiohttp.ClientSession) -> list[str]:
-    logger.info("Gratis ürün sitemap indiriliyor...")
-    try:
-        async with session.get(SITEMAP_URL, timeout=aiohttp.ClientTimeout(total=30)) as resp:
-            text = await resp.text()
-            urls = re.findall(r"<loc>(https://[^<]+)</loc>", text)
-            logger.info(f"Sitemap'ten {len(urls)} ürün linki bulundu.")
-            return urls
-    except Exception as e:
-        logger.error(f"Sitemap indirme hatası: {e}")
-        return []
+    logger.info("Fetching Gratis product sitemap...")
+    for attempt in range(3):
+        try:
+            async with session.get(SITEMAP_URL, timeout=aiohttp.ClientTimeout(total=30)) as resp:
+                if resp.status == 200:
+                    text = await resp.text()
+                    urls = re.findall(r"<loc>(https://[^<]+)</loc>", text)
+                    logger.info(f"Discovered {len(urls)} product URLs from sitemap.")
+                    return urls
+                elif resp.status in (403, 429):
+                    logger.warning(f"Sitemap access blocked (HTTP {resp.status}). Waiting 20s...")
+                    await asyncio.sleep(20)
+                else:
+                    await asyncio.sleep(5)
+        except Exception as e:
+            logger.error(f"Sitemap fetch error: {e}. Waiting 10s...")
+            await asyncio.sleep(10)
+    return []
 
 
 async def scrape_product(session: aiohttp.ClientSession, url: str, semaphore: asyncio.Semaphore) -> dict | None:
+    global consecutive_blocks, abort_signal
+
+    if abort_signal:
+        return None
+
     async with semaphore:
         for attempt in range(2):
+            if abort_signal:
+                return None
+
             try:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=15)) as resp:
+                await asyncio.sleep(random.uniform(*REQUEST_DELAY_RANGE))
+
+                async with session.get(url, timeout=aiohttp.ClientTimeout(total=20)) as resp:
+                    if resp.status in (403, 429):
+                        consecutive_blocks += 1
+                        logger.warning(
+                            f"Rate limit hit ({resp.status}) on {url[-30:]} "
+                            f"[Consecutive blocks: {consecutive_blocks}/{MAX_CONSECUTIVE_BLOCKS}]"
+                        )
+                        if consecutive_blocks >= MAX_CONSECUTIVE_BLOCKS:
+                            logger.error(
+                                f"🚨 CIRCUIT BREAKER TRIGGERED: Site blocked {consecutive_blocks} consecutive requests. "
+                                f"Stopping scraper to protect IP."
+                            )
+                            abort_signal = True
+                            return None
+
+                        wait_time = 15 * (attempt + 1)
+                        await asyncio.sleep(wait_time)
+                        continue
+
+                    # Reset consecutive blocks on any successful response
+                    consecutive_blocks = 0
+
                     if resp.status != 200:
                         return None
+
                     html = await resp.text()
 
-                    # JSON-LD Product verisini hızlı regex ile veya BeautifulSoup ile çek
-                    # Önce hızlı regex ile ara
+                    # 1. Primary: JSON-LD Product schema
                     matches = re.findall(r'<script[^>]*type=[\'"]application/ld\+json[\'"][^>]*>(.*?)</script>', html, re.DOTALL)
                     for m in matches:
                         try:
@@ -76,7 +125,7 @@ async def scrape_product(session: aiohttp.ClientSession, url: str, semaphore: as
                         except:
                             pass
 
-                    # Fallback BeautifulSoup
+                    # 2. Fallback: HTML extraction
                     soup = BeautifulSoup(html, "html.parser")
                     h1 = soup.select_one("h1")
                     name = h1.get_text(strip=True) if h1 else ""
@@ -90,54 +139,76 @@ async def scrape_product(session: aiohttp.ClientSession, url: str, semaphore: as
 
                     return None
             except Exception:
-                await asyncio.sleep(0.5)
+                await asyncio.sleep(1)
         return None
 
 
 async def run():
+    global abort_signal
     today = str(date.today())
     csv_path = OUT_DIR / f"gratis_{today}.csv"
 
-    if csv_path.exists():
-        logger.info(f"⛔ Bugünün dosyası zaten mevcut: {csv_path}")
-        return
-
-    logger.info(f"🚀 Gratis scraper başladı ({today})")
+    logger.info(f"🚀 Gratis scraper started ({today}) — Safe Mode (~50-80 req/min with auto circuit breaker)")
 
     async with aiohttp.ClientSession(headers=HEADERS) as session:
         urls = await get_product_urls(session)
         if not urls:
-            logger.error("Ürün linkleri alınamadı.")
+            logger.error("Could not retrieve product URLs (Site is currently blocking IP). Exiting gracefully.")
             return
 
         semaphore = asyncio.Semaphore(CONCURRENT_REQUESTS)
-        tasks = [scrape_product(session, url, semaphore) for url in urls]
+        logger.info(f"Scraping products ({CONCURRENT_REQUESTS} concurrent workers)...")
 
-        logger.info(f"Ürünler çekiliyor ({CONCURRENT_REQUESTS} eşzamanlı istek, toplam {len(urls)} ürün)...")
-        results = await asyncio.gather(*tasks)
+        seen = set()
+        dedup = []
 
-    valid_items = [r for r in results if r]
-    logger.info(f"Toplam {len(valid_items)} ürün fiyatı başarıyla çekildi.")
+        # Load existing partial data so work is never lost
+        if csv_path.exists():
+            try:
+                with open(csv_path, "r", encoding="utf-8-sig") as f:
+                    reader = csv.DictReader(f)
+                    for r in reader:
+                        k = r.get("product_name", "").lower()
+                        if k and k not in seen:
+                            seen.add(k)
+                            dedup.append({"product_name": r["product_name"], "price": float(r["price"])})
+                logger.info(f"Loaded {len(dedup)} existing products from today's partial CSV.")
+            except Exception as e:
+                logger.warning(f"Could not load partial CSV: {e}")
 
-    if not valid_items:
-        logger.error("Hiç ürün fiyatı çekilemedi.")
-        return
+        # Batch processing with regular flush to CSV
+        batch_size = 100
+        for i in range(0, len(urls), batch_size):
+            if abort_signal:
+                logger.warning("Scraper aborted by circuit breaker. Saving current progress...")
+                break
 
-    # Tekilleştirme
-    seen = set()
-    dedup = []
-    for it in valid_items:
-        key = it["product_name"].lower()
-        if key not in seen:
-            seen.add(key)
-            dedup.append(it)
+            batch = urls[i:i + batch_size]
+            tasks = [scrape_product(session, url, semaphore) for url in batch]
+            results = await asyncio.gather(*tasks)
 
-    with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=["product_name", "price"])
-        writer.writeheader()
-        writer.writerows(dedup)
+            new_count = 0
+            for r in results:
+                if r:
+                    key = r["product_name"].lower()
+                    if key not in seen:
+                        seen.add(key)
+                        dedup.append(r)
+                        new_count += 1
 
-    logger.info(f"✅ {len(dedup)} ürün kaydedildi → {csv_path}")
+            # Flush to disk immediately
+            with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
+                writer = csv.DictWriter(f, fieldnames=["product_name", "price"])
+                writer.writeheader()
+                writer.writerows(dedup)
+
+            processed = min(i + batch_size, len(urls))
+            logger.info(f"Progress: {processed}/{len(urls)} URLs | +{new_count} new | Total unique: {len(dedup)}")
+
+    if abort_signal:
+        logger.warning(f"🛑 Run terminated early due to rate limit block. Preserved {len(dedup)} items in {csv_path}")
+    else:
+        logger.info(f"✅ Scraping completed! {len(dedup)} unique items saved → {csv_path}")
 
 
 def main():

@@ -1,8 +1,8 @@
 """
-dermoeczanem_scraper.py — Dermoeczanem Günlük Ürün Fiyat Scraper'ı
+dermoeczanem_scraper.py — Dermoeczanem Daily Product Price Scraper
 
-dermoeczanem.com kategorilerini ?pg=N sayfalaması ile tarar.
-HTML tabanlıdır, tarayıcı gerektirmez.
+Crawls dermoeczanem.com categories with ?pg=N pagination.
+HTML-based, does not require a browser.
 """
 
 import csv
@@ -23,13 +23,13 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 BASE_URL = "https://www.dermoeczanem.com"
 
 CATEGORIES = [
-    {"name": "Cilt Bakımı", "slug": "cilt-bakimi"},
-    {"name": "Güneş Ürünleri", "slug": "gunes-urunleri"},
-    {"name": "Saç Bakımı", "slug": "sac-bakimi"},
-    {"name": "Vücut Bakımı", "slug": "vucut-bakimi"},
-    {"name": "Makyaj", "slug": "makyaj"},
-    {"name": "Ağız ve Diş Sağlığı", "slug": "agiz-ve-dis-sagligi"},
-    {"name": "Anne ve Bebek", "slug": "anne-ve-bebek"},
+    {"name": "Skin Care", "slug": "cilt-bakimi"},
+    {"name": "Sun Care", "slug": "gunes-urunleri"},
+    {"name": "Hair Care", "slug": "sac-bakimi"},
+    {"name": "Body Care", "slug": "vucut-bakimi"},
+    {"name": "Makeup", "slug": "makyaj"},
+    {"name": "Oral Care", "slug": "agiz-ve-dis-sagligi"},
+    {"name": "Mother and Baby", "slug": "anne-ve-bebek"},
 ]
 
 HEADERS = {
@@ -64,7 +64,7 @@ def fetch_soup(url: str) -> BeautifulSoup | None:
             with urllib.request.urlopen(req, timeout=15) as resp:
                 html = resp.read().decode("utf-8", errors="ignore")
                 return BeautifulSoup(html, "html.parser")
-        except Exception as e:
+        except Exception:
             time.sleep(1.5)
     return None
 
@@ -82,15 +82,15 @@ def scrape_category(cat: dict) -> list[dict]:
     name = cat["name"]
     slug = cat["slug"]
     url = f"{BASE_URL}/{slug}"
-    logger.info(f"▶ Kategori: {name}")
+    logger.info(f"▶ Category: {name}")
 
     first_soup = fetch_soup(url)
     if not first_soup:
-        logger.warning(f"  {name} ilk sayfa açılamadı.")
+        logger.warning(f"  {name} first page could not be loaded.")
         return []
 
     max_pages = get_max_page(first_soup)
-    logger.info(f"  Toplam sayfa: {max_pages}")
+    logger.info(f"  Total pages: {max_pages}")
 
     items = []
     seen = set()
@@ -124,7 +124,7 @@ def scrape_category(cat: dict) -> list[dict]:
             })
 
         if p % 10 == 0 or p == max_pages:
-            logger.info(f"  Sayfa {p}/{max_pages}: toplam {len(items)} ürün")
+            logger.info(f"  Page {p}/{max_pages}: total {len(items)} products")
 
         time.sleep(0.4)
 
@@ -136,10 +136,10 @@ def main():
     csv_path = OUT_DIR / f"dermoeczanem_{today}.csv"
 
     if csv_path.exists():
-        logger.info(f"⛔ Dosya zaten mevcut: {csv_path}")
+        logger.info(f"⛔ File already exists for today: {csv_path}")
         return
 
-    logger.info(f"🚀 Dermoeczanem scraper başladı ({today})")
+    logger.info(f"🚀 Dermoeczanem scraper started ({today})")
     all_products = []
     global_seen = set()
 
@@ -151,7 +151,7 @@ def main():
                 all_products.append(it)
 
     if not all_products:
-        logger.warning("❌ Hiç ürün çekilemedi.")
+        logger.warning("❌ No products collected.")
         return
 
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
@@ -159,7 +159,7 @@ def main():
         writer.writeheader()
         writer.writerows(all_products)
 
-    logger.info(f"✅ {len(all_products)} ürün kaydedildi → {csv_path}")
+    logger.info(f"✅ {len(all_products)} products saved → {csv_path}")
 
 
 if __name__ == "__main__":
