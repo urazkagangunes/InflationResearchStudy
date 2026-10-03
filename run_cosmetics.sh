@@ -1,6 +1,6 @@
 #!/bin/bash
-# run_cosmetics.sh — Tüm kozmetik scraperlarını çalıştırır
-# Cron: 0 2 * * * /path/to/run_cosmetics.sh >> /path/to/logs/cron_cosmetics.log 2>&1
+# run_cosmetics.sh — Runs all cosmetics scrapers sequentially
+# Cron: 0 3 * * * /root/InflationResearchStudy/run_cosmetics.sh >> /root/InflationResearchStudy/logs/cosmetics/cron.log 2>&1
 
 BASE="$(cd "$(dirname "$0")" && pwd)"
 COSMETICS_DIR="$BASE/InflationItems/Codes/Cosmetics"
@@ -10,16 +10,16 @@ mkdir -p "$LOG_DIR"
 
 echo ""
 echo "========================================"
-echo "  Kozmetik Scrape: $DATE"
+echo "  Cosmetics Scraping Run: $DATE"
 echo "========================================"
 
-# Python ortamı — venv varsa aktif et
+# Python environment — activate venv if present
 if [ -f "$BASE/.venv/bin/activate" ]; then
     source "$BASE/.venv/bin/activate"
-    echo "[venv] Aktif edildi."
+    echo "[venv] Activated."
 fi
 
-# --- Scraper çalıştırma fonksiyonu ---
+# --- Scraper runner function ---
 run_scraper() {
     local name="$1"
     local script="$2"
@@ -27,9 +27,9 @@ run_scraper() {
     local log="$LOG_DIR/${name}_${DATE}.log"
 
     echo ""
-    echo "--- $name başlıyor ---"
+    echo "--- Starting: $name ---"
     if [ ! -f "$script" ]; then
-        echo "[$name] ATLANILDI — script bulunamadı: $script"
+        echo "[$name] SKIPPED — script not found: $script"
         return
     fi
 
@@ -39,17 +39,17 @@ run_scraper() {
     popd > /dev/null
 
     if [ $exit_code -eq 124 ]; then
-        echo "[$name] ⏱ TIMEOUT (2 saat aşıldı) — log: $log"
+        echo "[$name] ⏱ TIMEOUT (2 hours exceeded) — log: $log"
     elif [ $exit_code -eq 0 ]; then
-        echo "[$name] ✓ TAMAM"
+        echo "[$name] ✓ SUCCESS"
     else
-        echo "[$name] ✗ HATA (exit: $exit_code) — log: $log"
+        echo "[$name] ✗ ERROR (exit code: $exit_code) — log: $log"
         tail -5 "$log" | sed 's/^/    /'
     fi
 }
 
 # =============================================
-# SCRAPERLAR
+# SCRAPERS
 # =============================================
 
 run_scraper "Avon" \
@@ -60,6 +60,7 @@ run_scraper "BeymenBeauty" \
     "$COSMETICS_DIR/Beymen Beauty/cosmetic.py" \
     "$COSMETICS_DIR/Beymen Beauty"
 
+# Boyner is paused due to Cloudflare Turnstile datacenter challenge
 # run_scraper "Boyner" \
 #     "$COSMETICS_DIR/Boyner/run_all_boyner.py" \
 #     "$COSMETICS_DIR/Boyner"
@@ -121,14 +122,33 @@ cd "$BASE"
 git add InflationItems/Datas/Cosmetics/ 2>/dev/null || true
 
 if git diff --cached --quiet; then
-    echo "Yeni veri yok, push atlanıyor."
+    echo "No new data to commit. Skipping push."
 else
     git commit -m "daily cosmetics scrape $DATE"
     git push
-    echo "Git push: ✓ TAMAM"
+    echo "Git push: ✓ SUCCESS"
+fi
+
+# =============================================
+# DATA RETENTION CLEANUP (Keep max 2 days on server)
+# =============================================
+echo ""
+echo "--- Data Retention Cleanup (Purging files older than 2 days) ---"
+DATAS_COSMETICS="$BASE/InflationItems/Datas/Cosmetics"
+
+# Remove CSV data files older than 2 days (48 hours)
+if [ -d "$DATAS_COSMETICS" ]; then
+    find "$DATAS_COSMETICS" -type f -name "*.csv" -mtime +2 -exec rm -f {} +
+    echo "[Cleanup] Purged CSV files older than 2 days from server."
+fi
+
+# Remove log files older than 2 days (48 hours)
+if [ -d "$LOG_DIR" ]; then
+    find "$LOG_DIR" -type f -name "*.log" -mtime +2 -exec rm -f {} +
+    echo "[Cleanup] Purged log files older than 2 days from server."
 fi
 
 echo ""
 echo "========================================"
-echo "  Bitti: $DATE"
+echo "  Finished: $DATE"
 echo "========================================"
