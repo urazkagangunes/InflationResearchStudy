@@ -80,6 +80,10 @@ run_scraper "Flormar" \
     "$COSMETICS_DIR/Flormar/flormar_scraper.py" \
     "$COSMETICS_DIR/Flormar"
 
+run_scraper "Gratis" \
+    "$COSMETICS_DIR/Gratis/gratis_scraper.py" \
+    "$COSMETICS_DIR/Gratis"
+
 run_scraper "Dermomarket" \
     "$COSMETICS_DIR/Dermomarket/dermomarket_scraper.py" \
     "$COSMETICS_DIR/Dermomarket"
