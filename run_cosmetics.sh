@@ -24,6 +24,7 @@ run_scraper() {
     local name="$1"
     local script="$2"
     local workdir="$3"
+    local timeout_secs="${4:-7200}"
     local log="$LOG_DIR/${name}_${DATE}.log"
 
     echo ""
@@ -34,12 +35,12 @@ run_scraper() {
     fi
 
     pushd "$workdir" > /dev/null
-    timeout 7200 python3 -u "$script" > "$log" 2>&1
+    timeout "$timeout_secs" python3 -u "$script" > "$log" 2>&1
     local exit_code=$?
     popd > /dev/null
 
     if [ $exit_code -eq 124 ]; then
-        echo "[$name] ⏱ TIMEOUT (2 hours exceeded) — log: $log"
+        echo "[$name] ⏱ TIMEOUT (${timeout_secs}s exceeded) — log: $log"
     elif [ $exit_code -eq 0 ]; then
         echo "[$name] ✓ SUCCESS"
     else
@@ -83,7 +84,8 @@ run_scraper "Flormar" \
 
 run_scraper "Gratis" \
     "$COSMETICS_DIR/Gratis/gratis_scraper.py" \
-    "$COSMETICS_DIR/Gratis"
+    "$COSMETICS_DIR/Gratis" \
+    12600
 
 run_scraper "Dermomarket" \
     "$COSMETICS_DIR/Dermomarket/dermomarket_scraper.py" \
