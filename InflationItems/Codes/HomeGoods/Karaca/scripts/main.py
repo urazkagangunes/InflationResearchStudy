@@ -82,11 +82,11 @@ def _normalize_row(row: dict) -> dict:
 
 
 def _load_existing_rows() -> dict[str, dict]:
-    if not config.CSV_OUTPUT_FILE.exists():
+    if not config.PARTIAL_FILE.exists():
         return {}
 
     rows: dict[str, dict] = {}
-    with config.CSV_OUTPUT_FILE.open("r", encoding="utf-8-sig", newline="") as handle:
+    with config.PARTIAL_FILE.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
         for row in reader:
             row = _normalize_row(row)
@@ -112,6 +112,15 @@ def _coalesce(existing: dict, new_record: dict) -> dict:
     return merged
 
 
+def _category_rank(row: dict) -> tuple[int, int]:
+    # Categories finish in parallel, so a fixed preference keeps the category
+    # columns of cross-listed products stable from day to day.
+    return (
+        0 if row.get("_primary") else 1,
+        config.MAIN_CATEGORY_PRIORITY.get(row.get("Main Category", ""), 999),
+    )
+
+
 def _merge_products(existing_rows: dict[str, dict], new_rows: list[dict]) -> None:
     for row in new_rows:
         row = _normalize_row(row)
@@ -121,11 +130,15 @@ def _merge_products(existing_rows: dict[str, dict], new_rows: list[dict]) -> Non
         if product_id not in existing_rows:
             existing_rows[product_id] = row
             continue
-        existing_rows[product_id] = _coalesce(existing_rows[product_id], row)
+        existing = existing_rows[product_id]
+        if _category_rank(row) < _category_rank(existing):
+            existing_rows[product_id] = _coalesce(row, existing)
+        else:
+            existing_rows[product_id] = _coalesce(existing, row)
 
 
-def _write_snapshot(rows: dict[str, dict]) -> None:
-    config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+def _write_snapshot(rows: dict[str, dict], path, fieldnames=config.CSV_FIELDNAMES) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     ordered_rows = sorted(
         rows.values(),
         key=lambda row: (
@@ -136,11 +149,11 @@ def _write_snapshot(rows: dict[str, dict]) -> None:
         ),
     )
 
-    with config.CSV_OUTPUT_FILE.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=config.CSV_FIELDNAMES)
+    with path.open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         for row in ordered_rows:
-            writer.writerow({field: row.get(field, "") for field in config.CSV_FIELDNAMES})
+            writer.writerow({field: row.get(field, "") for field in fieldnames})
 
 
 def _persist_category_result(
@@ -148,9 +161,9 @@ def _persist_category_result(
     result,
     product_rows: dict[str, dict],
     checkpoint: dict,
-) -> None:
+) -> bool:
     _merge_products(product_rows, result.products)
-    _write_snapshot(product_rows)
+    _write_snapshot(product_rows, config.PARTIAL_FILE)
 
     done = checkpoint.setdefault("done", [])
     if result.complete:
@@ -167,6 +180,7 @@ def _persist_category_result(
         "Snapshot updated: %d unique Karaca products saved.",
         len(product_rows),
     )
+    return result.complete
 
 
 def _parse_category_filter(raw_values: list[str]) -> set[str]:
@@ -184,13 +198,13 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--list-categories",
         action="store_true",
-        help="List discovered top-level categories and exit.",
+        help="List discovered navigation categories and exit.",
     )
     parser.add_argument(
         "--category",
         action="append",
         default=[],
-        help="Restrict scraping to one or more top-level categories by slug or name.",
+        help="Restrict scraping to categories by slug, name or menu group name.",
     )
     parser.add_argument(
         "--limit",
@@ -207,7 +221,7 @@ def _build_parser() -> argparse.ArgumentParser:
         "--delay",
         type=float,
         default=config.REQUEST_DELAY,
-        help="Delay in seconds between paginated requests.",
+        help="Minimum delay in seconds between paginated requests (randomised up to 3x).",
     )
     parser.add_argument(
         "--workers",
@@ -249,6 +263,7 @@ def main() -> None:
             for item in categories
             if item["id"].casefold() in selected_filters
             or item["name"].casefold() in selected_filters
+            or item["main_category"].casefold() in selected_filters
         ]
         if not categories:
             raise SystemExit("No Karaca categories matched the provided filter.")
@@ -275,15 +290,12 @@ def main() -> None:
     )
     logger.info("CSV output: %s", config.CSV_OUTPUT_FILE)
 
-    if not pending_categories:
-        logger.info("No pending Karaca categories remain for today.")
-        logger.info("Karaca scrape complete. Final unique product count: %d", len(product_rows))
-        return
-
-    failures: list[str] = []
+    failed: list[dict] = []
     worker_count = max(1, args.workers)
 
-    if worker_count == 1 or len(pending_categories) == 1:
+    if not pending_categories:
+        logger.info("No pending Karaca categories remain for today.")
+    elif worker_count == 1 or len(pending_categories) == 1:
         for category in pending_categories:
             try:
                 category_result, result = _scrape_category_worker(
@@ -293,9 +305,10 @@ def main() -> None:
                 )
             except Exception as exc:
                 logger.error("Category '%s' failed: %s", category["name"], exc)
-                failures.append(category["name"])
+                failed.append(category)
                 continue
-            _persist_category_result(category_result, result, product_rows, checkpoint)
+            if not _persist_category_result(category_result, result, product_rows, checkpoint) and not args.limit:
+                failed.append(category)
     else:
         with ThreadPoolExecutor(max_workers=worker_count) as executor:
             futures = {
@@ -314,15 +327,47 @@ def main() -> None:
                     category_result, result = future.result()
                 except Exception as exc:
                     logger.error("Category '%s' failed: %s", category["name"], exc)
-                    failures.append(category["name"])
+                    failed.append(category)
                     continue
-                _persist_category_result(category_result, result, product_rows, checkpoint)
+                if not _persist_category_result(category_result, result, product_rows, checkpoint) and not args.limit:
+                    failed.append(category)
 
-    logger.info("Karaca scrape complete. Final unique product count: %d", len(product_rows))
+    # A --limit run stops categories early on purpose, so only exceptions are retried there.
+    failures: list[str] = []
+    for category in failed:
+        logger.info("Retrying category '%s' once.", category["name"])
+        try:
+            category_result, result = _scrape_category_worker(category, args.delay, args.limit)
+        except Exception as exc:
+            logger.error("Category '%s' failed again: %s", category["name"], exc)
+            failures.append(category["name"])
+            continue
+        complete = _persist_category_result(category_result, result, product_rows, checkpoint)
+        if not complete and not args.limit:
+            failures.append(category["name"])
+
+    logger.info("Karaca scrape finished. Unique product count: %d", len(product_rows))
+    # The daily runner counts any CSV as success, so a partial catalogue must not produce one.
     if failures:
         raise SystemExit(
-            "Karaca categories failed: " + ", ".join(sorted(failures))
+            "Karaca categories incomplete: " + ", ".join(sorted(failures))
+            + f". No CSV written; rows kept in {config.PARTIAL_FILE} for --resume."
         )
+    if not product_rows:
+        raise SystemExit("Karaca scrape produced no products. No CSV written.")
+
+    in_scope = {
+        key: row for key, row in product_rows.items()
+        if row.get("Top Category", "") not in config.EXCLUDED_TOP_CATEGORIES
+    }
+    logger.info(
+        "Out of scope (food): %d; written: %d.",
+        len(product_rows) - len(in_scope),
+        len(in_scope),
+    )
+    _write_snapshot(in_scope, config.CSV_OUTPUT_FILE, config.OUTPUT_FIELDNAMES)
+    config.PARTIAL_FILE.unlink(missing_ok=True)
+    logger.info("CSV written: %s", config.CSV_OUTPUT_FILE)
 
 
 if __name__ == "__main__":

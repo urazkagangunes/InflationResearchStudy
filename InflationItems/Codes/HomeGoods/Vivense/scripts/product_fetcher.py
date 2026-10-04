@@ -39,28 +39,21 @@ back to the last valid page.
 
 Output Schema
 -------------
-Each normalised product dict matches the schema used by the other
-scrapers in this repository::
+Each normalised product dict starts with the two columns shared by the
+other scrapers in this repository::
 
     {
-      "id":            "HU3-1637",
-      "sku":           "HU3-1637",
-      "name":          "Silva Bohem Koltuk",
-      "brand":         "Vivense Collection",
-      "category":      "Oturma Odası",       # top-level (per scraper)
-      "sub_category":  "Kanepe + Koltuk",     # data-category
-      "regular_price": 23090.0,
-      "shown_price":   23090.0,
-      "discount_rate": 0,
-      "unit":          "PIECE",
-      "status":        "IN_SALE",
-      "image_url":     "https://img.vivense.com/.../foo.jpg",
-      "product_url":   "https://www.vivense.com/silva-bohem-ikili-koltuk-modeli.html",
+      "product_name":  "Silva Bohem Koltuk",
+      "price":         23090.0,     # shown (post-discount) price
+      "url":           "https://www.vivense.com/silva-bohem-ikili-koltuk-modeli.html",
+      "id":            "HU3-1637",  # data-product-sku
+      "regular_price": 23090.0,     # psf-price, or price when not discounted
     }
 """
 
 import logging
 import random
+import re
 import time
 from typing import Optional
 
@@ -118,10 +111,11 @@ def _fetch_page_html(
     Returns
     -------
     str or None
-        The HTML response body on success.  ``None`` when every retry
-        attempt fails (network error or repeated 403/4xx/5xx).
+        The HTML response body on success, ``""`` for a 404 (retired
+        category page).  ``None`` when every retry attempt fails (network
+        error or repeated 403/4xx/5xx).
     """
-    target = f"{url}?page={page}"
+    target = f"{url}?page={page}&sort={config.SORT_ORDER}"
     for attempt in range(1, config.MAX_RETRIES + 1):
         try:
             resp = session.get(target, timeout=30)
@@ -133,6 +127,12 @@ def _fetch_page_html(
                 )
                 time.sleep(config.RETRY_BACKOFF * attempt)
                 continue
+
+            # Some sitemap categories are retired pages; retrying cannot help.
+            if resp.status_code == 404:
+                logger.warning("404 Not Found for %s; treated as empty.",
+                               target)
+                return ""
 
             resp.raise_for_status()
             return resp.text
@@ -198,6 +198,15 @@ def _clean_price(price_str: str) -> float:
         return float(cleaned)
     except ValueError:
         return 0.0
+
+
+def _site_product_count(soup) -> Optional[int]:
+    """Return the category size printed on the page (e.g. ``"3598 Ürün"``)."""
+    node = soup.select_one("div.count-of-product")
+    if node is None:
+        return None
+    match = re.match(r"\s*([\d.]+)", node.get_text(" ", strip=True))
+    return int(match.group(1).replace(".", "")) if match else None
 
 
 # ── Card → record normalisation ──────────────────────────────────────────────
@@ -326,9 +335,14 @@ def _parse_card(card, category_name: str) -> Optional[dict]:
         else rel_url
     )
 
+    # Downstream code reads only ``product_name`` and ``price``; the extra
+    # columns are appended after them so older readers keep working.
     return {
-        "product_name": name,
-        "price":        round(shown_price, 2),
+        "product_name":  name,
+        "price":         round(shown_price, 2),
+        "url":           product_url,
+        "id":            sku,
+        "regular_price": round(regular_price, 2),
     }
 
 
@@ -360,7 +374,14 @@ def fetch_products_for_category(
     -------
     list[dict]
         Normalised product records (see ``_parse_card``).  An empty list is
-        returned when the very first page request fails.
+        returned for an empty or retired (404) category.
+
+    Raises
+    ------
+    RuntimeError
+        When a page cannot be fetched, or (without ``page_limit``) when
+        fewer than 90 % of the site's own product count were collected.
+        Between 90 % and 98 % the products are kept with a warning.
     """
     if session is None:
         session = _make_session()
@@ -374,6 +395,8 @@ def fetch_products_for_category(
     seen_skus: set[str] = set()
     products: list[dict] = []
     last_page_skus: frozenset[str] = frozenset()
+    expected: Optional[int] = None
+    bad_cards = 0
 
     page = 1
     hard_limit = page_limit if page_limit and page_limit > 0 else config.PAGE_HARD_LIMIT
@@ -383,9 +406,7 @@ def fetch_products_for_category(
     while page <= hard_limit:
         html = _fetch_page_html(session, cat_url, page)
         if html is None:
-            logger.warning("[%s] Page %d fetch failed — aborting category.",
-                           cat_name, page)
-            break
+            raise RuntimeError(f"page {page} fetch failed")
 
         soup = BeautifulSoup(html, "lxml")
         cards = soup.select("div.product-card.product-content.parent")
@@ -395,13 +416,31 @@ def fetch_products_for_category(
                         cat_name, page)
             break
 
+        # Past the last page the site redirects to page 1 of the category.
+        page_id = cards[0].get("data-page-id")
+        if page_id is not None and page_id != str(page):
+            logger.info("[%s] Page %d redirected to page %s: end of catalogue.",
+                        cat_name, page, page_id)
+            break
+
+        if page == 1:
+            expected = _site_product_count(soup)
+
         page_skus: set[str] = set()
         new_count = 0
         for card in cards:
-            record = _parse_card(card, cat_name)
+            try:
+                record = _parse_card(card, cat_name)
+            except Exception as exc:
+                bad_cards += 1
+                logger.warning(
+                    "[%s] page %d: skipping unparsable card sku=%r: %r",
+                    cat_name, page, card.get("data-product-sku"), exc,
+                )
+                continue
             if record is None:
                 continue
-            sku = record["sku"]
+            sku = record["id"]
             if sku in seen_skus:
                 continue
             seen_skus.add(sku)
@@ -428,6 +467,24 @@ def fetch_products_for_category(
         page += 1
         time.sleep(delay * random.uniform(config.JITTER_MIN, config.JITTER_MAX))
 
-    logger.info("[%s] Completed: %d products across %d page(s).",
-                cat_name, len(products), page - 1)
+    logger.info(
+        "[%s] Completed: %d products across %d page(s); site reports %s; "
+        "%d unparsable card(s).",
+        cat_name, len(products), page - 1, expected, bad_cards,
+    )
+    # A deliberate --limit run is partial by design.
+    if not page_limit and expected:
+        # Some listings stay a few percent below their own count for hours
+        # (2026-09-30: Halı 2662/2721); only a clear break drops the day.
+        if len(products) < 0.90 * expected:
+            raise RuntimeError(
+                f"coverage below 90%: {len(products)} of {expected} products "
+                f"(site count)"
+            )
+        if len(products) < 0.98 * expected:
+            logger.warning(
+                "[%s] Coverage below 98%%: %d of %d products (site count); "
+                "keeping them.",
+                cat_name, len(products), expected,
+            )
     return products

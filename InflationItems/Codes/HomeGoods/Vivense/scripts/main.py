@@ -126,10 +126,13 @@ def _save_checkpoint(checkpoint: dict) -> None:
 # ── Output helpers ───────────────────────────────────────────────────────────
 
 def _append_products(new_products: list[dict]) -> None:
-    """Thread-safely append ``new_products`` to the daily CSV output file.
+    """Thread-safely append ``new_products`` to the staging file.
 
     Called immediately after each category is scraped so that data is
     persisted to disk even if the process is interrupted mid-run.  The
+    staging file (:data:`config.PARTIAL_FILE`) is not a ``.csv`` and lives
+    outside the folders the daily runner scans, so a failed run never
+    leaves a CSV the runner would count as success.  The
     header is written only on the first append (``mode="a"``).  Uses
     UTF-8-with-BOM encoding for wide Excel compatibility.
 
@@ -146,13 +149,13 @@ def _append_products(new_products: list[dict]) -> None:
     if not new_products:
         return
 
-    os.makedirs(config.OUTPUT_DIR, exist_ok=True)
+    os.makedirs(config.CHECKPOINT_DIR, exist_ok=True)
     df_new = pd.DataFrame(new_products)
 
     with _csv_lock:
-        write_header = not os.path.exists(config.CSV_OUTPUT_FILE)
+        write_header = not os.path.exists(config.PARTIAL_FILE)
         df_new.to_csv(
-            config.CSV_OUTPUT_FILE,
+            config.PARTIAL_FILE,
             mode="a",
             index=False,
             header=write_header,
@@ -161,28 +164,32 @@ def _append_products(new_products: list[dict]) -> None:
 
 
 def _dedup_csv() -> int:
-    """Remove rows with duplicate product IDs from the daily CSV in-place.
+    """Write the deduplicated staging rows to the daily CSV.
 
-    Reads the entire CSV, drops duplicates on the ``id`` column (keeping
-    the first occurrence), resets the index, and overwrites the file.
-    Run once at the very end of a scrape to clean up products that
-    appear in multiple top-level categories (e.g. decorative items that
+    Reads the staging file, drops duplicates on the ``id`` column (keeping
+    the first occurrence), writes the daily CSV and removes the staging
+    file.  Run once at the very end of a successful scrape to clean up
+    products that appear in multiple categories (e.g. decorative items that
     Vivense files under both *Ev Dekorasyonu* and *Sofra*).
 
     Returns
     -------
     int
-        Number of rows in the file after deduplication.  Returns ``0``
-        when the file does not exist (e.g. no products were scraped).
+        Number of rows in the daily CSV.  Returns ``0`` when the staging
+        file does not exist (e.g. no products were scraped).
     """
-    if not os.path.exists(config.CSV_OUTPUT_FILE):
+    if not os.path.exists(config.PARTIAL_FILE):
         return 0
-    df = pd.read_csv(config.CSV_OUTPUT_FILE, encoding="utf-8-sig")
+    df = pd.read_csv(config.PARTIAL_FILE, encoding="utf-8-sig")
     before = len(df)
     if "id" in df.columns:
         df.drop_duplicates(subset=["id"], inplace=True)
     df.reset_index(drop=True, inplace=True)
-    df.to_csv(config.CSV_OUTPUT_FILE, index=False, encoding="utf-8-sig")
+    os.makedirs(config.OUTPUT_DIR, exist_ok=True)
+    df[config.OUTPUT_COLUMNS].to_csv(
+        config.CSV_OUTPUT_FILE, index=False, encoding="utf-8-sig",
+    )
+    os.remove(config.PARTIAL_FILE)
     if len(df) < before:
         logger.info(
             "Removed %d duplicate rows. Final count: %d",
@@ -220,7 +227,9 @@ def _scrape_category_worker(
 
     Creates a private :class:`requests.Session` so it does not share
     connection state with the other workers, then delegates to
-    :func:`product_fetcher.fetch_products_for_category`.
+    :func:`product_fetcher.fetch_products_for_category`.  A category that
+    raises (fetch failure or coverage below 90 %) is retried once from
+    page 1; a second failure propagates to the caller.
 
     Args
     ----
@@ -239,10 +248,21 @@ def _scrape_category_worker(
     list[dict]
         Normalised product records for every page of ``cat``.
     """
-    session = _make_session()
+    try:
+        return fetch_products_for_category(
+            category=cat,
+            session=_make_session(),
+            delay=delay,
+            page_limit=page_limit,
+        )
+    except Exception as exc:
+        logger.warning(
+            "Category '%s' failed (%r); retrying once from the start.",
+            cat["name"], exc,
+        )
     return fetch_products_for_category(
         category=cat,
-        session=session,
+        session=_make_session(),
         delay=delay,
         page_limit=page_limit,
     )
@@ -297,10 +317,12 @@ def run_scraper(args: argparse.Namespace) -> None:
     # 3. Load checkpoint for resume support
     checkpoint = _load_checkpoint() if args.resume else {"done": []}
 
-    # 4. On a fresh run, clear any old output file for today
-    if not args.resume and os.path.exists(config.CSV_OUTPUT_FILE):
-        os.remove(config.CSV_OUTPUT_FILE)
-        logger.info("Cleared old output file: %s", config.CSV_OUTPUT_FILE)
+    # 4. On a fresh run, clear any old output and staging file for today
+    if not args.resume:
+        for path in (config.CSV_OUTPUT_FILE, config.PARTIAL_FILE):
+            if os.path.exists(path):
+                os.remove(path)
+                logger.info("Cleared old file: %s", path)
 
     categories_to_scrape = [
         c for c in categories if c["id"] not in checkpoint["done"]
@@ -313,13 +335,13 @@ def run_scraper(args: argparse.Namespace) -> None:
         return
 
     total_products = 0
-    if args.resume and os.path.exists(config.CSV_OUTPUT_FILE):
+    if args.resume and os.path.exists(config.PARTIAL_FILE):
         try:
-            existing_df = pd.read_csv(config.CSV_OUTPUT_FILE, encoding="utf-8-sig")
+            existing_df = pd.read_csv(config.PARTIAL_FILE, encoding="utf-8-sig")
             total_products = len(existing_df)
             logger.info(
                 "Resuming: %d existing products already saved in %s",
-                total_products, config.CSV_OUTPUT_FILE,
+                total_products, config.PARTIAL_FILE,
             )
         except Exception as exc:
             logger.warning("Could not count existing products: %s", exc)
@@ -333,6 +355,7 @@ def run_scraper(args: argparse.Namespace) -> None:
 
     # 5. Parallel scraping with ThreadPoolExecutor
     futures = {}
+    failed: list[tuple[str, str]] = []
     with ThreadPoolExecutor(max_workers=args.workers) as executor:
         for cat in categories_to_scrape:
             future = executor.submit(
@@ -347,8 +370,11 @@ def run_scraper(args: argparse.Namespace) -> None:
                 try:
                     cat_products = future.result()
                 except Exception as exc:
-                    logger.error("Category '%s' failed: %s", cat["name"], exc)
-                    cat_products = []
+                    logger.exception(
+                        "Category '%s' failed: %r", cat["name"], exc,
+                    )
+                    failed.append((cat["name"], repr(exc)))
+                    cat_products = None
 
                 # Persist immediately so nothing is lost on interruption
                 if cat_products:
@@ -356,10 +382,12 @@ def run_scraper(args: argparse.Namespace) -> None:
                     with _counter_lock:
                         total_products += len(cat_products)
 
-                # Mark category done in checkpoint
-                with _checkpoint_lock:
-                    checkpoint["done"].append(cat["id"])
-                _save_checkpoint(checkpoint)
+                # Failed categories stay out of the checkpoint so that
+                # --resume retries them.
+                if cat_products is not None:
+                    with _checkpoint_lock:
+                        checkpoint["done"].append(cat["id"])
+                    _save_checkpoint(checkpoint)
 
                 if cat_products:
                     logger.info(
@@ -368,6 +396,21 @@ def run_scraper(args: argparse.Namespace) -> None:
                     )
 
                 pbar.update(1)
+
+    # The daily runner counts any CSV as success, so a partial catalogue
+    # must not produce one.
+    if failed:
+        logger.error(
+            "%d categor%s failed after one retry:",
+            len(failed), "y" if len(failed) == 1 else "ies",
+        )
+        for name, reason in failed:
+            logger.error("  %s: %s", name, reason)
+        logger.error(
+            "No CSV written and inflation step skipped; scraped rows kept in "
+            "%s for --resume.", config.PARTIAL_FILE,
+        )
+        sys.exit(1)
 
     # 6. Final deduplication pass
     logger.info("Running final deduplication...")

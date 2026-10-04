@@ -8,6 +8,9 @@ from pathlib import Path as _Path
 
 BASE_URL = "https://www.karaca.com"
 HOME_URL = f"{BASE_URL}/"
+# Web navigation menu as JSON; the desktop mega menu is rendered from it.
+MENU_URL = f"{BASE_URL}/api/frontend-service/v1/menus/categories"
+PLP_LINK_TYPE = "karaca://plp/category"
 
 DEFAULT_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -22,16 +25,18 @@ DEFAULT_HEADERS = {
     ),
 }
 
-REQUEST_DELAY = 0.35
+# Pages are requested with a random pause between REQUEST_DELAY and 3x that value.
+REQUEST_DELAY = 1.0
 CATEGORY_WORKERS = 3
-MAX_RETRIES = 3
-RETRY_BACKOFF = 2
+MAX_RETRIES = 4
+RETRY_BACKOFF = 5
 
 PROMOTIONAL_MAIN_CATEGORIES = {
     "Hediye",
     "Anneler Günü",
     "Çeyiz Seti",
     "Çok Satan",
+    "İndirimli Ürünler",
     "Markalar",
     "Kampanyalar",
 }
@@ -39,7 +44,6 @@ PROMOTIONAL_MAIN_CATEGORIES = {
 NON_LISTING_PATHS = {
     "/gift-card",
     "/marka",
-    "/perde",
 }
 
 MAIN_CATEGORY_PRIORITY = {
@@ -52,9 +56,16 @@ MAIN_CATEGORY_PRIORITY = {
     "Anneler Günü": 70,
     "Çeyiz Seti": 80,
     "Çok Satan": 90,
+    "İndirimli Ürünler": 95,
     "Markalar": 100,
     "Kampanyalar": 110,
 }
+
+# Food is far outside home goods; everything else the menu lists is kept.
+EXCLUDED_TOP_CATEGORIES = {"Gıda"}
+
+# The daily CSV; the partial snapshot keeps CSV_FIELDNAMES for --resume.
+OUTPUT_FIELDNAMES = ["product_name", "price"]
 
 CSV_FIELDNAMES = [
     "product_name",
@@ -93,3 +104,6 @@ else:
 
 CSV_OUTPUT_FILE = OUTPUT_DIR / f"karaca_{_TODAY}.csv"
 CHECKPOINT_FILE = CHECKPOINT_DIR / f"karaca_checkpoint_{_TODAY}.json"
+# Rows of an unfinished run; the dated CSV is written only when every category
+# completed. Not ``.csv`` so the daily runner never picks it up.
+PARTIAL_FILE = CHECKPOINT_DIR / f"karaca_partial_{_TODAY}.part"

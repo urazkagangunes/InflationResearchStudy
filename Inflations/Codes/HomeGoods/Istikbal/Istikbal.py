@@ -32,7 +32,8 @@ else:
         date_str = filename.replace('istikbal_', '').replace('.csv', '').replace('_', '-')
 
         try:
-            df = pd.read_csv(file)
+            df = pd.read_csv(file, encoding='utf-8-sig')
+            df = df.rename(columns={'product_name': 'Product Name', 'price': 'Price'})
             df['Date'] = pd.to_datetime(date_str)
 
             # --- CRITICAL STRING CLEANING FOR ISTIKBAL ---
@@ -52,9 +53,11 @@ else:
                 print(f"Warning: No 'Price' column found in {filename}. Skipping.")
                 continue
 
-            # Handle missing categories in Istikbal data
+            df['Name_Key'] = df['Product Name'].astype(str).str.split().str.join(' ').str.casefold()
+
+            # Handle missing categories in Istikbal data (filled after all files are read)
             if 'Category' not in df.columns:
-                df['Category'] = 'Genel_Mobilya'
+                df['Category'] = pd.NA
 
             df_list.append(df)
 
@@ -62,29 +65,53 @@ else:
             print(f"Error reading {filename}: {e}")
 
     # ==========================================
-    # 3. DYNAMIC WEIGHTS & AVERAGES
+    # 3. MATCHED PRODUCTS
     # ==========================================
     if df_list:
         full_data = pd.concat(df_list, ignore_index=True)
 
-        # Create matrices
-        category_prices = full_data.groupby(['Date', 'Category'])['Active_Price'].mean().unstack()
-        category_counts = full_data.groupby(['Date', 'Category'])['Active_Price'].count().unstack()
+        # Newer files have no Category: reuse the latest known category of the same product name
+        known = full_data.dropna(subset=['Category']).sort_values('Date')
+        latest_category = known.groupby('Name_Key')['Category'].last()
+        full_data['Category'] = full_data['Category'].fillna(full_data['Name_Key'].map(latest_category))
+        full_data['Category'] = full_data['Category'].fillna('Genel_Mobilya')
 
-        working_prices_df = category_prices.copy()
+        # One price per product and day; a product listed under several categories
+        # (or twice) counts once, in its latest category. "0,00 TL" is not a price.
+        priced = full_data[full_data['Active_Price'] > 0]
+        prices = priced.groupby(['Date', 'Name_Key'])['Active_Price'].mean().unstack()
+        product_category = priced.sort_values('Date').groupby('Name_Key')['Category'].last()
 
-        # Calculate Overall Normal
-        working_prices_df['Overall_Normal'] = category_prices.mean(axis=1)
+        def basket_change(current, base):
+            """Price change of the products present on both days.
 
-        # Calculate Overall Weighted (Weights dynamically by item count)
-        working_prices_df['Overall_Weighted'] = (category_prices * category_counts).sum(axis=1) / category_counts.sum(
-            axis=1)
+            Per category and Overall_Normal: change of the average price of the
+            matched products (Overall_Normal averages the category averages);
+            Overall_Weighted: change of their total price.
+            """
+            both = current.notna() & base.notna()
+            cur, old = current[both], base[both]
+            categories = product_category.reindex(cur.index)
+            cur_avg = cur.groupby(categories).mean()
+            old_avg = old.groupby(categories).mean()
+            change = cur_avg / old_avg - 1
+            change['Overall_Normal'] = cur_avg.mean() / old_avg.mean() - 1
+            change['Overall_Weighted'] = cur.sum() / old.sum() - 1
+            return change
 
         # ==========================================
         # 4. CALCULATE INFLATIONS & EXPORT
         # ==========================================
-        daily_inflations = working_prices_df.pct_change()
-        weekly_inflations = working_prices_df.pct_change(periods=7)
+        # Daily compares with the previous file, weekly with the file 7 files back.
+        dates = prices.index
+        daily_inflations = pd.DataFrame(
+            {dates[i]: basket_change(prices.iloc[i], prices.iloc[i - 1]) for i in range(1, len(dates))}
+        ).T.reindex(dates)
+        weekly_inflations = pd.DataFrame(
+            {dates[i]: basket_change(prices.iloc[i], prices.iloc[i - 7]) for i in range(7, len(dates))}
+        ).T.reindex(dates)
+        daily_inflations.index.name = 'Date'
+        weekly_inflations.index.name = 'Date'
 
         daily_inflations = daily_inflations.add_suffix('_Daily_Inflation')
         weekly_inflations = weekly_inflations.add_suffix('_Weekly_Inflation')
@@ -94,9 +121,10 @@ else:
 
         # Reorder columns
         cols = final_export_df.columns.tolist()
-        overall_cols = [c for c in cols if 'Overall' in c]
+        overall_cols = [f'Overall_{kind}_{period}_Inflation'
+                        for period in ('Daily', 'Weekly') for kind in ('Normal', 'Weighted')]
         category_cols = sorted([c for c in cols if 'Overall' not in c])
-        final_export_df = final_export_df[overall_cols + category_cols]
+        final_export_df = final_export_df.reindex(columns=overall_cols + category_cols)
 
         # Save to CSV
         final_export_df.to_csv(output_filename)

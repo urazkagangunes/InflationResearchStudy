@@ -1,10 +1,26 @@
 import numpy as np
 import pandas as pd
 import os
+import sys
 import datetime
 
 month = datetime.datetime.today().month
 day = datetime.datetime.today().day
+year = datetime.datetime.today().year
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", "..", ".."))
+DATA_DIR = os.path.join(REPO_ROOT, "InflationItems", "Datas", "HomeGoods",
+                        "Ikea")
+OUT_DIR = os.path.join(REPO_ROOT, "Inflations", "Datas", "HomeGoods", "Ikea")
+
+
+def dataFile(date):
+    # Spring: HomeGoods<M>-<D>.csv; new scraper: ikea_<YYYY-MM-DD>.csv
+    spring = os.path.join(DATA_DIR, f"HomeGoods{date.month}-{date.day}.csv")
+    if os.path.isfile(spring):
+        return spring
+    return os.path.join(DATA_DIR, f"ikea_{date:%Y-%m-%d}.csv")
 
 
 def dataCompiler(raw_df):
@@ -18,22 +34,30 @@ def dataCompiler(raw_df):
 
 def compareData(new_compiled, old_compiled):
     merged = new_compiled.merge(old_compiled, on=[0], how='left', suffixes=('_new', '_old'))
-    merged['1_old'] = merged['1_old'].fillna(merged['1_new'])  # if no old price, treat as unchanged (0% inflation)
+    # A product missing from the earlier file has no price change; it stays in the
+    # detail file without a value and out of the averages (counting it as 0% pulled
+    # every average towards zero).
     merged['Inflation(%)'] = ((merged['1_new'] - merged['1_old']) / merged['1_old']) * 100
-    merged['Inflation(%)'] = merged['Inflation(%)'].fillna(0)
+    merged['Inflation(%)'] = merged['Inflation(%)'].replace([np.inf, -np.inf], np.nan)
     return merged[[0, 'Inflation(%)']]
 
 
 def csvSaver(file, timeParam, month, day):
-    sum_daily_name = f"InflationData\SummaryData\Daily\\SummaryDailyHomeGoodsInflation.csv"
+    for folder in ("DetailedInflationData", "SummaryData"):
+        os.makedirs(os.path.join(OUT_DIR, folder, timeParam), exist_ok=True)
+
+    sum_daily_name = os.path.join(OUT_DIR, "SummaryData", "Daily",
+                                  "SummaryDailyHomeGoodsInflation.csv")
     file_exists = os.path.isfile(sum_daily_name)
     daily_header = not file_exists or os.path.getsize(sum_daily_name) == 0
 
-    sum_monthly_name = f"InflationData\SummaryData\Monthly\\SummaryMonthlyHomeGoodsInflation.csv"
+    sum_monthly_name = os.path.join(OUT_DIR, "SummaryData", "Monthly",
+                                    "SummaryMonthlyHomeGoodsInflation.csv")
     file_exists_month = os.path.isfile(sum_monthly_name)
     monthly_header = not file_exists_month or os.path.getsize(sum_monthly_name) == 0
 
-    sum_weekly_name = f"InflationData\SummaryData\Weekly\\SummaryWeeklyHomeGoodsInflation.csv"
+    sum_weekly_name = os.path.join(OUT_DIR, "SummaryData", "Weekly",
+                                   "SummaryWeeklyHomeGoodsInflation.csv")
     file_exists_week = os.path.isfile(sum_weekly_name)
     weekly_header = not file_exists_week or os.path.getsize(sum_weekly_name) == 0
 
@@ -44,15 +68,18 @@ def csvSaver(file, timeParam, month, day):
     newFile["Date"] = [f"{month}-{day}"]
 
     if timeParam == "Daily":
-        file.to_csv(f"InflationData\DetailedInflationData\Daily\\DetailedDailyHomeGoodsInflation{month}-{day}.csv",
+        file.to_csv(os.path.join(OUT_DIR, "DetailedInflationData", "Daily",
+                                 f"DetailedDailyHomeGoodsInflation{month}-{day}.csv"),
                     index=False, encoding="utf-8")
         newFile.to_csv(sum_daily_name, index=False, mode="a", encoding="utf-8", header=daily_header)
     if timeParam == "Weekly":
-        file.to_csv(f"InflationData\DetailedInflationData\Weekly\\DetailedWeeklyHomeGoodsInflation{month}-{day}.csv",
+        file.to_csv(os.path.join(OUT_DIR, "DetailedInflationData", "Weekly",
+                                 f"DetailedWeeklyHomeGoodsInflation{month}-{day}.csv"),
                     index=False, encoding="utf-8")
         newFile.to_csv(sum_weekly_name, index=False, mode="a", encoding="utf-8", header=weekly_header)
     if timeParam == "Monthly":
-        file.to_csv(f"InflationData\DetailedInflationData\Monthly\\DetailedMonthlyHomeGoodsInflation{month}-{day}.csv",
+        file.to_csv(os.path.join(OUT_DIR, "DetailedInflationData", "Monthly",
+                                 f"DetailedMonthlyHomeGoodsInflation{month}-{day}.csv"),
                     index=False, encoding="utf-8")
         newFile.to_csv(sum_monthly_name, index=False, mode="a", encoding="utf-8", header=monthly_header)
 
@@ -68,54 +95,28 @@ def fileInput(fileNew, fileOld):
     return test_3
 
 
-def checkDate(monthNum, dayNum):
-    isExtra = False
+def compare(date, past, timeParam):
     try:
-        if dayNum > 7:
-            test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                               f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum - 7)}.csv")
-            csvSaver(test_4, "Weekly", monthNum, dayNum)
-        else:
-            if (monthNum % 2 == 0 and monthNum <= 7) or (monthNum % 2 == 1 and monthNum > 7) or (monthNum == 8):
-                test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                                   f"Datas\\HomeGoods{str(monthNum - 1)}-{str(24 + monthNum)}.csv")
-                csvSaver(test_4, "Weekly", monthNum, dayNum)
-                isExtra = True
-            else:
-                test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                                   f"Datas\\HomeGoods{str(monthNum - 1)}-{str(23 + monthNum)}.csv")
-                csvSaver(test_4, "Weekly", monthNum, dayNum)
-    except Exception as e:
-        print(e)
-    try:
-        if dayNum > 1:
-            test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                               f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum - 1)}.csv")
-            csvSaver(test_4, "Daily", monthNum, dayNum)
-        else:
-            if isExtra:
-                test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                                   f"Datas\\HomeGoods{str(monthNum - 1)}-{str(31)}.csv")
-                csvSaver(test_4, "Daily", monthNum, dayNum)
-            else:
-                test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                                   f"Datas\\HomeGoods{str(monthNum - 1)}-{str(30)}.csv")
-                csvSaver(test_4, "Daily", monthNum, dayNum)
-    except Exception as e:
-        print(e)
-    try:
-        if dayNum > 28:
-            test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                               f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum - 28)}.csv")
-            csvSaver(test_4, "Monthly", monthNum, dayNum)
-        else:
-            test_4 = fileInput(f"Datas\\HomeGoods{str(monthNum)}-{str(dayNum)}.csv",
-                               f"Datas\\HomeGoods{str(monthNum - 1)}-{str(dayNum)}.csv")
-            csvSaver(test_4, "Monthly", monthNum, dayNum)
+        test_4 = fileInput(dataFile(date), dataFile(past))
+        csvSaver(test_4, timeParam, date.month, date.day)
     except Exception as e:
         print(e)
 
-for i in range(28, 31):
-    checkDate(4, i)
-for i in range(1, 10):
-    checkDate(5, i)
+
+def checkDate(monthNum, dayNum):
+    # Calendar arithmetic: the old month-length guesses asked for dates like
+    # 9-33 in the first week of a month and 2-30 on the 1st of March.
+    date = datetime.date(year, monthNum, dayNum)
+    compare(date, date - datetime.timedelta(days=7), "Weekly")
+    compare(date, date - datetime.timedelta(days=1), "Daily")
+    if dayNum > 28:
+        compare(date, date.replace(day=dayNum - 28), "Monthly")
+    else:
+        last_month = date.replace(day=1) - datetime.timedelta(days=1)
+        compare(date, last_month.replace(day=dayNum), "Monthly")
+
+
+if __name__ == "__main__":
+    # Dates as M-D arguments, e.g. "5-10 5-11"; today's date when none given
+    for date in sys.argv[1:] or [f"{month}-{day}"]:
+        checkDate(*map(int, date.split("-")))

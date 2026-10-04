@@ -32,21 +32,16 @@ CSV output is written to `InflationItems/Datas/HomeGoods/Vivense/vivense_YYYY-MM
 
 ## Output Schema
 
-| Column          | Type  | Notes                                                                                               |
-| --------------- | ----- | --------------------------------------------------------------------------------------------------- |
-| `id`            | str   | SKU (used as the unique key by the inflation calculator)                                            |
-| `sku`           | str   | Same as `id`                                                                                        |
-| `name`          | str   | Product display name                                                                                |
-| `brand`         | str   | Brand / collection (e.g. `Vivense Collection`). May be empty for some third-party-sourced products. |
-| `category`      | str   | Top-level category being scraped (e.g. `Oturma Odası`)                                              |
-| `sub_category`  | str   | Most-specific sub-category (e.g. `Köşe Koltuk`)                                                     |
-| `regular_price` | float | List price in TRY (= `shown_price` when no discount is active)                                      |
-| `shown_price`   | float | Currently displayed (post-discount) price in TRY                                                    |
-| `discount_rate` | int   | Discount percent (`0` when none)                                                                    |
-| `unit`          | str   | Always `PIECE`                                                                                      |
-| `status`        | str   | Always `IN_SALE`                                                                                    |
-| `image_url`     | str   | Main product image                                                                                  |
-| `product_url`   | str   | Canonical product page                                                                              |
+The first two columns are the ones every HomeGoods store shares and the only
+ones the inflation calculator reads; the rest are appended after them.
+
+| Column          | Type  | Notes                                                              |
+| --------------- | ----- | ------------------------------------------------------------------ |
+| `product_name`  | str   | Product display name (`data-product-name`)                         |
+| `price`         | float | Price the customer pays now, in TRY (post-discount)                |
+| `url`           | str   | Product page URL                                                   |
+| `id`            | str   | SKU (`data-product-sku`); key of the final deduplication           |
+| `regular_price` | float | List price in TRY (`psf-price`; equals `price` when not discounted) |
 
 ## Pricing & Discount Extraction
 
@@ -60,21 +55,24 @@ Vivense embeds **two** prices per product card:
 
 The mapping the scraper uses:
 
-- `shown_price` ← `data-product-price` (fallback: `last-price` text)
-- `regular_price` ← `psf-price` (fallback: `shown_price` when not discounted)
-- `discount_rate` ← `data-discount-rate` (parsed as int, `""` → 0)
+- `price` ← `data-product-price` (fallback: `last-price` text)
+- `regular_price` ← `psf-price` (fallback: `price` when not discounted)
 
-When a product has no discount, `regular_price == shown_price` and
-`discount_rate == 0`. When a product is discounted, the inflation calculator
-treats `shown_price` as the authoritative current price (matching the
-convention used for Migros, Rossmann and Bauhaus).
+When a product has no discount, `regular_price == price`. When a product is
+discounted, the inflation calculator treats `price` as the authoritative
+current price (matching the convention used for Migros, Rossmann and Bauhaus).
 
 ## Pagination & End-of-Catalogue Detection
 
 Vivense uses 1-indexed `?page=N` pagination, returning ~60 products per page.
+Pages are requested with `&sort=price_asc` (`config.SORT_ORDER`): the default
+order repeats some products on adjacent pages and never shows others.
+A page number past the end redirects to page 1 of the category.
 The scraper terminates a category on the **first** of these conditions:
 
-1. The page contains zero `product-card.product-content.parent` elements.
+1. The page contains zero `product-card.product-content.parent` elements,
+   or its cards carry a `data-page-id` other than the requested page
+   (the redirect above).
 2. The set of SKUs on the current page is identical to the previous page
    (defensive guard against the site silently clamping `page` to the last
    valid value).
@@ -105,13 +103,30 @@ python main.py --workers 4 --delay 0.7
 After a successful scrape the runner automatically invokes the inflation
 calculator at `Inflations/Codes/HomeGoods/Vivense/inflation.py`.
 
+A category that fails (page fetch error, or fewer than 90 % of the site's own
+"N Ürün" count collected) is retried once from page 1. Between 90 % and 98 %
+the category is kept and logged as a warning, because some listings stay a few
+percent below their own count for hours. If a category fails again the
+run writes no CSV, skips the inflation step and exits with code 1, because the
+daily runner counts any CSV as success. Rows of the finished categories stay
+in `checkpoints/vivense_partial_YYYY-MM-DD.part` for `--resume`.
+
 ## Categories
 
-The scraper hits 15 curated top-level navigation buckets (see
-`config.TOP_LEVEL_CATEGORIES`). Brand / promo pages such as
-`vivense-collection`, `home-cosmetics` and `vivense-yurt-disinda` are
-excluded because they are cross-cuts of the catalogue and would only
-duplicate products.
+The scraper first walks the 19 curated top-level buckets of the header menu
+(`config.TOP_LEVEL_CATEGORIES`), then every listing of the category sitemap
+`category_sitemap1.php` (listed in robots.txt). The sub-category listings are
+needed because a top-level listing shows only one member of many product
+families: on 2026-09-28 they added 495 goods (wardrobes by door count,
+king-size mattresses, three-seat sofas, ...) to the 24,501 found in the
+top-level listings. Showroom pages and service / fee listings (installation,
+shipping, gift cards; `config.NON_GOODS_SLUG_PATTERN`) are skipped. Products
+listed in several categories are written once (dedup on `id`). If the sitemap
+cannot be read, the run falls back to the curated list and logs a warning.
+
+Colour and size variants that no listing shows are only reachable from product
+pages and are not collected: the product sitemap had 67,839 product URLs on
+2026-09-28, about 2.7 times the listed products.
 
 ## TUIK Mapping
 

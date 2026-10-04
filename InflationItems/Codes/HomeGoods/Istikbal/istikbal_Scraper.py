@@ -1,135 +1,144 @@
 import os
-import time
 import csv
 import re
-import math
+import sys
+import time
 from datetime import datetime
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import NoSuchElementException
+
+import requests
+from bs4 import BeautifulSoup
+
+BASE_URL = "https://www.istikbal.com.tr"
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+}
+
+CATEGORIES = [
+    {"name": "Oturma Odası", "url": f"{BASE_URL}/kategori/oturma-odasi"},
+    {"name": "Yemek Odası", "url": f"{BASE_URL}/kategori/yemek-odasi-takimlari"},
+    {"name": "Yatak Odası", "url": f"{BASE_URL}/kategori/yatak-odasi-takimlari"},
+    {"name": "Yatak", "url": f"{BASE_URL}/kategori/yatak"},
+    {"name": "Baza ve Başlık", "url": f"{BASE_URL}/kategori/yatak-baza"},
+    {"name": "Genç ve Çocuk Odası", "url": f"{BASE_URL}/kategori/cocuk-genc-odasi-takimlari"},
+    {"name": "Bahçe Mobilyası", "url": f"{BASE_URL}/kategori/bahce-mobilyalari"},
+    {"name": "Tamamlayıcı Ürünler", "url": f"{BASE_URL}/kategori/tamamlayici-urunler"},
+    {"name": "Online Özel", "url": f"{BASE_URL}/kategori/online-ozel"},
+    {"name": "Düğün Paketi", "url": f"{BASE_URL}/kategori/dugun-paketi"},
+]
+
+# robots.txt: Crawl-delay 30.
+CRAWL_DELAY = 30
+MAX_RETRIES = 5
+RETRY_STATUSES = {429, 500, 502, 503, 504}
+CATEGORY_ATTEMPTS = 2
 
 
-def setup_driver():
-    """Sets up the Selenium Chrome driver."""
-    chrome_options = Options()
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.maximize_window()
-    return driver
+class IncompleteCategory(Exception):
+    pass
 
 
-def get_expected_product_count(driver):
-    """Finds the 'Toplam X ürün' text and extracts the total number of products."""
-    try:
-        # Wait a moment for the dynamic count to render
-        time.sleep(2)
-        # Look for the span/div containing "Toplam" and "ürün"
-        count_element = driver.find_element(By.XPATH, "//*[contains(text(), 'Toplam') and contains(text(), 'ürün')]")
-        text = count_element.text
+def fetch(session, url):
+    for attempt in range(MAX_RETRIES):
+        time.sleep(CRAWL_DELAY)
+        try:
+            response = session.get(url, timeout=30)
+        except requests.RequestException as exc:
+            print(f"  -> {type(exc).__name__} on {url} (attempt {attempt + 1}/{MAX_RETRIES})")
+        else:
+            if response.status_code == 200:
+                return response.text
+            print(f"  -> Status {response.status_code} on {url} "
+                  f"(attempt {attempt + 1}/{MAX_RETRIES})")
+            if response.status_code not in RETRY_STATUSES:
+                break
+        time.sleep(5 * 2 ** attempt)
+    raise IncompleteCategory(f"could not fetch {url}")
 
-        # Extract the number (e.g., "Toplam 228 ürün" -> 228)
-        match = re.search(r'(\d+)', text)
+
+def parse_page(html):
+    """Returns the 'Toplam N ürün' count (None if absent) and (url, name, price) per card."""
+    soup = BeautifulSoup(html, "lxml")
+
+    total = None
+    count_element = soup.select_one(".record-count")
+    if count_element:
+        match = re.search(r"Toplam\s+(\d+)\s+ürün", count_element.get_text(" ", strip=True))
         if match:
-            return int(match.group(1))
-    except NoSuchElementException:
-        pass
-    return None
+            total = int(match.group(1))
+
+    products = []
+    for card in soup.select(".showcase"):
+        link = card.select_one(".showcase-title a")
+        name = card.select_one(".showcase-title h3")
+        price = card.select_one(".showcase-price-new") or card.select_one(".showcase-price")
+        if link is None or not link.get("href") or name is None:
+            continue
+        products.append((
+            link["href"],
+            " ".join(name.get_text().split()),
+            " ".join(price.get_text().split()) if price else "",
+        ))
+    return total, products
 
 
-def scroll_page_slowly(driver):
-    """Slowly scrolls down the current page to ensure lazy-loaded images/prices render."""
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    scroll_step = 600
+def scrape_category(session, category):
+    """Pages a category until all 'Toplam N ürün' products are collected, else raises."""
+    total, products = parse_page(fetch(session, category["url"]))
+    if total is None:
+        raise IncompleteCategory(f"{category['name']}: 'Toplam N ürün' not found")
 
-    current_position = 0
-    while current_position < last_height:
-        current_position += scroll_step
-        driver.execute_script(f"window.scrollTo(0, {current_position});")
-        time.sleep(0.5)
-        # Update last height in case infinite scrolling adds to the DOM
-        last_height = driver.execute_script("return document.body.scrollHeight")
+    listed = {}
+    page = 1
+    while True:
+        new_urls = [url for url, _, _ in products if url not in listed]
+        for url, name, price in products:
+            listed.setdefault(url, (name, price))
+        print(f"  -> Page {page}: {len(new_urls)} new, {len(listed)}/{total}")
+        if len(listed) >= total or not new_urls:
+            break
+        page += 1
+        _, products = parse_page(fetch(session, f"{category['url']}?tp={page}"))
+
+    if len(listed) < total:
+        raise IncompleteCategory(f"{category['name']}: collected {len(listed)} of {total} products")
+    return listed
 
 
 def scrape_istikbal():
-    categories = [
-        {"name": "Oturma Odası", "url": "https://www.istikbal.com.tr/kategori/oturma-odasi"},
-        {"name": "Yemek Odası", "url": "https://www.istikbal.com.tr/kategori/yemek-odasi-takimlari"},
-        {"name": "Yatak Odası", "url": "https://www.istikbal.com.tr/kategori/yatak-odasi-takimlari"},
-        {"name": "Yatak", "url": "https://www.istikbal.com.tr/kategori/yatak"},
-        {"name": "Baza ve Başlık", "url": "https://www.istikbal.com.tr/kategori/yatak-baza"},
-        {"name": "Genç ve Çocuk Odası", "url": "https://www.istikbal.com.tr/kategori/cocuk-genc-odasi-takimlari"},
-        {"name": "Bahçe Mobilyası", "url": "https://www.istikbal.com.tr/kategori/bahce-mobilyalari"},
-        {"name": "Tamamlayıcı Ürünler", "url": "https://www.istikbal.com.tr/kategori/tamamlayici-urunler"}
-    ]
+    session = requests.Session()
+    session.headers.update(HEADERS)
 
-    items_per_page = 30
     all_products = []
-    driver = setup_driver()
+    # A product listed under several categories is kept once, under the first one.
+    seen_urls = set()
 
-    try:
-        for category in categories:
-            print(f"\n--- Scraping category: {category['name']} ---")
+    for category in CATEGORIES:
+        print(f"\n--- Scraping category: {category['name']} ---")
+        for attempt in range(1, CATEGORY_ATTEMPTS + 1):
+            try:
+                listed = scrape_category(session, category)
+                break
+            except IncompleteCategory as exc:
+                print(f"  -> Attempt {attempt}/{CATEGORY_ATTEMPTS} failed: {exc}")
+                if attempt == CATEGORY_ATTEMPTS:
+                    raise
 
-            # Load the first page to get the total item count
-            driver.get(category["url"])
-            time.sleep(3)
-
-            total_items = get_expected_product_count(driver)
-
-            if total_items:
-                total_pages = math.ceil(total_items / items_per_page)
-                print(f"  -> Found {total_items} total items. Calculating {total_pages} page(s).")
-            else:
-                total_pages = 1
-                print("  -> Could not determine total items. Defaulting to 1 page.")
-
-            # Loop through the calculated number of pages
-            for page_number in range(1, total_pages + 1):
-                print(f"  -> Scraping Page {page_number}/{total_pages}...")
-
-                # If we are past page 1, construct the URL with ?tp=X and navigate
-                if page_number > 1:
-                    page_url = f"{category['url']}?tp={page_number}"
-                    driver.get(page_url)
-                    time.sleep(3)  # Wait for page to fully load
-
-                scroll_page_slowly(driver)
-                time.sleep(1)
-
-                # Extract data
-                product_cards = driver.find_elements(By.CSS_SELECTOR, "div.showcase-content")
-                items_on_page = 0
-
-                for card in product_cards:
-                    try:
-                        name_elem = card.find_element(By.CSS_SELECTOR, ".showcase-title h3")
-                        product_name = name_elem.text.strip()
-
-                        product_price = ""
-                        try:
-                            price_elem = card.find_element(By.CSS_SELECTOR, ".showcase-price-new")
-                            product_price = price_elem.text.strip()
-                        except NoSuchElementException:
-                            try:
-                                price_elem = card.find_element(By.CSS_SELECTOR, ".showcase-price")
-                                product_price = price_elem.text.strip()
-                            except NoSuchElementException:
-                                pass
-
-                        if product_name and product_price:
-                            all_products.append([product_name, product_price, category['name']])
-                            items_on_page += 1
-
-                    except Exception:
-                        continue
-
-                print(f"  -> Collected {items_on_page} items.")
-
-    finally:
-        driver.quit()
+        kept = skipped = 0
+        for url, (name, price) in listed.items():
+            if url in seen_urls:
+                continue
+            seen_urls.add(url)
+            # The site briefly showed "0,00 TL" for some products (2026-09-05/06).
+            if not re.search(r"[1-9]", price):
+                skipped += 1
+                continue
+            all_products.append([name, price])
+            kept += 1
+        print(f"  -> Kept {kept}, skipped {skipped} without a price, "
+              f"{len(listed) - kept - skipped} already in an earlier category.")
 
     return all_products
 
@@ -141,13 +150,13 @@ def save_to_csv(data):
 
     os.makedirs(target_dir, exist_ok=True)
 
-    date_str = datetime.now().strftime("%Y_%m_%d")
+    date_str = datetime.now().strftime("%Y-%m-%d")
     filename = f"istikbal_{date_str}.csv"
     file_path = os.path.join(target_dir, filename)
 
     with open(file_path, mode='w', newline='', encoding='utf-8-sig') as file:
         writer = csv.writer(file)
-        writer.writerow(['Product Name', 'Price', 'Category'])
+        writer.writerow(['product_name', 'price'])
         writer.writerows(data)
 
     print(f"\nData successfully saved to: {file_path}")
@@ -155,9 +164,14 @@ def save_to_csv(data):
 
 
 if __name__ == "__main__":
-    print("Starting Istikbal Scraper with URL-based pagination...")
-    scraped_data = scrape_istikbal()
-    if scraped_data:
-        save_to_csv(scraped_data)
-    else:
+    print("Starting Istikbal Scraper...")
+    try:
+        scraped_data = scrape_istikbal()
+    except IncompleteCategory as exc:
+        print(f"\nRun failed, no CSV written: {exc}")
+        sys.exit(1)
+
+    if not scraped_data:
         print("No data was collected.")
+        sys.exit(1)
+    save_to_csv(scraped_data)

@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import time
 import os
+import sys
 import json
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -26,14 +27,25 @@ CATEGORIES: list[dict] = [
     {"slug": "banyo",        "label": "Banyo"},
     {"slug": "yatak-odasi",  "label": "Yatak Odası"},
     {"slug": "hali-kilim",   "label": "Halı & Kilim"},
+    {"slug": "kozmetik",     "label": "Kozmetik"},
+    # yeni-urunler lists the whole catalogue, including products that are not
+    # assigned to any menu category. It runs last so the global pk dedup keeps
+    # the real category label and only unassigned products end up as "Diğer".
+    {"slug": "yeni-urunler", "label": "Diğer"},
 ]
 
 MAX_WORKERS = 5
 REQUEST_TIMEOUT = 30
-RETRY_COUNT = 3
+RETRY_COUNT = 5
 RETRY_DELAY = 2  # saniye
 PAGE_DELAY = 0.2  # batch'ler arası küçük gecikme
-MAX_PAGES_HARD_CAP = 200  # güvenlik: hiçbir kategori bunu aşmamalı
+MAX_PAGES_HARD_CAP = 500  # güvenlik: hiçbir kategori bunu aşmamalı
+MIN_COVERAGE = 0.98
+
+# A page that still fails after all retries means the day's file would be
+# incomplete (2026-05-19 was saved with two categories missing), so the run
+# aborts instead of writing a partial CSV.
+failed_pages: list = []
 
 # İlk sayfanın ham JSON'ını diske dökmek için (debug). Şablon değişirse
 # bakmak için faydalı; True yaparsanız Datas/HomeGoods/MadameCoco/_debug/
@@ -102,13 +114,14 @@ def fetch_json(category_slug: str, page_num: int) -> dict | None:
             # Beklenmedik HTML döndü - büyük ihtimalle Cloudflare/CDN bloğu
             last_err = f"JSON decode hatası: {e}"
             if attempt < RETRY_COUNT:
-                time.sleep(RETRY_DELAY * attempt)
+                time.sleep(RETRY_DELAY * 2 ** (attempt - 1))
         except Exception as e:
             last_err = e
             if attempt < RETRY_COUNT:
-                time.sleep(RETRY_DELAY * attempt)
+                time.sleep(RETRY_DELAY * 2 ** (attempt - 1))
     print(f"   [ERROR] {category_slug} sayfa {page_num} alınamadı "
           f"({RETRY_COUNT} deneme): {last_err}")
+    failed_pages.append((category_slug, page_num))
     return None
 
 
@@ -163,6 +176,10 @@ def extract_product(item: dict, category_label: str) -> dict | None:
     if in_stock is False:
         return None
 
+    # Gift cards are vouchers with a fixed face value, not goods.
+    if (item.get("attributes") or {}).get("Gift_card"):
+        return None
+
     # Liste fiyatı: retail_price ve price normalde aynı değeri taşır
     # (her ikisi de liste/orijinal fiyat). İndirim ayrı yerde tutulur.
     retail_raw = (
@@ -174,12 +191,15 @@ def extract_product(item: dict, category_label: str) -> dict | None:
     if price is None:
         return None
 
+    # Akinon keeps the pre-sale price in retail_price and the selling price in
+    # price, so a markdown shows up only as price < retail_price.
+    discounted_price: float | None = to_float(item.get("price"))
+
     # İndirimli fiyat: basket_offers[].listing_kwargs.discounted_total_price
     # quantity birim sayısıdır; birim fiyatı için bölünmesi gerek (genelde 1).
     # Birden çok offer varsa en düşük birim fiyatı tercih ederiz.
     # client_types boş olmayan offer'lar segment-spesifik olduğu için atlanır
     # (genel kullanıcının göreceği fiyatı yansıtmaz).
-    discounted_price: float | None = None
     basket_offers = item.get("basket_offers") or []
     if isinstance(basket_offers, list):
         for offer in basket_offers:
@@ -274,7 +294,9 @@ def scrape_category(category: dict) -> list[dict]:
         print(f"   [DEBUG] İlk yanıt {debug_file} dosyasına yazıldı.")
 
     page1_products = parse_products(data, label)
-    if not page1_products:
+    # Check the raw list: a first page of only out-of-stock items is not an
+    # empty category.
+    if not find_product_list(data):
         print(f"   [UYARI] Sayfa 1'de ürün bulunamadı.")
         diagnose_response(data, slug)
         return []
@@ -289,8 +311,15 @@ def scrape_category(category: dict) -> list[dict]:
 
     all_products = list(page1_products)
     seen_pks: set = {p["_pk"] for p in all_products if p["_pk"] is not None}
+    # The site counts out-of-stock items and gift cards too, which are not
+    # kept, so coverage is measured on the raw listing.
+    total_count = (data.get("pagination") or {}).get("total_count")
+    listed = {item.get("pk") for item in find_product_list(data)}
 
     # --- Sayfa 2+ ---
+    if total_pages and total_pages > MAX_PAGES_HARD_CAP:
+        failed_pages.append((slug, f"{total_pages} > {MAX_PAGES_HARD_CAP}"))
+
     if total_pages and total_pages > 1:
         # Bilinen toplam: paralel batch çek
         remaining_pages = list(range(2, min(total_pages, MAX_PAGES_HARD_CAP) + 1))
@@ -303,6 +332,7 @@ def scrape_category(category: dict) -> list[dict]:
                 page_data = future.result()
                 if page_data is None:
                     continue
+                listed |= {item.get("pk") for item in find_product_list(page_data)}
                 new_products = parse_products(page_data, label)
                 added = 0
                 for prod in new_products:
@@ -334,6 +364,7 @@ def scrape_category(category: dict) -> list[dict]:
                 if page_data is None:
                     found_end = True
                     break
+                listed |= {item.get("pk") for item in find_product_list(page_data)}
                 new_products = parse_products(page_data, label)
                 if not new_products:
                     found_end = True
@@ -353,7 +384,12 @@ def scrape_category(category: dict) -> list[dict]:
             page += MAX_WORKERS
             time.sleep(PAGE_DELAY)
 
-    print(f"   -> Toplam {len(all_products)} benzersiz ürün ({label})")
+    print(f"   -> Toplam {len(all_products)} benzersiz ürün ({label}), "
+          f"listede {len(listed)}/{total_count}")
+    # The runner counts any CSV as success, so a partial catalogue must not
+    # produce one.
+    if total_count and len(listed) < MIN_COVERAGE * total_count:
+        failed_pages.append((slug, f"{len(listed)}/{total_count} listed"))
     return all_products
 
 
@@ -382,6 +418,10 @@ def main():
                 seen_pks_global.add(pk)
             all_products.append(p)
 
+    if failed_pages:
+        print(f"\n[FATAL] Alınamayan sayfalar: {failed_pages}; eksik CSV yazılmadı.")
+        sys.exit(1)
+
     if not all_products:
         print("\n[FATAL] Hiç ürün çıkarılamadı.")
         return
@@ -390,7 +430,12 @@ def main():
     df = df[["name", "category", "price", "discounted_price"]]
     df = df.sort_values(["category", "name"]).reset_index(drop=True)
 
-    df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8-sig")
+    # price is the list price; the customer pays the discounted one when there is one.
+    out = pd.DataFrame({
+        "product_name": df["name"],
+        "price": df["discounted_price"].fillna(df["price"]),
+    })
+    out.to_csv(OUTPUT_FILE, index=False, encoding="utf-8-sig")
 
     elapsed = time.time() - t0
     print("\n" + "=" * 70)

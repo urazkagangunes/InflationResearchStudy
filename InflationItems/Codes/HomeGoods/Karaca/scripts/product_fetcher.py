@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import random
 import re
 import time
 from dataclasses import dataclass
@@ -11,7 +12,6 @@ from typing import Optional
 from urllib.parse import parse_qsl, urlencode, urljoin, urlparse, urlunparse
 
 import requests
-from bs4 import BeautifulSoup
 
 try:
     from . import config
@@ -20,10 +20,12 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-TOTAL_PRODUCTS_RE = re.compile(r"window\.totalProduct\s*=\s*(?P<count>\d+)\s*;")
-TOTAL_PAGES_RE = re.compile(r"window\.totalPage\s*=\s*(?P<count>\d+)\s*;")
-PAGE_SIZE_RE = re.compile(r"window\.catalogPaginateLimit\s*=\s*(?P<count>\d+)\s*;")
-VISIBLE_TOTAL_RE = re.compile(r"(?P<count>\d+)\s*Ürün var", re.IGNORECASE)
+# Listing pages are Next.js pages; the server-rendered product search result is
+# the dehydrated React Query cache streamed inside these script calls.
+FLIGHT_CHUNK_RE = re.compile(r'self\.__next_f\.push\(\[1,\s*("(?:[^"\\]|\\.)*")\]\)', re.S)
+QUERIES_MARKER = '"queries":['
+SEARCH_QUERY_KEY = ["product-service", "search"]
+LD_JSON_RE = re.compile(r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>', re.S)
 
 
 @dataclass
@@ -54,125 +56,24 @@ def _normalise_product_url(value: str) -> str:
     return absolute
 
 
-def _is_placeholder_image(value: str) -> bool:
-    lowered = (value or "").strip().lower()
-    return "no-image" in lowered
-
-
 def _as_float(value) -> float:
+    """Convert a number or a Turkish price string such as '1.299,90 TL'."""
     if value in (None, ""):
         return 0.0
     if isinstance(value, (int, float)):
         return round(float(value), 2)
-    text = str(value).strip().replace(".", "").replace(",", ".")
+    text = re.sub(r"[^\d,.]", "", str(value)).replace(".", "").replace(",", ".")
     try:
         return round(float(text), 2)
     except ValueError:
         return 0.0
 
 
-def _extract_json_literal(html: str, variable_name: str) -> Optional[str]:
-    marker = variable_name
-    start_index = html.find(marker)
-    if start_index == -1:
+def _as_int(value) -> Optional[int]:
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
         return None
-
-    equals_index = html.find("=", start_index)
-    if equals_index == -1:
-        return None
-
-    cursor = equals_index + 1
-    while cursor < len(html) and html[cursor].isspace():
-        cursor += 1
-
-    if cursor >= len(html) or html[cursor] not in "[{":
-        return None
-
-    opening = html[cursor]
-    closing = "]" if opening == "[" else "}"
-    depth = 0
-    in_string = False
-    escape = False
-
-    for index in range(cursor, len(html)):
-        char = html[index]
-
-        if in_string:
-            if escape:
-                escape = False
-            elif char == "\\":
-                escape = True
-            elif char == '"':
-                in_string = False
-            continue
-
-        if char == '"':
-            in_string = True
-            continue
-        if char == opening:
-            depth += 1
-            continue
-        if char == closing:
-            depth -= 1
-            if depth == 0:
-                return html[cursor : index + 1]
-
-    return None
-
-
-def _pick_first_image_url(card) -> str:
-    for image in card.select(".swiper-container-product-preview .swiper-slide img"):
-        srcset = (image.get("srcset") or "").strip()
-        if srcset:
-            first = srcset.split(",")[0].strip().split(" ")[0].strip()
-            if first:
-                return first
-
-        src = (image.get("src") or "").strip()
-        if src:
-            if "," in src:
-                src = src.split(",")[0].strip().split(" ")[0].strip()
-            if src:
-                return src
-
-    return ""
-
-
-def parse_card_fallbacks_from_html(html: str) -> dict[str, dict]:
-    """Parse rendered product-card metadata as a fallback for malformed JSON rows."""
-    soup = BeautifulSoup(html, "html.parser")
-    fallbacks: dict[str, dict] = {}
-
-    for card in soup.select(".plpProduct[data-productid]"):
-        product_id = _clean_text(card.get("data-productid") or "")
-        if not product_id:
-            continue
-
-        link = card.select_one("a.plp-url[href]")
-        if link is None:
-            continue
-
-        href = _normalise_product_url(link.get("href") or "")
-        data_url = _normalise_product_url(link.get("data-product-url") or "")
-        image_url = _pick_first_image_url(card)
-        if not image_url:
-            image_url = _clean_text(link.get("data-product-image-url") or "")
-
-        name = _clean_text(
-            link.get("data-productname")
-            or link.get("title")
-            or ""
-        )
-
-        fallbacks[product_id] = {
-            "product_name": name,
-            "Product URL": href or data_url,
-            "Image URL": image_url,
-            "Stock Quantity": _clean_text(link.get("data-stock") or ""),
-            "Color": _clean_text(link.get("data-variant") or ""),
-        }
-
-    return fallbacks
 
 
 def build_page_url(category_url: str, page: int) -> str:
@@ -187,100 +88,123 @@ def build_page_url(category_url: str, page: int) -> str:
     return urlunparse(updated)
 
 
-def extract_total_products(html: str) -> Optional[int]:
-    """Extract the total product count from a category page if present."""
-    match = TOTAL_PRODUCTS_RE.search(html)
-    if match:
-        return int(match.group("count"))
+def _flight_text(html: str) -> str:
+    return "".join(json.loads(match.group(1)) for match in FLIGHT_CHUNK_RE.finditer(html))
 
-    match = VISIBLE_TOTAL_RE.search(html)
-    if match:
-        return int(match.group("count"))
 
+def parse_search_state(html: str) -> Optional[dict]:
+    """Return the product search result embedded in a Karaca listing page."""
+    text = _flight_text(html)
+    decoder = json.JSONDecoder()
+    start = text.find(QUERIES_MARKER)
+    while start != -1:
+        array_start = start + len(QUERIES_MARKER) - 1
+        try:
+            queries, end = decoder.raw_decode(text, array_start)
+        except json.JSONDecodeError:
+            start = text.find(QUERIES_MARKER, array_start)
+            continue
+        for query in queries if isinstance(queries, list) else []:
+            if not isinstance(query, dict):
+                continue
+            key = query.get("queryKey") or []
+            data = (query.get("state") or {}).get("data")
+            if key[:2] == SEARCH_QUERY_KEY and isinstance(data, dict):
+                return data
+        start = text.find(QUERIES_MARKER, end)
     return None
 
 
-def extract_total_pages(html: str) -> Optional[int]:
-    """Extract the total number of pages from a category page if present."""
-    match = TOTAL_PAGES_RE.search(html)
-    if match:
-        return int(match.group("count"))
-    return None
+def parse_listing_names(html: str) -> list[tuple[str, str]]:
+    """Return (url, full name) pairs of the page's schema.org ItemList in listing order."""
+    for match in LD_JSON_RE.finditer(html):
+        try:
+            data = json.loads(match.group(1))
+        except json.JSONDecodeError:
+            continue
+        if isinstance(data, dict) and data.get("@type") == "ItemList":
+            elements = [el for el in data.get("itemListElement") or [] if isinstance(el, dict)]
+            elements.sort(key=lambda el: el.get("position") or 0)
+            items = [element.get("item") or {} for element in elements]
+            return [(item.get("url") or "", item.get("name") or "") for item in items]
+    return []
 
 
-def extract_page_size(html: str) -> Optional[int]:
-    """Extract the server-rendered page size from a category page if present."""
-    match = PAGE_SIZE_RE.search(html)
-    if match:
-        return int(match.group("count"))
-    return None
-
-
-def parse_category_metadata_from_html(html: str) -> dict:
-    """Extract Karaca category metadata from the page's datalayer object."""
-    payload = _extract_json_literal(html, "window.datalayer_category")
-    if payload is None:
-        return {}
-    try:
-        data = json.loads(payload)
-    except json.JSONDecodeError:
-        return {}
-    return data if isinstance(data, dict) else {}
+def _group_root_name(state: dict, source_category: dict) -> str:
+    """Site taxonomy name of the listing's root when that root is the menu group."""
+    taxonomy = state.get("taxonomy") or []
+    if len(taxonomy) > 1 and isinstance(taxonomy[1], dict):
+        if str(taxonomy[1].get("id")) == str(source_category.get("group_id")):
+            return _clean_text(taxonomy[1].get("name") or "")
+    return ""
 
 
 def normalize_product_record(
-    raw: dict,
+    item: dict,
     source_category: dict,
-    category_meta: dict,
-    fallback: Optional[dict] = None,
+    site_root: str = "",
+    full_name: str = "",
 ) -> dict:
-    """Normalise one Karaca catalog payload into CSV-ready fields."""
-    fallback = fallback or {}
-    regular_price = _as_float(raw.get("unit_price") or raw.get("unit_sale_price"))
-    shown_price = _as_float(raw.get("unit_sale_price") or raw.get("unit_price"))
-    if shown_price == 0:
-        shown_price = regular_price
-    if regular_price == 0:
-        regular_price = shown_price
-
+    """Normalise one Karaca listing item into CSV-ready fields."""
+    analytics = item.get("analytics") or {}
+    shown_price = _as_float(analytics.get("currentPrice")) or _as_float(item.get("price"))
+    regular_price = (
+        _as_float(analytics.get("listPrice"))
+        or _as_float(item.get("originalPrice"))
+        or shown_price
+    )
     discount_amount = round(max(0.0, regular_price - shown_price), 2)
     discount_rate = round((discount_amount / regular_price) * 100, 2) if regular_price else 0.0
 
-    stock_value = raw.get("stock")
-    if stock_value in (None, ""):
-        stock_value = fallback.get("Stock Quantity") or 0
-    stock_quantity = int(float(stock_value or 0))
+    stock_quantity = _as_int(analytics.get("stockLevel")) or 0
+    in_stock = item.get("inStock")
+    if in_stock is None:
+        in_stock = stock_quantity > 0
+
+    taxonomy = [
+        _clean_text(name) for name in analytics.get("categories") or [] if _clean_text(name)
+    ]
+    # A product can be listed under several menu groups; the row whose group is
+    # the product's own taxonomy root wins when duplicates are merged.
+    primary = bool(site_root) and bool(taxonomy) and taxonomy[0] == site_root
     main_category = source_category.get("main_category", "")
-    top_category = source_category.get("name", "")
-    category_path = " > ".join(part for part in (main_category, top_category) if part)
-    product_name = _clean_text(raw.get("name") or fallback.get("product_name") or "")
-    product_url = _normalise_product_url(raw.get("url") or "")
-    if not product_url:
-        product_url = _normalise_product_url(fallback.get("Product URL") or "")
-    image_url = _clean_text(raw.get("product_image_url") or "")
-    if not image_url or _is_placeholder_image(image_url):
-        image_url = _clean_text(fallback.get("Image URL") or image_url)
+    if len(taxonomy) > 1:
+        top_category = taxonomy[1]
+    elif taxonomy and not primary:
+        top_category = taxonomy[0]
+    else:
+        top_category = source_category.get("name", "")
+
+    # The product cards drop the brand prefix of the catalog name; the page's
+    # ItemList keeps it, as earlier snapshots did. Approximate it otherwise.
+    name = _clean_text(full_name)
+    if not name:
+        name = _clean_text(item.get("name") or "")
+        brand = _clean_text(item.get("brand") or "")
+        if brand and name and name.split()[0].casefold() != brand.split()[0].casefold():
+            name = f"{brand} {name}"
 
     return {
-        "product_name": product_name,
+        "product_name": name,
         "price": shown_price,
         "Product Original Cost": regular_price,
         "Discount Amount": discount_amount,
         "Discount Rate": discount_rate,
-        "Currency": _clean_text(raw.get("currency") or "TRY"),
-        "Product ID": str(raw.get("id") or ""),
+        "Currency": "TRY",
+        "Product ID": str(item.get("productId") or ""),
         "Stock Quantity": stock_quantity,
-        "In Stock": "Yes" if stock_quantity > 0 else "No",
+        "In Stock": "Yes" if in_stock else "No",
         "Main Category": main_category,
         "Top Category": top_category,
-        "Category ID": str(category_meta.get("categoryid") or ""),
-        "Category Path": category_path,
-        "Source Category": top_category,
+        "Category ID": str(analytics.get("categoryId") or ""),
+        "Category Path": " > ".join(part for part in (main_category, top_category) if part),
+        "Source Category": source_category.get("name", ""),
         "Source Category URL": source_category.get("url", ""),
-        "Product URL": product_url,
-        "Image URL": image_url,
-        "Color": _clean_text(raw.get("color") or fallback.get("Color") or ""),
-        "Size": _clean_text(raw.get("size") or ""),
+        "Product URL": _normalise_product_url(item.get("url") or ""),
+        "Image URL": _clean_text((item.get("image") or {}).get("url") or ""),
+        "Color": _clean_text(analytics.get("variant") or ""),
+        "Size": "",
+        "_primary": primary,
     }
 
 
@@ -292,41 +216,36 @@ def _is_valid_product_record(record: dict) -> bool:
         return False
     if product_url.rstrip("/") == config.BASE_URL:
         return False
+    if record.get("price", 0) <= 0:
+        return False
     return True
 
 
-def parse_product_records_from_html(
-    html: str,
+def parse_product_records(
+    state: dict,
     source_category: dict,
-    category_meta: Optional[dict] = None,
+    listing_names: Optional[list[tuple[str, str]]] = None,
 ) -> list[dict]:
-    """Parse Karaca `window.catalog_products` records from a category page."""
-    payload = _extract_json_literal(html, "window.catalog_products")
-    if payload is None:
-        return []
-
-    raw_records = json.loads(payload)
-    if not isinstance(raw_records, list):
-        return []
-
-    if category_meta is None:
-        category_meta = parse_category_metadata_from_html(html)
-    card_fallbacks = parse_card_fallbacks_from_html(html)
-
+    """Normalise the items of one embedded search result."""
+    site_root = _group_root_name(state, source_category)
+    items = state.get("items") or []
+    names = listing_names if listing_names and len(listing_names) == len(items) else []
     records: list[dict] = []
-    for raw in raw_records:
-        if not isinstance(raw, dict):
+    for index, item in enumerate(items):
+        if not isinstance(item, dict):
             continue
-        product_id = str(raw.get("id") or "").strip()
-        fallback = card_fallbacks.get(product_id, {})
-        record = normalize_product_record(raw, source_category, category_meta, fallback)
+        full_name = ""
+        if names and names[index][0] == item.get("url"):
+            full_name = names[index][1]
+        record = normalize_product_record(item, source_category, site_root, full_name)
         if not _is_valid_product_record(record):
             logger.warning(
-                "Dropping malformed Karaca product row in '%s': id=%s name=%r url=%r",
+                "Dropping malformed Karaca product row in '%s': id=%s name=%r url=%r price=%r",
                 source_category.get("name", ""),
                 record.get("Product ID", ""),
                 record.get("product_name", ""),
                 record.get("Product URL", ""),
+                record.get("price"),
             )
             continue
         records.append(record)
@@ -348,6 +267,21 @@ def _fetch_page_html(session: requests.Session, url: str) -> str:
     raise RuntimeError(f"Karaca category page could not be fetched: {url} ({last_error})")
 
 
+def _fetch_listing(session: requests.Session, url: str) -> tuple[Optional[dict], str]:
+    # The page is occasionally rendered without its product listing; a later
+    # request for the same URL returns it again.
+    html = ""
+    for attempt in range(1, config.MAX_RETRIES + 1):
+        html = _fetch_page_html(session, url)
+        state = parse_search_state(html)
+        if state is not None:
+            return state, html
+        if attempt < config.MAX_RETRIES:
+            logger.info("No product listing in %s (attempt %d); retrying.", url, attempt)
+            time.sleep(config.RETRY_BACKOFF * attempt)
+    return None, html
+
+
 def fetch_products_for_category(
     category: dict,
     session: Optional[requests.Session] = None,
@@ -359,33 +293,47 @@ def fetch_products_for_category(
         session = _make_session()
 
     all_products: list[dict] = []
+    seen_ids: set[str] = set()
     seen_page_signatures: set[tuple[str, ...]] = set()
     total_products: Optional[int] = None
     total_pages: Optional[int] = None
-    page_size: Optional[int] = None
     page = 1
     complete = True
 
     while True:
         if page_limit and page > page_limit:
-            if total_products is None or len(all_products) < total_products:
+            if total_products is None or len(seen_ids) < total_products:
                 complete = False
             break
         if total_pages is not None and page > total_pages:
             break
+        if page > 1 and delay:
+            time.sleep(random.uniform(delay, delay * 3))
 
-        page_url = build_page_url(category["url"], page)
-        html = _fetch_page_html(session, page_url)
+        state, html = _fetch_listing(session, build_page_url(category["url"], page))
+        if state is None:
+            if page == 1:
+                logger.warning("Category '%s' has no Karaca product listing.", category["name"])
+                break
+            logger.warning(
+                "Category '%s' page %d has no product listing after %d attempts; skipping it.",
+                category["name"],
+                page,
+                config.MAX_RETRIES,
+            )
+            complete = False
+            if total_pages is None:
+                break
+            page += 1
+            continue
 
+        pagination = state.get("pagination") or {}
         if total_products is None:
-            total_products = extract_total_products(html)
+            total_products = _as_int(pagination.get("totalResults"))
         if total_pages is None:
-            total_pages = extract_total_pages(html)
-        if page_size is None:
-            page_size = extract_page_size(html)
+            total_pages = _as_int(pagination.get("totalPages"))
 
-        category_meta = parse_category_metadata_from_html(html)
-        page_products = parse_product_records_from_html(html, category, category_meta)
+        page_products = parse_product_records(state, category, parse_listing_names(html))
         if not page_products:
             if page == 1:
                 logger.warning(
@@ -406,23 +354,46 @@ def fetch_products_for_category(
         seen_page_signatures.add(signature)
 
         all_products.extend(page_products)
+        seen_ids.update(signature)
         logger.info(
-            "  %s page %d -> %d products (running total: %d/%s)",
+            "  %s page %d/%s -> %d products (unique so far: %d/%s)",
             category["name"],
             page,
+            total_pages if total_pages is not None else "?",
             len(page_products),
-            len(all_products),
+            len(seen_ids),
             total_products if total_products is not None else "?",
         )
-
-        if total_products is not None and len(all_products) >= total_products:
-            break
-        if total_pages is None and page_size is not None and len(page_products) < page_size:
-            break
-
         page += 1
-        if delay:
-            time.sleep(delay)
+
+    if (complete and not page_limit and total_pages and total_products is not None
+            and len(seen_ids) < total_products):
+        # The default order shifts while paging (2026-09-29: page 3 of a
+        # 123-product category repeated 10 products and skipped 10 others);
+        # one more pass picks up what the first one missed.
+        logger.info(
+            "Category '%s' is %d short of the site's count; paging it once more.",
+            category["name"],
+            total_products - len(seen_ids),
+        )
+        for page in range(1, total_pages + 1):
+            if delay:
+                time.sleep(random.uniform(delay, delay * 3))
+            state, html = _fetch_listing(session, build_page_url(category["url"], page))
+            if state is None:
+                continue
+            for item in parse_product_records(state, category, parse_listing_names(html)):
+                if item["Product ID"] not in seen_ids:
+                    seen_ids.add(item["Product ID"])
+                    all_products.append(item)
+
+    if complete and total_products is not None and len(seen_ids) < total_products:
+        logger.warning(
+            "Category '%s' collected %d unique products but the site reported %d.",
+            category["name"],
+            len(seen_ids),
+            total_products,
+        )
 
     return CategoryFetchResult(
         products=all_products,

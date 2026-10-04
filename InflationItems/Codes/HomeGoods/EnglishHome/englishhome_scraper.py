@@ -1,22 +1,27 @@
 """
 englishhome_scraper.py — English Home Günlük Ürün Fiyat Scraper'ı
 
-Selenium + headless Chrome, paralel worker, görseller kapalı.
-Ticimax altyapısı — sayfa bazlı pagination: ?sayfa=N
+Ticimax altyapısı. Kategori sayfasındaki productsModel'den kategori/etiket
+id'si okunur; ürünler sitenin kendi ürün listesi API'sinden
+(/api/product/GetProductList) sabit sıralamayla sayfa sayfa çekilir.
+Tarayıcı gerekmez.
 
 Gereksinimler:
-    pip install selenium webdriver-manager beautifulsoup4 lxml
+    pip install requests
 
 Kullanım:
     python englishhome_scraper.py
 
 Çıktı:
-    englishhome_YYYY-MM-DD.csv  →  item_name | price | category | date
+    englishhome_YYYY-MM-DD.csv  →  product_name | price
 """
 
 import csv
+import json
 import logging
+import math
 import os
+import random
 import re
 import sys
 import time
@@ -31,18 +36,12 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 OUT_DIR   = REPO_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "EnglishHome"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
+import requests
 
 # ── Konfigürasyon ─────────────────────────────────────────────────────────────
 
 BASE_URL = "https://www.englishhome.com"
+LIST_API = f"{BASE_URL}/api/product/GetProductList"
 
 # Hocanın talimatı: Home, Home Decoration, Living kategorileri
 # Kozmetik dahil — farklı COICOP kodu ile mapping'lenir
@@ -59,11 +58,48 @@ CATEGORIES = [
     {"name": "Hediye",            "slug": "yeni-ev-hediyesi"},
 ]
 
-PAGE_LOAD_TIMEOUT = 30
-PRODUCT_WAIT      = 15
-POST_LOAD_SLEEP   = 1.5
-PAGE_DELAY        = 1.0
-DEFAULT_WORKERS   = 3
+REQUEST_TIMEOUT = 40
+MAX_RETRIES     = 4
+RETRY_STATUS    = {429, 500, 502, 503, 504}
+DEFAULT_WORKERS = 3
+MIN_COVERAGE    = 0.98
+
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "tr-TR,tr;q=0.9",
+}
+
+# The site's default order (KATEGORISIRA) has ties, so page contents shift
+# between requests: on 2026-09-28 paging c-sofra that way skipped 5 % of it.
+# uk.ID (the site's "Yeni Gelenler" order) is unique, hence stable.
+ORDER_BY        = "uk.ID"
+ORDER_DIRECTION = "DESC"
+
+# Same filter the site's own product list sends, so totalProductCount equals
+# the count shown on the category page.
+BASE_FILTER = {
+    "CategoryIdList": [], "BrandIdList": [], "SupplierIdList": [],
+    "TagIdList": [], "TagId": -1, "FilterObject": [], "MinStockAmount": -1,
+    "IsShowcaseProduct": -1, "IsOpportunityProduct": -1, "FastShipping": -1,
+    "IsNewProduct": -1, "IsBestSeller": -1, "IsDiscountedProduct": -1,
+    "IsShippingFree": -1, "IsProductCombine": -1, "MinPrice": 0,
+    "MaxPrice": 0, "Point": -1, "SearchKeyword": "", "StrProductIds": "",
+    "IsSimilarProduct": False, "RelatedProductId": 0, "ProductKeyword": "",
+    "PageContentId": 0, "StrProductIDNotEqual": "", "IsVariantList": -1,
+    "IsVideoProduct": -1, "ShowBlokVideo": -1,
+    "VideoSetting": {"ShowProductVideo": -1, "AutoPlayVideo": -1},
+    "ShowList": 1, "VisibleImageCount": 0, "ShowCounterProduct": -1,
+    "ImageSliderActive": True, "ProductListPageId": 0,
+    "ShowGiftHintActive": False, "IsInStock": False, "IsPriceRequest": True,
+    "IsProductListPage": True, "NonStockShowEnd": 1,
+}
+
+# productsModel.pageType → filter field holding the page's id
+PAGE_TYPE_FILTER = {1: "CategoryIdList", 2: "BrandIdList", 5: "TagIdList"}
 
 # Fiyat regex: "₺499,99" veya "₺1.199,99"  veya "499,99" veya "1.199,99"
 _PRICE_RE = re.compile(r"[₺]?([\d]{1,3}(?:\.[\d]{3})*,\d{2})")
@@ -88,45 +124,30 @@ def _check_existing(csv_path: str):
         )
         sys.exit(0)
 
-# ── Chrome Driver ─────────────────────────────────────────────────────────────
+# ── HTTP ──────────────────────────────────────────────────────────────────────
 
-def create_driver() -> webdriver.Chrome:
-    options = Options()
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option("useAutomationExtension", False)
-    # Görselleri devre dışı bırak — mobil veri tasarrufu + hızlı yükleme
-    options.add_argument("--blink-settings=imagesEnabled=false")
-    options.add_experimental_option("prefs", {
-        "profile.managed_default_content_settings.images": 2,
-    })
-    options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    )
-    options.add_argument("--window-size=1920,1080")
-    options.add_argument("--lang=tr-TR")
-
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
-    driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
-    return driver
+def _get(session: requests.Session, url: str, **kwargs) -> requests.Response:
+    """GET with a 1-3 s polite delay; retries 429/5xx and network errors."""
+    for attempt in range(1, MAX_RETRIES + 1):
+        time.sleep(random.uniform(1, 3))
+        try:
+            resp = session.get(url, timeout=REQUEST_TIMEOUT, **kwargs)
+        except requests.RequestException as exc:
+            reason = type(exc).__name__
+        else:
+            if resp.status_code not in RETRY_STATUS:
+                resp.raise_for_status()
+                return resp
+            reason = f"HTTP {resp.status_code}"
+        logger.warning(f"  {reason}: {url} (deneme {attempt}/{MAX_RETRIES})")
+        if attempt < MAX_RETRIES:
+            time.sleep(5 * 2 ** (attempt - 1))
+    raise RuntimeError(f"{url}: {MAX_RETRIES} denemede alınamadı")
 
 # ── Fiyat parse ───────────────────────────────────────────────────────────────
 
 def parse_price(text: str) -> float | None:
-    """'₺1.199,99' veya '1.199,99' → 1199.99 float. Bulamazsa None.
-
-    İLK eşleşmeyi alır. Ticimax kart metninde fiyatlar şu sırada listelenir:
-    önce indirimli (satış) fiyat, sonra üstü çizili 'regular' fiyat. Bu yüzden
-    SON token DEĞİL ilk token = gerçek satış fiyatıdır. (Eskiden son token
-    alınıyordu; indirim rozeti olan üründe regular/şişirilmiş fiyatı kaydedip
-    ×N hatalı sıçramalara yol açıyordu.)
-    """
+    """'₺1.199,99' veya '1.199,99' → 1199.99 float. Bulamazsa None."""
     matches = _PRICE_RE.findall(text)
     if not matches:
         return None
@@ -137,189 +158,124 @@ def parse_price(text: str) -> float | None:
         return None
 
 
-# Ticimax kartında MÜŞTERİNİN ÖDEDİĞİ fiyatı taşıyan elementler (öncelik sırası).
-# English Home kartı 3 katmanlı fiyat gösterir:
-#   .sptPrice / .KatSepetFiyat        = "sepette ek indirim" SEPET fiyatı (varsa EN DÜŞÜK = gerçek ödenen)
-#   .discountPriceSpan / .discountPrice = indirimli satış fiyatı
-#   .regularPriceSpan  / .regularPrice  = üstü çizili MSRP (asla istemeyiz)
-# Gerçek satış fiyatı = sepet fiyatı (varsa), yoksa indirimli fiyat. regularPrice
-# yalnızca hiçbiri yoksa son çare. (discountPriceSpan tek başına bazen şişirilmiş
-# MSRP'ye eşit oluyor; o yüzden önce sptPrice okunmalı.)
-_PRICE_SELECTORS = (
-    "span.sptPrice", "div.KatSepetFiyat",
-    "span.discountPriceSpan", "div.discountPrice",
-    "span.regularPriceSpan", "div.regularPrice",
-)
+def product_price(item: dict) -> float | None:
+    """Müşterinin ödediği fiyat (KDV dahil).
 
-
-def extract_card_price(card) -> float | None:
-    """Ürün kartından müşterinin ÖDEDİĞİ (sepet) fiyatı DOM elementinden çeker.
-
-    Önce 'sepette ek indirim' (sptPrice) fiyatını, yoksa indirimli satış fiyatını
-    alır. Kartın tüm metnine regex uygulamayız; böylece üstü çizili MSRP veya
-    kampanya yüzdesi gibi fazladan token'lar yanlışlıkla alınmaz. Hiçbir fiyat
-    elementi yoksa son çare olarak kart metnindeki İLK fiyatı kullanır.
+    productCartPriceStr = sepet fiyatı ("sepette ek indirim" varsa en düşük),
+    productPriceOriginalStr = kartta görünen indirimli fiyat (discountPriceSpan).
+    productSellPriceStr üstü çizili liste fiyatıdır, kullanılmaz.
     """
-    for sel in _PRICE_SELECTORS:
-        el = card.select_one(sel)
-        if el:
-            price = parse_price(el.get_text(" ", strip=True))
-            if price:
-                return price
-    return parse_price(card.get_text(separator=" ", strip=True))
+    for key in ("productCartPriceStr", "productPriceOriginalStr"):
+        price = parse_price(item.get(key) or "")
+        if price:
+            return price
+    return None
 
-# ── Sayfa parse ───────────────────────────────────────────────────────────────
 
-def parse_page(html: str, category_name: str, date_str: str) -> list[dict]:
-    """
-    Ticimax HTML'den ürünleri çıkarır.
-
-    Ürün kartı yapısı:
-        div.productItem[data-id]
-          └─ a.detailLink[title]  → ürün adı
-          └─ div.productDetail[data-category] → kategori
-          └─ fiyat: kart içindeki ₺XXX,XX pattern
-    """
-    soup = BeautifulSoup(html, "lxml")
-    products = []
-    seen_names = set()
-
-    cards = soup.select("div.productItem")
-
-    for card in cards:
-        # Ürün adı: a.detailLink[title] veya a.detailUrl[title]
-        link = card.select_one("a.detailLink, a.detailUrl")
-        if not link:
-            continue
-
-        name = link.get("title", "").strip()
-        if not name or name in seen_names:
-            continue
-
-        # Fiyat: kart içindeki GÖRÜNEN satış fiyatı elementinden alınır
-        # (son token = üstü çizili regular fiyat olduğu için kullanılmaz).
-        price = extract_card_price(card)
-
-        if price is None:
-            continue
-
-        # Kategori: scraper'ın ana kategori adını kullan (TUIK mapping tutarlılığı için)
-        # data-category alt kategori döner (Peçete, Kupa vs.) — mapping'i bozar
-
-        seen_names.add(name)
-        products.append({
-            "product_name": name,
-            "price":        price,
-        })
-
-    return products
-
-# ── Toplam sayfa sayısını bul ─────────────────────────────────────────────────
-
-def get_total_pages(html: str) -> int:
-    """Pagination'dan toplam sayfa sayısını çıkarır."""
-    soup = BeautifulSoup(html, "lxml")
-
-    # Sayfa linkleri: ?sayfa=N
-    max_page = 1
-    page_links = soup.select("a[href*='sayfa=']")
-    for link in page_links:
-        href = link.get("href", "")
-        match = re.search(r"sayfa=(\d+)", href)
-        if match:
-            pg = int(match.group(1))
-            if pg > max_page:
-                max_page = pg
-
-    # Fallback: sayfa numarası butonlarından
-    if max_page == 1:
-        for el in soup.select("ul.pagination li a, .pager a, nav a"):
-            text = el.get_text(strip=True)
-            if text.isdigit():
-                pg = int(text)
-                if pg > max_page:
-                    max_page = pg
-
-    return max_page
+def product_name(item: dict) -> str:
+    # The card's title attribute, used as product_name before, drops quotes;
+    # keep that form so names still match earlier files.
+    return re.sub(r"[\"']", "", item.get("name") or "").strip()
 
 # ── Kategori scraper ──────────────────────────────────────────────────────────
 
-def scrape_category(driver: webdriver.Chrome, category: dict, date_str: str) -> list[dict]:
-    """Bir kategorinin tüm sayfalarını ?sayfa=N ile dolaşır."""
-    cat_name = category["name"]
-    cat_slug = category["slug"]
-    cat_url = f"{BASE_URL}/{cat_slug}"
+def get_page_model(session: requests.Session, slug: str) -> dict:
+    """Kategori/etiket sayfasındaki productsModel (pageType, targetId)."""
+    html = _get(session, f"{BASE_URL}/{slug}").text
+    start = html.index("{", html.index("var productsModel"))
+    model, _ = json.JSONDecoder().raw_decode(html, start)
+    return model
 
-    all_products = []
-    seen_names = set()
+
+def fetch_page(session: requests.Session, model: dict, page: int) -> dict:
+    field = PAGE_TYPE_FILTER[model["pageType"]]
+    list_filter = dict(BASE_FILTER, **{field: [model["targetId"]]})
+    paging = {
+        "PageItemCount": 0,
+        "PageNumber": page,
+        "OrderBy": ORDER_BY,
+        "OrderDirection": ORDER_DIRECTION,
+    }
+    params = {
+        "c": "trtry0000",
+        "FilterJson": json.dumps(list_filter, separators=(",", ":")),
+        "PagingJson": json.dumps(paging, separators=(",", ":")),
+        "CreateFilter": "false",
+        "TransitionOrder": 0,
+        "PageType": model["pageType"],
+        "PageId": model["targetId"],
+    }
+    headers = {"X-Requested-With": "XMLHttpRequest", "Referer": f"{BASE_URL}/"}
+    data = _get(session, LIST_API, params=params, headers=headers).json()
+    if data.get("isError"):
+        raise RuntimeError(f"API hatası: {data.get('errorMessage')}")
+    return data
+
+
+def scrape_category(category: dict) -> list[dict]:
+    """Bir kategorinin tüm sayfalarını API'den çeker."""
+    cat_name = category["name"]
+    session = requests.Session()
+    session.headers.update(HEADERS)
 
     logger.info(f"▶ Kategori: {cat_name}")
+    model = get_page_model(session, category["slug"])
 
-    # İlk sayfayı yükle
-    try:
-        driver.get(cat_url)
-        WebDriverWait(driver, PRODUCT_WAIT).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, "div.productItem")
-            )
-        )
-        time.sleep(POST_LOAD_SLEEP)
-    except Exception:
-        logger.warning(f"  {cat_name}: ilk sayfa yüklenemedi, atlanıyor.")
-        return []
+    all_products = []
+    seen_ids = set()
+    page, total_pages, total_items = 1, 1, None
 
-    # Toplam sayfa sayısını bul
-    total_pages = get_total_pages(driver.page_source)
-    logger.info(f"  Toplam sayfa: {total_pages}")
+    failed_pages = []
 
-    # Tüm sayfaları dolaş
-    for page in range(1, total_pages + 1):
-        if page > 1:
-            url = f"{cat_url}?sayfa={page}"
-            try:
-                driver.get(url)
-                WebDriverWait(driver, PRODUCT_WAIT).until(
-                    EC.presence_of_element_located(
-                        (By.CSS_SELECTOR, "div.productItem")
-                    )
-                )
-                time.sleep(POST_LOAD_SLEEP)
-            except Exception:
-                logger.warning(f"  Sayfa {page}: yüklenemedi, atlanıyor.")
+    while page <= total_pages:
+        try:
+            data = fetch_page(session, model, page)
+        except Exception as exc:
+            logger.error(f"  {cat_name} sayfa {page}: alınamadı ({exc})")
+            failed_pages.append(page)
+            page += 1
+            continue
+
+        total_items = data.get("totalProductCount") or 0
+        per_page = data.get("productCountPerPage") or 1
+        total_pages = math.ceil(total_items / per_page)
+        items = data.get("products") or []
+
+        for item in items:
+            product_id = str(item.get("productId") or "")
+            name = product_name(item)
+            price = product_price(item)
+            if not product_id or not name or price is None:
                 continue
-
-        page_products = parse_page(driver.page_source, cat_name, date_str)
-
-        # Cross-page dedup
-        new_products = []
-        for p in page_products:
-            if p["product_name"] not in seen_names:
-                seen_names.add(p["product_name"])
-                new_products.append(p)
-
-        all_products.extend(new_products)
+            if product_id in seen_ids:
+                continue
+            seen_ids.add(product_id)
+            all_products.append({
+                "product_name": name,
+                "price":        price,
+                "product_id":   product_id,
+            })
 
         if page % 10 == 0 or page == total_pages:
             logger.info(f"  Sayfa {page}/{total_pages}: toplam {len(all_products)} ürün")
 
-        if not page_products:
-            logger.info(f"  Sayfa {page}: ürün bulunamadı → pagination bitti.")
+        if not items:
             break
+        page += 1
 
-        time.sleep(PAGE_DELAY)
+    problems = []
+    if failed_pages:
+        problems.append(f"alınamayan sayfalar: {failed_pages}")
+    if total_items and len(all_products) < MIN_COVERAGE * total_items:
+        problems.append(
+            f"kapsama {len(all_products)}/{total_items} "
+            f"({len(all_products) / total_items:.1%})"
+        )
+    if problems:
+        raise RuntimeError(f"{cat_name} eksik: " + "; ".join(problems))
 
-    logger.info(f"  ✓ {cat_name}: {len(all_products)} ürün\n")
+    logger.info(f"  ✓ {cat_name}: {len(all_products)}/{total_items} ürün\n")
     return all_products
-
-# ── Worker ─────────────────────────────────────────────────────────────────────
-
-def worker(category: dict, date_str: str) -> list[dict]:
-    """Her thread kendi Chrome driver'ını açar ve kapatır."""
-    driver = create_driver()
-    try:
-        return scrape_category(driver, category, date_str)
-    finally:
-        driver.quit()
 
 # ── Plausibility (data-error) filtresi ────────────────────────────────────────
 # English Home'un kendi sitesi zaman zaman bazı ürünlerde hatalı/şişik fiyat
@@ -401,10 +357,11 @@ def main():
     fieldnames = ["product_name", "price"]
     all_products = []
     global_seen = set()
+    failed = []
 
     with ThreadPoolExecutor(max_workers=DEFAULT_WORKERS) as executor:
         future_to_cat = {
-            executor.submit(worker, cat, today_str): cat
+            executor.submit(scrape_category, cat): cat
             for cat in CATEGORIES
         }
         for future in as_completed(future_to_cat):
@@ -414,7 +371,7 @@ def main():
 
                 new_count = 0
                 for p in cat_products:
-                    key = p["product_name"]
+                    key = p["product_id"]
                     if key not in global_seen:
                         global_seen.add(key)
                         all_products.append(p)
@@ -433,16 +390,25 @@ def main():
 
             except Exception as exc:
                 logger.error(f"  [{cat['name']}] Hata: {exc}")
+                failed.append(cat["name"])
+
+    # The runner counts any CSV with 2+ lines as success, so a partial scrape
+    # must not leave one behind.
+    if failed:
+        logger.error(
+            f"  EKSİK VERİ: {', '.join(failed)} tamamlanamadı; CSV yazılmadı."
+        )
+        sys.exit(1)
 
     # CSV kaydet
-    all_products.sort(key=lambda p: p["product_name"])
+    all_products.sort(key=lambda p: (p["product_name"], p["product_id"]))
 
     # Site kaynaklı hatalı/şişik fiyatları yazmadan önce ele (düne göre mantıksız
     # sıçrayanlar atlanır → CSV temiz kalır).
     all_products = _apply_plausibility_filter(all_products)
 
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(all_products)
 

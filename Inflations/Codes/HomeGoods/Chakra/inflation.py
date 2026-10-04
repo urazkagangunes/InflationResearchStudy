@@ -1,4 +1,5 @@
 import logging
+import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -7,48 +8,81 @@ import pandas as pd
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 _THIS_DIR     = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent       # inflationstudymirror
+_PROJECT_ROOT = _THIS_DIR.parent.parent.parent.parent  # repo root
 
 sys.path.insert(0, str(_THIS_DIR))
 from tuik_config import (  # noqa: E402
     normalised_weights,
 )
 
-# Root data directory for HomeGoods
-DATA_DIR = _PROJECT_ROOT / "Datas" / "HomeGoods"
+# Daily CSVs written by the Chakra scraper
+DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "Chakra"
 
 logger = logging.getLogger(__name__)
 
 # ── Output directory ──────────────────────────────────────────────────────────
-INFLATION_OUT_DIR = _PROJECT_ROOT / "Inflations" / "Datas" / "HomeGoods"
+INFLATION_OUT_DIR = (
+    _PROJECT_ROOT / "Inflations" / "Datas" / "HomeGoods" / "Chakra"
+)
+
+# Files without an id column can only be matched on the product name.
+NAME_KEY = "_name_key"
+_TR_MAP = str.maketrans("ıİğĞşŞçÇöÖüÜ", "iIgGsScCoOuU")
+
+
+def _normalise_name(name):
+    """Normalise a product name the same way turkey_inflation.py does."""
+    if not isinstance(name, str):
+        return ""
+    return re.sub(r"\s+", " ", name.translate(_TR_MAP).lower().strip())
 
 
 def _load_csv(date_str: str):
-    """Load Chakra daily CSV by replacing hyphens with underscores."""
-    date_underscore = date_str.replace("-", "_")
-    fpath = DATA_DIR / f"chakra_all_categories_{date_underscore}.csv"
-    if not fpath.exists():
-        logger.info(f"Data file not found: {fpath}")
+    """Load Chakra daily CSV; older file names use underscores in the date."""
+    for date_token in (date_str, date_str.replace("-", "_")):
+        fpath = DATA_DIR / f"chakra_all_categories_{date_token}.csv"
+        if fpath.exists():
+            break
+    else:
+        logger.info(f"Data file not found for {date_str} in {DATA_DIR}")
         return None
     try:
         df = pd.read_csv(fpath, encoding="utf-8-sig")
         df["price"] = pd.to_numeric(df["price"], errors="coerce")
+        name_col = "product_name" if "product_name" in df.columns else "name"
+        df[NAME_KEY] = df[name_col].map(_normalise_name)
         return df
     except Exception as e:
         logger.error(f"Failed to read {fpath}: {e}")
         return None
 
 
-def _compute_metrics(df_current: pd.DataFrame, df_past: pd.DataFrame):
+def _match_key(df_a: pd.DataFrame, df_b: pd.DataFrame):
+    """Match on id when both files carry it, otherwise on the product name."""
+    if all("id" in df and df["id"].notna().any() for df in (df_a, df_b)):
+        return "id"
+    return NAME_KEY
+
+
+def _average_duplicates(df: pd.DataFrame, key: str):
+    """Keep one row per key with its mean price, like turkey_inflation.py."""
+    df = df[df[key].notna() & (df[key] != "")]
+    mean_price = df.groupby(key)["price"].transform("mean")
+    return df.assign(price=mean_price).drop_duplicates(subset=[key])
+
+
+def _compute_metrics(
+    df_current: pd.DataFrame, df_past: pd.DataFrame, key: str
+):
     """Compute inflation metrics using 'price' column and TUIK group 05."""
-    df_current = df_current.copy()
+    df_current = _average_duplicates(df_current, key)
     df_current["tuik_category"] = "05"  # Default all to HomeGoods group 05
 
     past_subset = (
-        df_past[["id", "price"]]
+        _average_duplicates(df_past, key)[[key, "price"]]
         .rename(columns={"price": "past_price"})
     )
-    merged = df_current.merge(past_subset, on="id", how="left")
+    merged = df_current.merge(past_subset, on=key, how="left")
 
     # 1) Basic inflation per product
     merged["basic_inflation"] = (
@@ -129,13 +163,16 @@ def calculate_inflation(target_date=None, compare_date=None):
             summary_row[f"tuik_weighted_{label}"] = None
             continue
 
-        merged, basic_idx, avg_inf, tuik_w = _compute_metrics(df_today, df_past)
+        key = _match_key(df_today, df_past)
+        merged, basic_idx, avg_inf, tuik_w = _compute_metrics(
+            df_today, df_past, key
+        )
 
         detail_base = detail_base.merge(
-            merged[["id", "basic_inflation"]].rename(
+            merged[[key, "basic_inflation"]].rename(
                 columns={"basic_inflation": f"basic_inflation_{label}"}
             ),
-            on="id",
+            on=key,
             how="left",
         )
 
@@ -144,7 +181,9 @@ def calculate_inflation(target_date=None, compare_date=None):
 
     # ── Save detailed data ───────────────────────────────────────────────────
     detail_file = INFLATION_OUT_DIR / f"chakra_inflation_{today_str}.csv"
-    detail_base.to_csv(detail_file, index=False, encoding="utf-8")
+    detail_base.drop(columns=[NAME_KEY]).to_csv(
+        detail_file, index=False, encoding="utf-8"
+    )
     logger.info(f"Saved detailed inflation data to: {detail_file}")
 
     # ── Save / update summary ────────────────────────────────────────────────

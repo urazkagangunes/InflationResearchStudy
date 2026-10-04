@@ -9,34 +9,15 @@ import pandas as pd
 # 1. PATH SETTINGS
 # ============================================================
 
-project_root = os.path.dirname(os.path.abspath(__file__))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(script_dir, "..", "..", "..", ".."))
 
-possible_input_dirs = [
-    os.path.join(project_root, "lcwhome_isim_fiyat_cleaned"),
-    os.path.join(project_root, "LCWHome - datas updated"),
-    os.path.join(project_root, "LCW Home - datas updated"),
-    os.path.join(project_root, "lcwhome"),
-    os.path.join(project_root, "LCWHome"),
-]
+input_dir = os.path.join(project_root, "InflationItems", "Datas", "HomeGoods", "LCW Home")
 
-input_dir = None
+if not os.path.exists(input_dir):
+    raise FileNotFoundError(f"LCW Home input folder bulunamadı: {input_dir}")
 
-for candidate in possible_input_dirs:
-    if os.path.exists(candidate):
-        input_dir = candidate
-        break
-
-if input_dir is None:
-    raise FileNotFoundError(
-        "LCW Home input folder bulunamadı. Proje klasörüne şu isimlerden biriyle koy:\n"
-        "- lcwhome_isim_fiyat_cleaned\n"
-        "- LCWHome - datas updated\n"
-        "- LCW Home - datas updated\n"
-        "- lcwhome\n"
-        "- LCWHome"
-    )
-
-output_dir = os.path.join(project_root, "outputs_lcwhome")
+output_dir = os.path.join(project_root, "Inflations", "Datas", "HomeGoods", "Lcw Home")
 
 summary_output = os.path.join(output_dir, "lcwhome_inflation_summary.csv")
 diagnostics_output = os.path.join(output_dir, "lcwhome_diagnostics.csv")
@@ -72,7 +53,11 @@ def read_csv_safely(file_path):
 
     for encoding in encodings:
         try:
-            return pd.read_csv(file_path, sep=";", encoding=encoding)
+            with open(file_path, encoding=encoding) as f:
+                header = f.readline()
+            # Old cleaned exports use ";", the repo files use ","
+            sep = ";" if header.count(";") > header.count(",") else ","
+            return pd.read_csv(file_path, sep=sep, encoding=encoding)
         except Exception as e:
             last_error = e
 
@@ -260,6 +245,7 @@ for file_path in sorted(all_csv_files):
         df = read_csv_safely(file_path)
 
         df.columns = [str(col).strip().lower() for col in df.columns]
+        df = df.rename(columns={"product_name": "isim", "price": "fiyat"})
 
         if "isim" not in df.columns or "fiyat" not in df.columns:
             skipped_rows.append({

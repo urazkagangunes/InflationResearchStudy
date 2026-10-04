@@ -61,9 +61,10 @@ DEFAULT_HEADERS = {
 # Curated list of Vivense's main navigation buckets.  Each entry maps
 # directly to the canonical ``.html`` slug used by the public site.
 #
-# Brand / promo buckets such as ``vivense-collection`` and
-# ``home-cosmetics`` are deliberately excluded — they are cross-cuts of
-# the catalogue and would only duplicate products.
+# Brand / promo buckets such as ``vivense-collection`` are deliberately
+# excluded: they are cross-cuts of the catalogue and would only duplicate
+# products.  Every product-listing entry of the header menu is included;
+# overlaps between them are removed by the final dedup on ``id``.
 TOP_LEVEL_CATEGORIES = [
     {"id": "oturma-odasi-mobilyalari",     "name": "Oturma Odası",
      "url": f"{BASE_URL}/oturma-odasi-mobilyalari.html"},
@@ -71,8 +72,9 @@ TOP_LEVEL_CATEGORIES = [
      "url": f"{BASE_URL}/yatak-odasi.html"},
     {"id": "yemek-odasi-mutfak",           "name": "Yemek Odası ve Mutfak",
      "url": f"{BASE_URL}/yemek-odasi-mutfak.html"},
-    {"id": "bebek-cocuk-genc-odasi-takimi","name": "Bebek, Çocuk ve Genç Odası",
-     "url": f"{BASE_URL}/bebek-cocuk-genc-odasi-takimi.html"},
+    # The "-takimi" page lists only room sets (64 of 760 products).
+    {"id": "bebek-cocuk-ve-genc-odalari",  "name": "Bebek, Çocuk ve Genç Odası",
+     "url": f"{BASE_URL}/bebek-cocuk-ve-genc-odalari.html"},
     {"id": "calisma-odasi",                "name": "Çalışma Odası",
      "url": f"{BASE_URL}/calisma-odasi.html"},
     {"id": "bahce-mobilyalari",            "name": "Bahçe Mobilyaları",
@@ -95,7 +97,29 @@ TOP_LEVEL_CATEGORIES = [
      "url": f"{BASE_URL}/uyku-grubu-1764057275.html"},
     {"id": "yapi-market",                  "name": "Yapı Market",
      "url": f"{BASE_URL}/yapi-market.html"},
+    {"id": "home-cosmetics",               "name": "Ev Kozmetiği",
+     "url": f"{BASE_URL}/home-cosmetics.html"},
+    {"id": "evcil-hayvan-urunleri",        "name": "Evcil Hayvan Ürünleri",
+     "url": f"{BASE_URL}/evcil-hayvan-urunleri.html"},
+    {"id": "ev-bitkileri",                 "name": "Ev Bitkileri",
+     "url": f"{BASE_URL}/ev-bitkileri.html"},
+    {"id": "ev-gerecleri",                 "name": "Ev Gereçleri",
+     "url": f"{BASE_URL}/ev-gerecleri.html"},
 ]
+
+# Columns of the daily CSV.
+OUTPUT_COLUMNS = ["product_name", "price"]
+
+# Sub-category listings come from this sitemap (listed in robots.txt).  On
+# 2026-09-28 they added 495 goods missing from the top-level listings.
+CATEGORY_SITEMAP_URL = f"{BASE_URL}/category_sitemap1.php"
+
+# Sitemap listings of services, fees and gift cards (e.g. ``kurulum``,
+# ``nakliye-ucreti-maliyeti``, ``hediye-karti``) are not home goods.
+NON_GOODS_SLUG_PATTERN = (
+    r"hizmet|ucret|maliyet|bedel|hediye-karti|kurulum|sarf-malzeme"
+    r"|siparis-parca"
+)
 
 # ── Scraping Parameters ──────────────────────────────────────────────────────
 # Seconds to wait between paginated requests (jitter applied).
@@ -111,12 +135,19 @@ RETRY_BACKOFF = 3
 DEFAULT_WORKERS = 3
 
 # Jitter multiplier range applied to REQUEST_DELAY (uniform random).
-JITTER_MIN = 0.7
-JITTER_MAX = 1.5
+# 1-3 s between pages: the sub-category listings roughly triple the
+# number of requests per run.
+JITTER_MIN = 1.0
+JITTER_MAX = 3.0
+
+# Listing order requested with ``&sort=``.  The default ("smart") order
+# repeats some products on adjacent pages and hides others (2026-09-28:
+# 38 of 2949 rugs unreachable); ``price_asc`` pages without overlap.
+SORT_ORDER = "price_asc"
 
 # Hard upper bound on pages per category — defensive guard against runaway
-# scraping if Vivense ever returns a non-empty page indefinitely.  No real
-# Vivense category currently exceeds 60 pages.
+# scraping if Vivense ever returns a non-empty page indefinitely.  The largest
+# Vivense category had 105 pages on 2026-09-28.
 PAGE_HARD_LIMIT = 200
 
 # ── Path resolution ──────────────────────────────────────────────────────────
@@ -139,3 +170,6 @@ _TODAY = _dt.date.today().strftime("%Y-%m-%d")
 
 CSV_OUTPUT_FILE = str(_Path(OUTPUT_DIR)     / f"vivense_{_TODAY}.csv")
 CHECKPOINT_FILE = str(_Path(CHECKPOINT_DIR) / f"vivense_checkpoint_{_TODAY}.json")
+# Rows of finished categories; turned into CSV_OUTPUT_FILE only when every
+# category succeeded.  Not ``.csv`` so the daily runner never picks it up.
+PARTIAL_FILE    = str(_Path(CHECKPOINT_DIR) / f"vivense_partial_{_TODAY}.part")

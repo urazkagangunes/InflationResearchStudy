@@ -7,12 +7,15 @@ The script calculates:
   3. TUIK weighted inflation (Category 05 - Furnishings and household goods)
   
 Intervals: 1 day, 7 days, 15 days, 30 days.
-Linking items between dates is done using the 'title' column.
+Linking items between dates is done using the 'title' column
+(files that name it 'product_name' are read as 'title').
 
 Usage:
     python bellona_inflation.py                  # For today's date
     python bellona_inflation.py --date 2026-05-01 # For a specific date
     python bellona_inflation.py --all            # For ALL dates in the data folder
+    python bellona_inflation.py --date 2026-09-29 --compare-date 2026-09-07
+                                                 # Also compare with a chosen earlier date
 """
 
 import logging
@@ -45,6 +48,8 @@ def _load_csv(date_str):
         return None
     try:
         df = pd.read_csv(fpath, encoding="utf-8-sig")
+        if "title" not in df.columns and "product_name" in df.columns:
+            df = df.rename(columns={"product_name": "title"})
         # Ensure price is numeric
         df["price"] = pd.to_numeric(df["price"], errors="coerce")
         # Remove duplicates by title if they accidentally appear, keeping the first one
@@ -77,7 +82,7 @@ def _compute_metrics(df_current, df_past):
     return merged, avg_inflation, tuik_weighted
 
 
-def calculate_inflation(target_date=None):
+def calculate_inflation(target_date=None, compare_date=None):
     if target_date:
         base_date = datetime.strptime(target_date, "%Y-%m-%d")
     else:
@@ -96,6 +101,13 @@ def calculate_inflation(target_date=None):
     for days in [1, 7, 15, 30]:
         past_str = (base_date - timedelta(days=days)).strftime("%Y-%m-%d")
         intervals[f"{days}d"] = past_str
+
+    if compare_date:
+        gap = (base_date - datetime.strptime(compare_date, "%Y-%m-%d")).days
+        if gap <= 0:
+            logger.warning(f"compare date {compare_date} is not before {today_str}, ignored.")
+        else:
+            intervals[f"{gap}d"] = compare_date
 
     summary_row = {"date": today_str}
     detail_base = df_today.copy()
@@ -179,6 +191,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="inflation calc for Bellona")
     parser.add_argument("--date", help="date (YYYY-MM-DD)", default=None)
     parser.add_argument("--all", action="store_true", help="Calculate inflation for all dates in directory")
+    parser.add_argument(
+        "--compare-date",
+        help="extra earlier date (YYYY-MM-DD) to compare with, e.g. the last available file",
+        default=None,
+    )
     args = parser.parse_args()
 
     logging.basicConfig(
@@ -188,4 +205,4 @@ if __name__ == "__main__":
     if args.all:
         calculate_all_history()
     else:
-        calculate_inflation(args.date)
+        calculate_inflation(args.date, args.compare_date)
