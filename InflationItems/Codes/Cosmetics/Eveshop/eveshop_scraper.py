@@ -107,7 +107,7 @@ async def run():
         return
 
     with open(save_path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=["product_name", "variant", "category", "price"])
+        writer = csv.DictWriter(f, fieldnames=["product_name", "price", "variant", "category"])
         writer.writeheader()
         writer.writerows(all_items)
 

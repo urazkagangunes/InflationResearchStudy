@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from curl_cffi import requests
 from camoufox.sync_api import Camoufox
 
-# --- DOSYA YOLLARI ---
+# --- File paths ---
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "..", ".."))
 DATAS_DIR = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "Cosmetics", "Watsons")
@@ -17,7 +17,7 @@ SITEMAP_CACHE_PATH = os.path.join(DATAS_DIR, "sitemap_cache.json")
 
 
 def get_cookies():
-    print("🔄 Camoufox ile tarayıcı açılıyor (Akamai Bypass)...")
+    print("🔄 Opening browser with Camoufox (Akamai Bypass)...")
     with Camoufox(headless=True) as browser:
         page = browser.new_page()
         page.goto("https://www.watsons.com.tr/", wait_until="domcontentloaded")
@@ -27,11 +27,11 @@ def get_cookies():
 
 
 def run_poc_scraper():
-    print("⏳ Dosyalar yükleniyor...")
+    print("⏳ Loading cache and database files...")
 
-    # 1. JSON'ları Yükle
+    # 1. Load sitemap cache
     if not os.path.exists(SITEMAP_CACHE_PATH):
-        print("❌ sitemap_cache.json bulunamadı! Önce sitemap'i indirmelisin.")
+        print("❌ sitemap_cache.json not found! Please download the sitemap first.")
         return
 
     with open(SITEMAP_CACHE_PATH, "r", encoding="utf-8") as f:
@@ -46,9 +46,9 @@ def run_poc_scraper():
     csv_file = os.path.join(DATAS_DIR, f"{today_str}_watsons_fiyatlar.csv")
 
     total_items = len(sitemap_data)
-    print(f"🚀 PoC Sunum Modu Başladı! Toplam {total_items} ürün işlenecek.\n")
+    print(f"🚀 Watsons scraper started! Total {total_items} items to process.\n")
 
-    # Çerezleri al ve Session kur
+    # Fetch cookies and initialize HTTP session
     session_cookies = get_cookies()
     client = requests.Session(impersonate="chrome")
 
@@ -56,31 +56,30 @@ def run_poc_scraper():
     skipped = 0
 
     with open(csv_file, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=['url', 'name', 'normal_price'])
+        writer = csv.DictWriter(f, fieldnames=['product_name', 'price', 'url'])
         writer.writeheader()
 
         for idx, (url, sitemap_date) in enumerate(sitemap_data.items(), start=1):
 
-            # --- AKILLI ATLAMA (CACHE) ---
+            # --- Cache hit (skip scraping) ---
             if url in master_db and master_db[url].get('lastmod') == sitemap_date:
                 item = master_db[url]
-                writer.writerow({'url': url, 'name': item['name'], 'normal_price': item['price']})
+                writer.writerow({'product_name': item['name'], 'price': item['price'], 'url': url})
                 skipped += 1
 
-                # Terminalde donmadığını göstermek için her 100 atlamada bir bilgi bas
                 if skipped % 100 == 0:
-                    print(f"⏩ [HIZLI GEÇİŞ] {skipped} ürün Master DB'den kopyalandı...")
+                    print(f"⏩ [FAST PASS] {skipped} items copied from Master DB...")
                 continue
 
-            # --- YENİ VEYA GÜNCELLENMİŞ ÜRÜN (SCRAPE) ---
+            # --- New or modified product (scrape) ---
             try:
                 res = client.get(url, cookies=session_cookies, timeout=10)
 
                 if res.status_code == 403:
-                    print("\n⛔ 403 Blok Yedik! Çerez tazeleniyor...")
+                    print("\n⛔ 403 Forbidden received! Refreshing session cookies...")
                     session_cookies = get_cookies()
                     time.sleep(2)
-                    continue  # Döngüyü kırma, çerez yenileyip bir sonrakine geç
+                    continue
 
                 soup = BeautifulSoup(res.text, 'html.parser')
                 name, price = "N/A", "N/A"
@@ -97,32 +96,31 @@ def run_poc_scraper():
                 if price_el:
                     price = price_el.text.strip()
 
-                print(f"✅ [ÇEKİLDİ] {name[:40]}... -> {price}")
+                print(f"✅ [SCRAPED] {name[:40]}... -> {price}")
 
-                # Veritabanlarını güncelle
+                # Update database
                 master_db[url] = {"lastmod": sitemap_date, "name": name, "price": price}
-                writer.writerow({'url': url, 'name': name, 'normal_price': price})
+                writer.writerow({'product_name': name, 'price': price, 'url': url})
                 scraped += 1
                 f.flush()
 
-                # Hocaya gösterilecek prototip olduğu için DB'yi sık sık kaydet
                 if scraped % 10 == 0:
                     with open(MASTER_DB_PATH, "w", encoding="utf-8") as db_f:
                         json.dump(master_db, db_f, indent=4, ensure_ascii=False)
 
-                time.sleep(0.3)  # Saygılı bekleme süresi
+                time.sleep(0.3)
 
             except Exception as e:
-                print(f"❌ [HATA] {url.split('/')[-1]}: {e}")
+                print(f"❌ [ERROR] {url.split('/')[-1]}: {e}")
 
-    # İşlem bittiğinde son halini kaydet
+    # Save final database state
     with open(MASTER_DB_PATH, "w", encoding="utf-8") as db_f:
         json.dump(master_db, db_f, indent=4, ensure_ascii=False)
 
-    print(f"\n🎉 İşlem Tamamlandı! Hoca için sunum dosyası hazır:")
-    print(f"   -> Toplam Hızlı Atlanan: {skipped}")
-    print(f"   -> Toplam Yeni Çekilen: {scraped}")
-    print(f"   -> Çıktı Dosyası: {csv_file}")
+    print(f"\n🎉 Scraping finished:")
+    print(f"   -> Total cached items skipped: {skipped}")
+    print(f"   -> Total new items scraped: {scraped}")
+    print(f"   -> Output file: {csv_file}")
 
 
 if __name__ == "__main__":

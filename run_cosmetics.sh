@@ -58,7 +58,7 @@ run_scraper "Avon" \
     "$COSMETICS_DIR/Avon"
 
 run_scraper "BeymenBeauty" \
-    "$COSMETICS_DIR/Beymen Beauty/cosmetic.py" \
+    "$COSMETICS_DIR/Beymen Beauty/beymen_scraper.py" \
     "$COSMETICS_DIR/Beymen Beauty"
 
 # Boyner is paused due to Cloudflare Turnstile datacenter challenge
@@ -112,7 +112,7 @@ run_scraper "Rossmann" \
     "$COSMETICS_DIR/Rossmann"
 
 run_scraper "Watsons" \
-    "$COSMETICS_DIR/Watsons/scraper.py" \
+    "$COSMETICS_DIR/Watsons/watsons_scraper.py" \
     "$COSMETICS_DIR/Watsons"
 
 # =============================================

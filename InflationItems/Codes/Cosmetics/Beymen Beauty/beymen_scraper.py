@@ -1,7 +1,5 @@
-
-import pandas as pd
-import datetime
 import csv
+import datetime
 import os
 import requests
 
@@ -27,7 +25,7 @@ while True:
             f"&urunSayisi=48&categoryId=30894&includeFacets=&includeDocuments=true"
             f"&currentScrollCount=1&siralama=akillisiralama&sayfa={page}",
             headers=headers,
-            timeout=30  # 30 saniye timeout — sonsuz bekleme yok
+            timeout=30  # 30-second timeout — avoid infinite hang
         )
         response.raise_for_status()
         data = response.json()
@@ -46,10 +44,10 @@ while True:
             brand = item.get("BrandName", "")
             name = item.get("DisplayName", "")
             price = item.get("ActualPrice", "")
-            total_data.append([f"{brand} {name}", price])
+            total_data.append([f"{brand} {name}".strip(), price])
             new_items += 1
 
-        print(f"[Beymen] Sayfa {page}: {new_items} yeni ürün")
+        print(f"[Beymen] Page {page}: {new_items} new products")
 
         if new_items == 0:
             break
@@ -57,24 +55,29 @@ while True:
         page += 1
 
     except requests.exceptions.Timeout:
-        print(f"[Beymen] Timeout — sayfa {page}, çıkılıyor")
+        print(f"[Beymen] Timeout on page {page}, exiting loop")
         break
     except requests.exceptions.RequestException as e:
         print(f"[Beymen] Request failed: {e}")
         break
     except ValueError as e:
-        print(f"[Beymen] JSON error: {e}")
+        print(f"[Beymen] JSON parsing error: {e}")
         break
 
-# --- Çıktı dizini (Linux/Mac/Windows uyumlu) ---
+# --- Output directory setup ---
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "..", "..", ".."))
+_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "..", ".."))
 out_dir = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "Cosmetics", "BeymenBeauty")
 os.makedirs(out_dir, exist_ok=True)
 
-csv_name = os.path.join(out_dir, f"beymen_{month}-{day}.csv")
-with open(csv_name, mode="a", newline="", encoding="utf-8") as file:
+_today_str = datetime.date.today().strftime("%Y-%m-%d")
+csv_name = os.path.join(out_dir, f"beymen_beauty_{_today_str}.csv")
+file_exists = os.path.exists(csv_name)
+
+with open(csv_name, mode="a", newline="", encoding="utf-8-sig") as file:
     writer = csv.writer(file)
+    if not file_exists:
+        writer.writerow(["product_name", "price"])
     writer.writerows(total_data)
 
-print(f"[Beymen] Kaydedildi: {len(total_data)} ürün → {csv_name}")
+print(f"[Beymen] Saved {len(total_data)} products → {csv_name}")

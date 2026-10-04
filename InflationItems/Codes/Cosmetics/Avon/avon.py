@@ -12,15 +12,14 @@ BASE_URL = "https://kozmetik.avon.com.tr"
 MARKET_NAME = "avon"
 OUTPUT_ROOT = "data"
 
-# Hız ayarları
+# Performance and rate limit settings
 MAX_PAGES = 140
 CONCURRENT_PAGES = 5
 WAIT_AFTER_OPEN_MS = 1000
 SCROLL_COUNT = 4
 SCROLL_WAIT_MS = 350
 
-# En önemli hız ayarı:
-# Ürün detay sayfalarına girerse aşırı duplicate ve yavaşlık oluyor.
+# Avoid visiting product detail pages directly to prevent duplicate crawls and slow runtimes
 VISIT_PRODUCT_PAGES = False
 
 START_URLS = [
@@ -52,10 +51,6 @@ TOBACCO_KEYWORDS = [
     "nargile", "snus", "rolling tobacco"
 ]
 
-# Dikkat:
-# "alcohol" kelimesini tek başına koymadım.
-# Çünkü kozmetikte "Alcohol Denat" gibi içerik olarak geçebilir.
-# Hocanın istemediği şey alcoholic beverages: bira, şarap, rakı vs.
 ALCOHOLIC_BEVERAGE_KEYWORDS = [
     "bira", "şarap", "sarap", "rakı", "raki", "votka", "vodka",
     "viski", "whisky", "whiskey", "cin", "gin", "rom",
@@ -150,8 +145,6 @@ def should_visit_url(url):
     if any(part in lower_url for part in blocked_parts):
         return False
 
-    # Ürün detay sayfalarını gezme.
-    # Bunlar çok yavaşlatıyor ve aynı ürünleri tekrar tekrar getiriyor.
     if not VISIT_PRODUCT_PAGES:
         if path.startswith("/urun/") or path.startswith("/product/"):
             return False
@@ -159,7 +152,6 @@ def should_visit_url(url):
     if url.rstrip("/") == BASE_URL:
         return True
 
-    # Avon kategori/kampanya URL'lerinde genelde sayı var.
     return bool(re.search(r"/\d+", path))
 
 
@@ -240,11 +232,11 @@ def extract_products_from_text(text):
         if not price_matches:
             continue
 
-        # Aynı satırda eski/yeni fiyat varsa son fiyatı al.
+        # If old and new prices exist on the same line, take the final one
         price = normalize_price(price_matches[-1])
         product_name = None
 
-        # Fiyatın üstünden ürün adını arıyoruz.
+        # Search upwards for the product name
         for j in range(i - 1, max(-1, i - 12), -1):
             candidate = normalize_text(lines[j])
             lower = candidate.lower()
@@ -389,7 +381,7 @@ def save_global_unique(all_products):
             file.write("name;price\n")
             file.write("\n".join(alcohol_rows))
 
-    # --- Standart tek dosya çıktısı: InflationItems/Datas/Cosmetics/Avon/avon_YYYY-MM-DD.csv ---
+    # --- Standard single-file output: InflationItems/Datas/Cosmetics/Avon/avon_YYYY-MM-DD.csv ---
     try:
         this_dir = os.path.dirname(os.path.abspath(__file__))
         project_root = os.path.abspath(os.path.join(this_dir, "..", "..", "..", ".."))
@@ -399,7 +391,8 @@ def save_global_unique(all_products):
         with open(consolidated_csv, "w", encoding="utf-8-sig", newline="") as file:
             file.write("product_name,price\n")
             for name, price in sorted(all_products.values(), key=lambda item: item[0].lower()):
-                file.write(f'"{name}",{price}\n')
+                clean_price = str(price).replace(",", ".").strip()
+                file.write(f'"{name}",{clean_price}\n')
         print(f"[CONSOLIDATED FILE] {consolidated_csv}")
     except Exception as e:
         print(f"[CONSOLIDATED ERROR] {e}")
@@ -414,7 +407,6 @@ async def scrape_page(context, url):
     page = await context.new_page()
 
     try:
-        # domcontentloaded networkidle'dan çok daha hızlı.
         response = await page.goto(
             url,
             wait_until="domcontentloaded",
@@ -467,7 +459,6 @@ async def main():
     all_products = {}
 
     async with async_playwright() as playwright:
-        # Firefox, sende Chromium'dan daha stabil çalışmıştı.
         browser = await playwright.firefox.launch(
             headless=True
         )
@@ -501,7 +492,6 @@ async def main():
 
             for links, products in results:
                 for name, price in products:
-                    # Aynı ürün farklı sayfada tekrar çıkarsa tek tut.
                     all_products[name.lower()] = (name, price)
 
                 for link in links:
@@ -515,7 +505,6 @@ async def main():
                 f"unique_products={len(all_products)}"
             )
 
-            # Çok kısa nefes. Siteyi gereksiz zorlamamak için.
             await asyncio.sleep(0.25)
 
         await browser.close()

@@ -12,21 +12,16 @@ from urllib.parse import urljoin
 # CONFIG
 # -----------------------------------------------------------------------------
 BASE_URL = "https://www.pazarium.com.tr"
-# Pazarium'da ayrı bir Kozmetik kategorisi var: /kozmetik (toplam ~959 ürün).
-# Bu, "kozmetik" araması yapmaktan daha geniş ve kararlıdır.
+# Pazarium has a dedicated Cosmetics category: /kozmetik (around 950+ products).
 CATEGORY_URL = f"{BASE_URL}/kozmetik"
 
 MAX_WORKERS = 5
 REQUEST_TIMEOUT = 30
 RETRY_COUNT = 3
-RETRY_DELAY = 2  # saniye
+RETRY_DELAY = 2  # seconds
 
-# 1. Mevcut dosyanın (pazarium_scraper.py) konumunu al
+# Output directory: InflationItems/Datas/Cosmetics/Pazarium
 current_script_path = os.path.abspath(__file__)
-
-# 2. 'Codes/Cosmetics/Pazarium' klasöründen 3 seviye yukarı çıkarak
-#    InflationItems klasörüne ulaş
-# InflationItems/Codes/Cosmetics/Pazarium/pazarium_scraper.py  ->  InflationItems
 base_project_dir = os.path.dirname(
     os.path.dirname(
         os.path.dirname(
@@ -34,8 +29,6 @@ base_project_dir = os.path.dirname(
         )
     )
 )
-
-# 3. Data klasörünü oluştur (yoksa)
 data_dir = os.path.join(base_project_dir, "Datas", "Cosmetics", "Pazarium")
 os.makedirs(data_dir, exist_ok=True)
 
@@ -60,15 +53,13 @@ session.headers.update(HEADERS)
 # -----------------------------------------------------------------------------
 # REGEX / HELPERS
 # -----------------------------------------------------------------------------
-# Fiyat formatı: "1.234,56 TL" veya "99,90 TL"
+# Price format: "1.234,56 TL" or "99,90 TL"
 PRICE_RE = re.compile(r"(\d{1,3}(?:\.\d{3})*,\d{2})\s*TL")
 
-# "Toplam 959 ürün bulunmaktadır." içindeki sayıyı yakalamak için
+# Pattern to capture total items count from page text
 TOTAL_RE = re.compile(r"Toplam\s+(\d[\d.,]*)\s+ürün", re.IGNORECASE)
 
-# Ürün sayfası URL'leri tek segmentlidir: /some-product-slug
-# Menü, kategori, hesap sayfası URL'leri de tek segmentli olabilir;
-# onları ayırt etmek için ürün kartlarında fiyat olmasından yararlanıyoruz.
+# Non-product single-segment paths to filter out
 NON_PRODUCT_PATHS = {
     "", "anasayfa", "sepet", "uye-girisi-sayfasi", "uye-alisveris-listesi",
     "uye-kayit", "uye-sifre-hatirlat", "siparis-takip",
@@ -79,7 +70,7 @@ NON_PRODUCT_PATHS = {
 
 
 def parse_price(text: str) -> float | None:
-    """'1.234,56 TL' -> 1234.56. Eşleşme yoksa None döner."""
+    """'1.234,56 TL' -> 1234.56. Returns None if no price pattern found."""
     m = PRICE_RE.search(text)
     if not m:
         return None
@@ -87,7 +78,7 @@ def parse_price(text: str) -> float | None:
 
 
 def fetch_page(page_num: int) -> str | None:
-    """Belirli sayfayı indirir, başarısızsa retry yapar."""
+    """Download HTML for the given page number with retry support."""
     url = f"{CATEGORY_URL}?pg={page_num}"
     last_err = None
     for attempt in range(1, RETRY_COUNT + 1):
@@ -99,7 +90,7 @@ def fetch_page(page_num: int) -> str | None:
             last_err = e
             if attempt < RETRY_COUNT:
                 time.sleep(RETRY_DELAY * attempt)
-    print(f"[ERROR] Sayfa {page_num} alınamadı ({RETRY_COUNT} deneme): {last_err}")
+    print(f"[ERROR] Failed to fetch page {page_num} ({RETRY_COUNT} attempts): {last_err}")
     return None
 
 
@@ -107,20 +98,13 @@ def fetch_page(page_num: int) -> str | None:
 # PARSING
 # -----------------------------------------------------------------------------
 def parse_products(html: str, page_num: int) -> list[dict]:
-    """
-    Bir HTML sayfasındaki ürün kartlarını parse eder.
-
-    Strateji: Her <img> etiketinden başlayıp yukarı doğru gezerek
-    (1) ürün linkini içeren <a> ve (2) fiyat içeren konteyneri bul.
-    Fiyat kontrolü, menü/logo görselleri gibi ürün olmayan öğeleri
-    otomatik olarak eler.
-    """
+    """Parse product cards from HTML content."""
     soup = BeautifulSoup(html, "lxml")
     products: list[dict] = []
     seen_urls: set[str] = set()
 
     for img in soup.find_all("img"):
-        # 1) Sarmalayan <a> etiketini bul -> ürün URL'si
+        # 1) Locate enclosing <a> tag -> product URL
         parent_a = img.find_parent("a")
         if not parent_a:
             continue
@@ -133,11 +117,10 @@ def parse_products(html: str, page_num: int) -> list[dict]:
         if not full_url.startswith(BASE_URL):
             continue
 
-        # Path'i kontrol et - ürün URL'leri tek segmentli
+        # Check path — product URLs are single segment
         path = full_url[len(BASE_URL):].lstrip("/")
-        # Query veya fragment varsa kaldır (sadece path baz alınsın)
         path = path.split("?", 1)[0].split("#", 1)[0]
-        if "/" in path:  # /Data/..., /srv/... gibi iç yollar ürün değildir
+        if "/" in path:  # Internal paths like /Data/..., /srv/... are not products
             continue
         if path in NON_PRODUCT_PATHS:
             continue
@@ -145,9 +128,7 @@ def parse_products(html: str, page_num: int) -> list[dict]:
         if full_url in seen_urls:
             continue
 
-        # 2) Fiyat içeren üst konteyneri bul (en fazla 5 seviye yukarı).
-        # <body>/<html>'e ulaşırsak dururuz; aksi halde sayfanın başka
-        # bir yerindeki fiyatı bu <a>'ya yanlışlıkla atayabiliriz.
+        # 2) Find enclosing container containing price
         container = parent_a
         price = None
         for _ in range(5):
@@ -159,35 +140,28 @@ def parse_products(html: str, page_num: int) -> list[dict]:
             container = container.parent
 
         if price is None:
-            # Fiyat yoksa muhtemelen ürün kartı değil (menü, logo, footer vb.)
             continue
 
-        # 3) Stok kontrolü: Tükendi olan ürünleri atla.
-        # T-Soft şablonunda: <span class="out-of-stock">Tükendi</span>
+        # 3) Stock check: skip sold out products
         if container.select_one(".out-of-stock") is not None:
             continue
-        # Bazı varyantlarda sınıf yerine sadece metin olabilir; yedek kontrol:
         if "Tükendi" in container.get_text(" ", strip=True):
             continue
 
-        # 4) Ürün adı ve alt kategori
+        # 4) Product name and subcategory
         alt = (img.get("alt") or "").strip()
         name = alt
         subcategory = ""
         if " - " in alt:
-            # T-Soft şablonunda alt: "Ürün Adı - Alt Kategori"
             parts = alt.rsplit(" - ", 1)
             name = parts[0].strip()
             subcategory = parts[1].strip()
 
-        # Alt yoksa linkteki görünür metinden ismi al
         if not name:
             link_text = parent_a.get_text(" ", strip=True)
             if link_text and not PRICE_RE.search(link_text):
                 name = link_text
 
-        # url alanı iç tarafta tutuluyor (sayfalar arası tekrar elemek için),
-        # CSV'ye yazılmayacak.
         products.append({
             "name": name,
             "subcategory": subcategory,
@@ -200,10 +174,7 @@ def parse_products(html: str, page_num: int) -> list[dict]:
 
 
 def get_total_count_and_page1(html: str):
-    """
-    Sayfa 1 HTML'inden toplam ürün sayısını, sayfadaki ürünleri ve
-    sayfa başına ürün sayısını çıkarır.
-    """
+    """Extract total product count and page 1 items."""
     soup = BeautifulSoup(html, "lxml")
     page_text = soup.get_text(" ", strip=True)
 
@@ -224,37 +195,36 @@ def main():
     t0 = time.time()
     today_str = datetime.now().strftime("%Y-%m-%d")
     print("=" * 70)
-    print(f"Pazarium Kozmetik Scraper  |  {today_str}")
-    print(f"Hedef: {CATEGORY_URL}")
-    print(f"Çıktı: {OUTPUT_FILE}")
+    print(f"Pazarium Cosmetics Scraper  |  {today_str}")
+    print(f"Target URL: {CATEGORY_URL}")
+    print(f"Output File: {OUTPUT_FILE}")
     print("=" * 70)
 
-    # --- 1. Sayfa: Toplam sayı ve ilk sayfa ürünleri ---
-    print("[1/3] Sayfa 1 indiriliyor (toplam sayı belirlenecek)...")
+    # --- Step 1: Page 1 and total count ---
+    print("[1/3] Downloading page 1 to determine total product count...")
     html1 = fetch_page(1)
     if not html1:
-        print("[FATAL] Sayfa 1 alınamadı, çıkılıyor.")
+        print("[FATAL] Could not retrieve page 1, exiting.")
         return
 
     total_products, per_page, page1_products = get_total_count_and_page1(html1)
-    print(f"   -> Sayfa başına ürün: {per_page}")
+    print(f"   -> Items per page: {per_page}")
     if total_products is not None:
-        print(f"   -> Toplam ürün (siteye göre): {total_products}")
+        print(f"   -> Total items reported by website: {total_products}")
     else:
-        print("   -> Toplam sayı bulunamadı, sayfalar boş gelene kadar ilerleyecek.")
+        print("   -> Total count not found, will scrape sequentially until empty.")
 
     all_products: list[dict] = list(page1_products)
     seen_urls: set[str] = {p["url"] for p in all_products}
 
-    # --- 2. Kalan sayfalar ---
+    # --- Step 2: Remaining pages ---
     if total_products is not None and per_page > 0:
         total_pages = (total_products + per_page - 1) // per_page
-        print(f"[2/3] Hesaplanan sayfa sayısı: {total_pages}")
+        print(f"[2/3] Calculated total pages: {total_pages}")
         remaining = list(range(2, total_pages + 1))
 
         if remaining:
-            print(f"   -> {len(remaining)} sayfa paralel indiriliyor "
-                  f"(workers={MAX_WORKERS})...")
+            print(f"   -> Downloading {len(remaining)} pages in parallel (workers={MAX_WORKERS})...")
             with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
                 future_to_page = {
                     executor.submit(fetch_page, p): p for p in remaining
@@ -271,11 +241,9 @@ def main():
                             all_products.append(prod)
                             seen_urls.add(prod["url"])
                             added += 1
-                    print(f"   [sayfa {page:>3}] {len(new_products)} ürün "
-                          f"bulundu, {added} yeni")
+                    print(f"   [Page {page:>3}] {len(new_products)} products found, {added} new")
     else:
-        # Fallback: toplam sayı yoksa boş sayfa görene kadar sıralı ilerle
-        print("[2/3] Sıralı sayfalama (toplam belirsiz)...")
+        print("[2/3] Sequential pagination fallback...")
         page = 2
         empty_streak = 0
         while empty_streak < 2:
@@ -291,31 +259,30 @@ def main():
                     all_products.append(prod)
                     seen_urls.add(prod["url"])
                     added += 1
-            print(f"   [sayfa {page:>3}] {len(new_products)} bulundu, "
-                  f"{added} yeni")
+            print(f"   [Page {page:>3}] {len(new_products)} products found, {added} new")
             empty_streak = empty_streak + 1 if added == 0 else 0
             page += 1
 
-    # --- 3. CSV yaz ---
+    # --- Step 3: Write to CSV ---
     if not all_products:
-        print("[FATAL] Hiç ürün çıkarılamadı. Sayfa şablonu değişmiş olabilir.")
+        print("[FATAL] No products extracted. Page template might have changed.")
         return
 
     df = pd.DataFrame(all_products)
 
-    # Kolon sırası: sadece istenen 3 alan (url sadece iç dedup için tutuluyordu)
-    df = df[["name", "subcategory", "price"]]
-    df = df.sort_values(["subcategory", "name"]).reset_index(drop=True)
+    # Standard column order: product_name, price, subcategory
+    df = df.rename(columns={"name": "product_name"})
+    df = df[["product_name", "price", "subcategory"]]
+    df = df.sort_values(["subcategory", "product_name"]).reset_index(drop=True)
 
-    # utf-8-sig: Excel'de Türkçe karakterler düzgün görünsün
     df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8-sig")
 
     elapsed = time.time() - t0
     print("=" * 70)
-    print(f"[3/3] TAMAMLANDI")
-    print(f"   Toplam ürün: {len(df)}")
-    print(f"   Çıktı: {OUTPUT_FILE}")
-    print(f"   Süre: {elapsed:.1f} sn")
+    print(f"[3/3] COMPLETED")
+    print(f"   Total products: {len(df)}")
+    print(f"   Output file: {OUTPUT_FILE}")
+    print(f"   Elapsed time: {elapsed:.1f} s")
     print("=" * 70)
 
 

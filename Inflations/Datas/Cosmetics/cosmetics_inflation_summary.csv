@@ -1,0 +1,2 @@
+date,compare_date,n_stores,n_products_raw,n_products_deduped,avg_inflation_compare,median_inflation_compare,median_inflation_nonzero_compare,pct_increased_compare,pct_decreased_compare,pct_unchanged_compare,basic_index_compare,tuik_weighted_products_compare,n_products_matched_compare
+2026-10-04,2026-10-03,14,90057,80233,-0.004649061138087638,0.0,-4.226361948658858,0.029454254737225974,0.03506458897288806,99.93548115628988,-0.0021372156263632647,-0.004649061138087637,71297

@@ -108,9 +108,14 @@ async def run():
         return
 
     with open(save_path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=["title", "variant", "price"])
+        writer = csv.DictWriter(f, fieldnames=["product_name", "price", "variant"])
         writer.writeheader()
-        writer.writerows(all_items)
+        for item in all_items:
+            writer.writerow({
+                "product_name": item["title"],
+                "price": item["price"],
+                "variant": item["variant"],
+            })
 
     print(f"\n✅ {len(all_items)} records → {save_path}")
 
