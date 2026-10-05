@@ -116,6 +116,13 @@ run_scraper "Watsons" \
     "$COSMETICS_DIR/Watsons"
 
 # =============================================
+# INFLATION CALCULATION
+# =============================================
+echo ""
+echo "--- Cosmetics Inflation Calculation ---"
+python3 "$BASE/Inflations/Codes/Cosmetics/cosmetics_inflation.py" --date "$DATE" --interval daily 2>&1 || true
+
+# =============================================
 # GIT PUSH
 # =============================================
 echo ""
