@@ -116,11 +116,22 @@ run_scraper "Watsons" \
     "$COSMETICS_DIR/Watsons"
 
 # =============================================
+# GROUP 13 SERVICES, JEWELLERY & DAYCARE SCRAPERS
+# =============================================
+echo ""
+echo "--- Group 13 Services, Jewellery & Daycare Scrapers ---"
+python3 -u "$BASE/InflationItems/Codes/PersonalCareServices/run_all_group13_scrapers.py" --services-only 2>&1 || true
+
+# =============================================
 # INFLATION CALCULATION
 # =============================================
 echo ""
 echo "--- Cosmetics Inflation Calculation ---"
 python3 "$BASE/Inflations/Codes/Cosmetics/cosmetics_inflation.py" --date "$DATE" 2>&1 || true
+
+echo ""
+echo "--- TÜİK Group 13 Unified Inflation Calculation ---"
+python3 "$BASE/Inflations/Codes/PersonalCareServices/group13_inflation.py" --date "$DATE" 2>&1 || true
 
 # =============================================
 # GIT PUSH
@@ -128,13 +139,19 @@ python3 "$BASE/Inflations/Codes/Cosmetics/cosmetics_inflation.py" --date "$DATE"
 echo ""
 echo "--- Git push ---"
 cd "$BASE"
-git add InflationItems/Datas/Cosmetics/ 2>/dev/null || true
+git add InflationItems/Datas/Cosmetics/ \
+        InflationItems/Datas/Jewelry/ \
+        InflationItems/Datas/Hairdresser/ \
+        InflationItems/Datas/Services/ \
+        InflationItems/Datas/Daycare/ \
+        Inflations/Datas/Cosmetics/ \
+        Inflations/Datas/Group13/ 2>/dev/null || true
 
 if git diff --cached --quiet; then
     echo "No new data to commit. Skipping push."
 else
-    git commit -m "daily cosmetics scrape $DATE"
-    git push
+    git commit -m "daily group 13 scrape and inflation $DATE"
+    git push origin master 2>&1 || git push
     echo "Git push: ✓ SUCCESS"
 fi
 
