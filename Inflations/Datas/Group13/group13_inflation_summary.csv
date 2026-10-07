@@ -1,3 +1,4 @@
 target_date,compare_date,interval,matched_items,dutot_index,carli_index,median_index,tuik_weighted_cpi,basket_weight_covered
 2026-10-06,2026-10-05,1d,81818,0.006,-0.1879,0.0,-0.1003,2.4121
 2026-10-06,2026-09-06,30d,10774,-0.0434,0.2068,0.0,0.2068,1.2867
+2026-10-07,2026-10-06,1d,81520,-0.0576,-0.0127,0.0,0.0451,3.4463
