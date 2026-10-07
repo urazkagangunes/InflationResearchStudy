@@ -18,15 +18,37 @@ URL = "https://www.marksandspencer.com.tr/list/?layout=4&category_ids=84"
 seen = set()
 
 
+def get_chrome_version_main():
+    try:
+        import subprocess
+        for cmd in ["google-chrome --version", "google-chrome-stable --version", "chromium --version", "chromium-browser --version"]:
+            try:
+                res = subprocess.check_output(cmd, shell=True, text=True)
+                m = re.search(r"(\d+)\.\d+\.\d+", res)
+                if m:
+                    return int(m.group(1))
+            except Exception:
+                pass
+    except Exception:
+        pass
+    return None
+
+
 def open_driver():
     opts = uc.ChromeOptions()
-    opts.add_argument(f"--user-data-dir={PROFILE_DIR}")
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-dev-shm-usage")
     opts.add_argument("--start-maximized")
     opts.add_argument("--headless=new")
     opts.add_argument("--log-level=3")
-    driver = uc.Chrome(options=opts)
+    opts.add_argument("--disable-background-timer-throttling")
+    opts.add_argument("--disable-backgrounding-occluded-windows")
+    opts.add_argument("--disable-renderer-backgrounding")
+    v_main = get_chrome_version_main()
+    if v_main:
+        driver = uc.Chrome(options=opts, version_main=v_main)
+    else:
+        driver = uc.Chrome(options=opts)
     driver.set_page_load_timeout(60)
     return driver
 
