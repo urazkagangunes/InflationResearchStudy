@@ -2,7 +2,9 @@
 
 A web-based price index for Türkiye. Every day the project collects prices from Turkish online retailers and rental listings, stores them as dated CSV files, and turns them into inflation figures weighted by TÜİK's consumer price basket. The aim is an independent, high-frequency view of inflation and the cost of living that can be compared with the official numbers.
 
-The research project started in February 2026 and is ongoing, with prices collected daily. Its method is described in the paper *A CPI-Weighted Web-Based Price Index for Monitoring Inflation and Cost of Living in Türkiye* (ASYU 2026). For an overview, you can check the [conference presentation](Presentation/A_CPI_Weighted_Web_Based_Price_Index_Presentation.pdf).
+The research project started in February 2026 and is ongoing, with prices collected daily. Its methodology and findings are published in the IEEE conference paper:
+- 📄 **Paper:** [*A CPI-Weighted Web-Based Price Index for Monitoring Inflation and Cost of Living in Türkiye*](asyu2026/A_CPI_Weighted_Web_Based_Price_Index_Paper.pdf) (ASYU 2026)
+- 📊 **Presentation:** [Conference Presentation Slides](asyu2026/A_CPI_Weighted_Web_Based_Price_Index_Presentation.pdf)
 
 ## What is collected
 
@@ -29,6 +31,9 @@ Groups 02 (alcohol and tobacco), 07 (transport), 09 (recreation), 10 (education)
 ## Repository layout
 
 ```
+asyu2026/
+  A_CPI_Weighted_Web_Based_Price_Index_Paper.pdf        conference paper (ASYU 2026)
+  A_CPI_Weighted_Web_Based_Price_Index_Presentation.pdf presentation slides
 InflationItems/
   Codes/<Category>/<Store>/    scraper code, one folder per store
   Datas/<Category>/<Store>/    daily price files, one CSV per store and day
@@ -91,3 +96,18 @@ Everyone works with everyone else's data, so every file has to look the same:
 ## Team
 
 Each category has a responsible member, who maintains its scrapers and data, and a controller, who checks the data. The full history of contributions is in the commit log.
+
+## Citation
+
+If you use this dataset, methodology, or code in your research, please cite our ASYU 2026 conference paper:
+
+```bibtex
+@inproceedings{gunes2026cpi,
+  title={A CPI-Weighted Web-Based Price Index for Monitoring Inflation and Cost of Living in T{\"u}rkiye},
+  author={G{\"u}ne{\c{s}}, Uraz Ka{\u{g}}an and Demirta{\c{s}}, Onur Kaan and Y{\i}ld{\i}r{\i}m, Efe and {\c{C}}ilda{\c{s}}, Ata Hakan and Masak, Batu Koray and {\"O}nl{\"u}k{\"u}{\c{s}}, Batu and Er, Arhan and G{\"u}len, Doruk and {\c{C}}etin, Can Kenan and G{\"u}ng{\"o}r, Eren and Pehlivan, Batuhan Burak and Tural, Elif Sude and Kolmogorova, Aleksandra and {\"O}renli, Sinem and U{\u{g}}ra{\c{s}}kan, Dilara and Y{\i}ld{\i}z, Olcay Taner},
+  booktitle={2026 Innovations in Intelligent Systems and Applications Conference (ASYU)},
+  year={2026},
+  publisher={IEEE}
+}
+```
+
