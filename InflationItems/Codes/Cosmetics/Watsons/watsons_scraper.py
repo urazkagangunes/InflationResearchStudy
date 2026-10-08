@@ -43,7 +43,7 @@ def run_poc_scraper():
             master_db = json.load(f)
 
     today_str = datetime.now().strftime("%Y-%m-%d")
-    csv_file = os.path.join(DATAS_DIR, f"{today_str}_watsons_fiyatlar.csv")
+    csv_file = os.path.join(DATAS_DIR, f"watsons_{today_str}.csv")
 
     total_items = len(sitemap_data)
     print(f"🚀 Watsons scraper started! Total {total_items} items to process.\n")
