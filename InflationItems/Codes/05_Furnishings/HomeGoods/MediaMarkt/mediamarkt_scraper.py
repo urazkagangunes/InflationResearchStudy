@@ -51,8 +51,11 @@ CATEGORIES = [
 NOT_BATTERY_RE = re.compile(
     r"şarj (cihaz|aleti|ünitesi)|battery pack|fotoğraf makinesi batarya", re.IGNORECASE)
 
-REPO_ROOT = next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5])
-OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "MediaMarkt"
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_PARTS = Path(__file__).resolve().parent.parts
+_ROOT = _PARTS.index("InflationItems")
+OUT_DIR = Path(*_PARTS[:_ROOT + 1], "Datas", *_PARTS[_ROOT + 2:])
 
 STATE_RE = re.compile(r"window.__PRELOADED_STATE__ = (\{.*?\});?\s*</script>", re.S)
 

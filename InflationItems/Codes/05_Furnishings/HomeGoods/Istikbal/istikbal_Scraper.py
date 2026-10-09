@@ -145,8 +145,11 @@ def scrape_istikbal():
 
 def save_to_csv(data):
     """Saves the scraped data to a CSV file in the specified directory structure."""
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
-    target_dir = os.path.join(base_dir, "InflationItems", "Datas", "HomeGoods", "Istikbal")
+    # The data folder mirrors this code folder (InflationItems/Codes/... ->
+    # InflationItems/Datas/...), so the path holds in any category layout.
+    parts = os.path.dirname(os.path.abspath(__file__)).split(os.sep)
+    root = parts.index("InflationItems")
+    target_dir = os.sep.join(parts[:root + 1] + ["Datas"] + parts[root + 2:])
 
     os.makedirs(target_dir, exist_ok=True)
 

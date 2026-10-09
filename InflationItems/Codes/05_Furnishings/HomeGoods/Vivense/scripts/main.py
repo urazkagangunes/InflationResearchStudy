@@ -59,10 +59,12 @@ from product_fetcher import fetch_products_for_category
 # ── Inflation module (best-effort import) ────────────────────────────────────
 # Add the location of inflation.py to sys.path so we can call it after a
 # successful scrape, mirroring the Migros / Rossmann / Bauhaus convention.
-_inflation_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "..", "..", "..", "..", "..",
-    "Inflations", "Codes", "HomeGoods", "Vivense",
+# Inflations/Codes mirrors InflationItems/Codes, so the path holds in any
+# category layout.
+_store_parts = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).split(os.sep)
+_items_root = _store_parts.index("InflationItems")
+_inflation_dir = os.sep.join(
+    _store_parts[:_items_root] + ["Inflations"] + _store_parts[_items_root + 1:]
 )
 sys.path.append(os.path.abspath(_inflation_dir))
 try:

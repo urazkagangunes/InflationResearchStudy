@@ -91,9 +91,12 @@ CSV_FIELDNAMES = [
 
 _SCRIPTS_DIR = _Path(__file__).resolve().parent
 _SCRAPER_DIR = _SCRIPTS_DIR.parent
-_PROJECT_ROOT = next((p for p in _SCRAPER_DIR.parents if (p / ".git").exists()), _SCRAPER_DIR.parents[4])
+# The data folder mirrors the scraper folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_PARTS = _SCRAPER_DIR.parts
+_ROOT = _PARTS.index("InflationItems")
 
-OUTPUT_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "Karaca"
+OUTPUT_DIR = _Path(*_PARTS[:_ROOT + 1], "Datas", *_PARTS[_ROOT + 2:])
 CHECKPOINT_DIR = _SCRAPER_DIR / "checkpoints"
 
 _DATE_OVERRIDE = _os.getenv("SCRAPE_DATE_OVERRIDE", "").strip()

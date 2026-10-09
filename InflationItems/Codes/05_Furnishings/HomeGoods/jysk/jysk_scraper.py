@@ -25,7 +25,11 @@ USER_AGENT = (
 )
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-OUT_DIR = os.path.join(SCRIPT_DIR, "Datas", "JYSK")
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_PARTS = SCRIPT_DIR.split(os.sep)
+_ROOT = _PARTS.index("InflationItems")
+OUT_DIR = os.sep.join(_PARTS[:_ROOT + 1] + ["Datas"] + _PARTS[_ROOT + 2:])
 FIELDS = ["product_name", "price"]
 
 PRICE_RE = re.compile(r"(\d[\d.]*),(\d{2})")

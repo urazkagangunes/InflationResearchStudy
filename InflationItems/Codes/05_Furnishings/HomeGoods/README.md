@@ -76,22 +76,22 @@ Vestel, MediaMarkt, OnlineKombi and Armut were added on 2026-10-07 to bring whit
 | 540316 | Thermos | Karaca, EnglishHome, Ikea |
 | 552201 | Battery | MediaMarkt, Ikea |
 | 552203 | Light bulb | Ikea |
-| 561101 | Laundry cleaning and care products | `Markets` (supermarket scrapers) |
-| 561102 | Dishwashing cleaning and care products | `Markets` (supermarket scrapers) |
-| 561103 | Floor hygiene cleaning and care products | `Markets` (supermarket scrapers) |
+| 561101 | Laundry cleaning and care products | `01_Food` (supermarket scrapers) |
+| 561102 | Dishwashing cleaning and care products | `01_Food` (supermarket scrapers) |
+| 561103 | Floor hygiene cleaning and care products | `01_Food` (supermarket scrapers) |
 | 561106 | Cleaning cloths | Ikea, Tchibo, Karaca |
-| 561198 | Surface cleaning towel and wipes | `Markets` (supermarket scrapers) |
-| 561902 | Storage and preservation materials | `Markets` (supermarket scrapers) |
+| 561198 | Surface cleaning towel and wipes | `01_Food` (supermarket scrapers) |
+| 561902 | Storage and preservation materials | `01_Food` (supermarket scrapers) |
 | 561903 | Paper tableware | EnglishHome, LCW Home, Karaca, jysk |
-| 561915 | Other non-durable household goods | `Markets` (supermarket scrapers) |
+| 561915 | Other non-durable household goods | `01_Food` (supermarket scrapers) |
 | 562901 | Household maintenance and repair services | Armut (sofa cleaning, carpet cleaning) |
 | 562902 | Maid and cleaners' fee | Armut (house cleaning) |
 
-All 54 items have a source in the repository: 48 are collected by the stores in this folder, and the remaining six, household cleaning products and similar consumables, by the supermarket scrapers in `Markets`.
+All 54 items have a source in the repository: 48 are collected by the stores in this folder, and the remaining six, household cleaning products and similar consumables, by the supermarket scrapers in `01_Food`.
 
 ## Notes on the data
 
-The six items collected under `Markets` are supermarket goods. The index script assigns each folder to one group as a whole, so in the current index these products count towards group 01; counting them under 05 would need a product-level mapping in the index script.
+The six items collected under `01_Food` are supermarket goods. The index script assigns each folder to one group as a whole, so in the current index these products count towards group 01; counting them under 05 would need a product-level mapping in the index script.
 
 The stove heater item is represented by electric heaters from Vestel and MediaMarkt.
 
@@ -104,7 +104,7 @@ From MediaMarkt only products sold by MediaMarkt itself are kept, so that the se
 All stores are scraped every night on a dedicated server, except MadameCoco, whose site refuses the server's IP address and which therefore runs from a team member's computer. If the night run of Vivense finds the site's lists incomplete, it is repeated at noon. Any scraper can also be run on its own:
 
 ```bash
-python "InflationItems/Codes/HomeGoods/<Store>/<scraper>.py"
+python "InflationItems/Codes/05_Furnishings/HomeGoods/<Store>/<scraper>.py"
 ```
 
-Each scraper writes one file per day to `InflationItems/Datas/HomeGoods/<Store>/`, with the date in the file name as `YYYY-MM-DD` and two columns, `product_name` and `price`. The price is the one a buyer pays that day, without membership or campaign codes. Each scraper compares what it collected with the product count the site itself shows and writes no file when too much is missing: most require 98%, Bellona and Istikbal every product, Vivense 90% per category, MediaMarkt 90% per category and 98% overall (its category pages disagree on their own counts from one page to the next). Armut shows no such count, so its scraper writes no file if any of its pages fails. A missing file therefore means the day failed, not that prices were unchanged. The scrapers added in October read `robots.txt` and follow its rules.
+Each scraper writes one file per day to `InflationItems/Datas/05_Furnishings/HomeGoods/<Store>/`, the data folder that mirrors its code folder, with the date in the file name as `YYYY-MM-DD` and two columns, `product_name` and `price`. The price is the one a buyer pays that day, without membership or campaign codes. Each scraper compares what it collected with the product count the site itself shows and writes no file when too much is missing: most require 98%, Bellona and Istikbal every product, Vivense 90% per category, MediaMarkt 90% per category and 98% overall (its category pages disagree on their own counts from one page to the next). Armut shows no such count, so its scraper writes no file if any of its pages fails. A missing file therefore means the day failed, not that prices were unchanged. The scrapers added in October read `robots.txt` and follow its rules.

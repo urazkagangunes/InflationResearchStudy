@@ -52,16 +52,11 @@ failed_pages: list = []
 # altında JSON dosyası olarak kaydedilir.
 DUMP_FIRST_RESPONSE = False
 
-# Klasör yolu (Pazarium scraper'ı ile aynı mantık)
-current_script_path = os.path.abspath(__file__)
-base_project_dir = os.path.dirname(
-    os.path.dirname(
-        os.path.dirname(
-            os.path.dirname(current_script_path)
-        )
-    )
-)
-data_dir = os.path.join(base_project_dir, "Datas", "HomeGoods", "MadameCoco")
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_parts = os.path.dirname(os.path.abspath(__file__)).split(os.sep)
+_root = _parts.index("InflationItems")
+data_dir = os.sep.join(_parts[:_root + 1] + ["Datas"] + _parts[_root + 2:])
 os.makedirs(data_dir, exist_ok=True)
 
 OUTPUT_FILE = os.path.join(

@@ -27,8 +27,8 @@ Paths
 All paths are resolved relative to this config file so the scraper works
 regardless of the working directory from which ``main.py`` is invoked.
 
-- CSV output  → ``InflationItems/Datas/HomeGoods/Vivense/vivense_YYYY-MM-DD.csv``
-- Checkpoints → ``InflationItems/Codes/HomeGoods/Vivense/checkpoints/vivense_checkpoint_YYYY-MM-DD.json``
+- CSV output  → ``InflationItems/Datas/<category>/HomeGoods/Vivense/vivense_YYYY-MM-DD.csv``
+- Checkpoints → ``InflationItems/Codes/<category>/HomeGoods/Vivense/checkpoints/vivense_checkpoint_YYYY-MM-DD.json``
 """
 
 import datetime as _dt
@@ -155,10 +155,12 @@ PAGE_HARD_LIMIT = 200
 # regardless of the working directory from which main.py is invoked.
 _SCRIPTS_DIR  = _Path(__file__).resolve().parent              # …/HomeGoods/Vivense/scripts
 _VIVENSE_DIR  = _SCRIPTS_DIR.parent                           # …/HomeGoods/Vivense
-_PROJECT_ROOT = _VIVENSE_DIR.parent.parent.parent.parent      # …/InflationResearchStudy
+_PARTS        = _VIVENSE_DIR.parts
+_ROOT         = _PARTS.index("InflationItems")
 
-# CSV output → InflationItems/Datas/HomeGoods/Vivense/
-BASE_OUTPUT_DIR = str(_PROJECT_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "Vivense")
+# CSV output mirrors the code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+BASE_OUTPUT_DIR = str(_Path(*_PARTS[:_ROOT + 1], "Datas", *_PARTS[_ROOT + 2:]))
 OUTPUT_DIR      = BASE_OUTPUT_DIR
 
 # Checkpoints → InflationItems/Codes/HomeGoods/Vivense/checkpoints/

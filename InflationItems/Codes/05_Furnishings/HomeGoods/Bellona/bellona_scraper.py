@@ -225,7 +225,11 @@ class DataExtractor:
 class Storage:
     @staticmethod
     def data_dir_for_market():
-        return os.path.join("InflationItems", "Datas", "HomeGoods", "Bellona")
+        # The data folder mirrors this code folder (InflationItems/Codes/... ->
+        # InflationItems/Datas/...), so the path holds in any category layout.
+        parts = os.path.dirname(os.path.abspath(__file__)).split(os.sep)
+        root = parts.index("InflationItems")
+        return os.sep.join(parts[:root + 1] + ["Datas"] + parts[root + 2:])
 
     @staticmethod
     def save(rows: list[dict]) -> str:

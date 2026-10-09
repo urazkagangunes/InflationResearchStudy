@@ -15,10 +15,11 @@ from pathlib import Path
 class LCWHomeScraper:
     START_URL = "https://www.lcw.com/marka/lcw-home-b-307"
 
-    REPO_ROOT = next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5])
-    OUTPUT_DIR = (
-        REPO_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "LCW Home"
-    )
+    # The data folder mirrors this code folder (InflationItems/Codes/... ->
+    # InflationItems/Datas/...), so the path holds in any category layout.
+    _PARTS = Path(__file__).resolve().parent.parts
+    _ROOT = _PARTS.index("InflationItems")
+    OUTPUT_DIR = Path(*_PARTS[:_ROOT + 1], "Datas", *_PARTS[_ROOT + 2:])
     OUTPUT_FILE = OUTPUT_DIR / f"lcw_home - {date.today().isoformat()}.csv"
 
     MODEL_MARKER = "var catalogModel = "

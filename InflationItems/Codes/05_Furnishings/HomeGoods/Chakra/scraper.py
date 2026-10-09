@@ -151,10 +151,11 @@ def main():
         print("No products collected; CSV not written.")
         sys.exit(1)
 
-    # The script lives in InflationItems/Codes/HomeGoods/Chakra, so the repo root is four levels up
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.abspath(os.path.join(script_dir, "..", "..", "..", ".."))
-    output_dir = os.path.join(repo_root, "InflationItems", "Datas", "HomeGoods", "Chakra")
+    # The data folder mirrors this code folder (InflationItems/Codes/... ->
+    # InflationItems/Datas/...), so the path holds in any category layout.
+    parts = os.path.dirname(os.path.abspath(__file__)).split(os.sep)
+    root = parts.index("InflationItems")
+    output_dir = os.sep.join(parts[:root + 1] + ["Datas"] + parts[root + 2:])
     os.makedirs(output_dir, exist_ok=True)
 
     date_str = datetime.now().strftime("%Y-%m-%d")
