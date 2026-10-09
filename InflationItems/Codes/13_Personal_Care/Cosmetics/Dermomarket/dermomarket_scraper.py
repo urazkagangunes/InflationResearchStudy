@@ -26,7 +26,7 @@ from pathlib import Path
 
 # ── Repo-relative output path ─────────────────────────────────────────────────
 REPO_ROOT = next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5])
-OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "Cosmetics" / "Dermomarket"
+OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Cosmetics" / "Dermomarket"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 from bs4 import BeautifulSoup

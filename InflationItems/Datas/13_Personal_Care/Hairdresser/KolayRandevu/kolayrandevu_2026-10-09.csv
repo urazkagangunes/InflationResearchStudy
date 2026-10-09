@@ -1,10 +1,12 @@
 product_name,price
 "Ali Gür Şerifali - Ağda",500.00
+"Ali Gür Şerifali - Brezilya Fönü",5000.00
 "Ali Gür Şerifali - Dip Boyama",2000.00
 "Ali Gür Şerifali - Kaş Alma",800.00
 "Ali Gür Şerifali - Manikür",1000.00
 "Ali Gür Şerifali - Ombre",8000.00
-"Ali Gür Şerifali - Pedikür",1200.00
+"Ali Gür Şerifali - Pedikür",800.00
+"Ayhan Ak Hair Studio - Saç Boyama",3500.00
 "Bahri Taşdemir Barber's Club - Cilt Bakımı",1000.00
 "Bahri Taşdemir Barber's Club - Damat Tıraşı",3500.00
 "Bahri Taşdemir Barber's Club - Fön",300.00
@@ -14,21 +16,19 @@ product_name,price
 "By Savaş Dinçkal - Çocuk Tıraşı",500.00
 "Dodo Kuaför - Dip Boyama",1500.00
 "Dodo Kuaför - Ombre",10000.00
-"Emsal Doğan Bahçeşehir - Ağda",750.00
-"Emsal Doğan Bahçeşehir - Brezilya Fönü",7000.00
+"Ebru Ergün Beauty Beylikdüzü - Dip Boyama",800.00
 "Emsal Doğan Bahçeşehir - Cilt Bakımı",2400.00
 "Emsal Doğan Bahçeşehir - Dip Boyama",1500.00
 "Emsal Doğan Bahçeşehir - Fön",500.00
 "Emsal Doğan Bahçeşehir - Manikür",1000.00
 "Emsal Doğan Bahçeşehir - Ombre",6000.00
 "Emsal Doğan Bahçeşehir - Saç Kesimi",1500.00
-"Erdal Kara Hair Design - Saç Boyama",2500.00
+"Erdal Kara Hair Design - Saç Boyama",1200.00
 "Erdal Kara Hair Design - Çocuk Tıraşı",800.00
 "Eylül Öztürk Nail Spa Maltepe - Kaş Alma",550.00
 "Eylül Öztürk Nail Spa Maltepe - Manikür",850.00
 "Eylül Öztürk Nail Spa Maltepe - Pedikür",1100.00
 "Gent's İstanbul Saç Tasarım Hizmetleri - Pedikür",1200.00
-"Güler Coiffeur Wo/Man - Dip Boyama",1300.00
 "Gürkan Turan Hair Art - Damat Tıraşı",8000.00
 "Gürkan Turan Hair Art - Fön",500.00
 "Gürkan Turan Hair Art - Manikür",1000.00
@@ -42,7 +42,6 @@ product_name,price
 "Kuaför Mehmet Kemal - Fön",1200.00
 "Kuaför Mehmet Kemal - Kaş Alma",200.00
 "Kuaför Mehmet Kemal - Sakal Tıraşı",900.00
-"Kuaför Mehmet Kemal - Saç Boyama",1200.00
 "Kuaför Mehmet Kemal - Saç Kesimi",1800.00
 "Kuaför Mehmet Kemal - Çocuk Tıraşı",500.00
 "M.A Murat Akbudak - Çocuk Tıraşı",400.00
@@ -50,8 +49,9 @@ product_name,price
 "Salon Sevim - Ağda",300.00
 "Sanem Gözde Beauty - Dip Boyama",1200.00
 "Sanem Gözde Beauty - Ombre",5000.00
-"Secos Güzellik Merkezi - Ağda",50.00
+"Secos Güzellik Merkezi - Ağda",750.00
 "The Lyra Beauty - Pedikür",800.00
+"Vogue Hair Studio Fatih Mestan - Ağda",50.00
 "Vogue Hair Studio Fatih Mestan - Ombre",5500.00
 "İstanbul Berberler Odası - Erkek Saç Kesimi (1. Sınıf)",450.00
 "İstanbul Berberler Odası - Erkek Saç Kesimi (2. Sınıf)",350.00

@@ -22,7 +22,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 REPO_ROOT = next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5])
-OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "Cosmetics" / "Gratis"
+OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Cosmetics" / "Gratis"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SITEMAP_URL = "https://www.gratis.com/sitemap/Product-tr-TRY.xml"

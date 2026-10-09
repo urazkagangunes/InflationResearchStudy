@@ -30,7 +30,7 @@ logger = logging.getLogger("AltinbasScraper")
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = next((p for p in BASE_DIR.parents if (p / ".git").exists()), BASE_DIR.parents[4])
-DATA_DIR = PROJECT_ROOT / "InflationItems" / "Datas" / "Jewelry" / "Altinbas"
+DATA_DIR = PROJECT_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Jewelry" / "Altinbas"
 
 HEADERS = {
     "User-Agent": (

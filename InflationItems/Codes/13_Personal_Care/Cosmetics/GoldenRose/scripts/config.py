@@ -76,7 +76,7 @@ _SCRIPTS_DIR = _Path(__file__).resolve().parent
 _SCRAPER_DIR = _SCRIPTS_DIR.parent
 _PROJECT_ROOT = next((p for p in _SCRAPER_DIR.parents if (p / ".git").exists()), _SCRAPER_DIR.parents[4])
 
-OUTPUT_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "Cosmetics" / "GoldenRose"
+OUTPUT_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Cosmetics" / "GoldenRose"
 CHECKPOINT_DIR = _SCRAPER_DIR / "checkpoints"
 
 _DATE_OVERRIDE = _os.getenv("SCRAPE_DATE_OVERRIDE", "").strip()

@@ -1,3 +1,4 @@
+from pathlib import Path
 import asyncio
 import os
 import re
@@ -383,9 +384,9 @@ def save_global_unique(all_products):
 
     # --- Standard single-file output: InflationItems/Datas/Cosmetics/Avon/avon_YYYY-MM-DD.csv ---
     try:
-        this_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.abspath(os.path.join(this_dir, "..", "..", "..", ".."))
-        datas_avon_dir = os.path.join(project_root, "InflationItems", "Datas", "Cosmetics", "Avon")
+        this_dir = Path(__file__).resolve()
+        project_root = next((p for p in this_dir.parents if (p / ".git").exists()), this_dir.parents[4])
+        datas_avon_dir = os.path.join(project_root, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "Avon")
         os.makedirs(datas_avon_dir, exist_ok=True)
         consolidated_csv = os.path.join(datas_avon_dir, f"avon_{today}.csv")
         with open(consolidated_csv, "w", encoding="utf-8-sig", newline="") as file:

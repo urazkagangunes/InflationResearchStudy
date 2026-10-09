@@ -20,7 +20,7 @@ from datetime import date
 from pathlib import Path
 
 REPO_ROOT = next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5])
-OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "Cosmetics" / "Flormar"
+OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Cosmetics" / "Flormar"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SITEMAP_URL = "https://www.flormar.com.tr/sitemaps/sitemap-products-1.xml.gz"

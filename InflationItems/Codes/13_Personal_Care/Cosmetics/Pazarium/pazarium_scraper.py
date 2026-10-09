@@ -1,3 +1,4 @@
+from pathlib import Path
 import requests
 import pandas as pd
 import time
@@ -21,15 +22,9 @@ RETRY_COUNT = 3
 RETRY_DELAY = 2  # seconds
 
 # Output directory: InflationItems/Datas/Cosmetics/Pazarium
-current_script_path = os.path.abspath(__file__)
-base_project_dir = os.path.dirname(
-    os.path.dirname(
-        os.path.dirname(
-            os.path.dirname(current_script_path)
-        )
-    )
-)
-data_dir = os.path.join(base_project_dir, "Datas", "Cosmetics", "Pazarium")
+current_script_path = Path(__file__).resolve()
+base_project_dir = next((p for p in current_script_path.parents if (p / ".git").exists()), current_script_path.parents[5])
+data_dir = os.path.join(base_project_dir, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "Pazarium")
 os.makedirs(data_dir, exist_ok=True)
 
 OUTPUT_FILE = os.path.join(

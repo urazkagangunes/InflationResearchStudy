@@ -1,3 +1,4 @@
+from pathlib import Path
 import csv
 import datetime
 import os
@@ -65,9 +66,9 @@ while True:
         break
 
 # --- Output directory setup ---
-_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "..", ".."))
-out_dir = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "Cosmetics", "BeymenBeauty")
+_THIS_DIR = Path(__file__).resolve()
+_PROJECT_ROOT = next((p for p in _THIS_DIR.parents if (p / ".git").exists()), _THIS_DIR.parents[4])
+out_dir = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "BeymenBeauty")
 os.makedirs(out_dir, exist_ok=True)
 
 _today_str = datetime.date.today().strftime("%Y-%m-%d")

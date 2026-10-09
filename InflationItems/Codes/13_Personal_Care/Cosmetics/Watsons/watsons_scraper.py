@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import time
 import csv
@@ -8,9 +9,9 @@ from curl_cffi import requests
 from camoufox.sync_api import Camoufox
 
 # --- File paths ---
-_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", "..", "..", ".."))
-DATAS_DIR = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "Cosmetics", "Watsons")
+_THIS_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = next((p for p in _THIS_DIR.parents if (p / ".git").exists()), _THIS_DIR.parents[4])
+DATAS_DIR = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "Watsons")
 os.makedirs(DATAS_DIR, exist_ok=True)
 MASTER_DB_PATH = os.path.join(DATAS_DIR, "watsons_master_db.json")
 SITEMAP_CACHE_PATH = os.path.join(DATAS_DIR, "sitemap_cache.json")

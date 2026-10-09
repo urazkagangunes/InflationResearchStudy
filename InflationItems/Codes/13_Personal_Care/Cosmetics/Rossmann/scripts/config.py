@@ -89,10 +89,10 @@ from pathlib import Path as _Path
 # of the working directory from which main.py is invoked.
 _SCRIPTS_DIR   = _Path(__file__).resolve().parent          # …/Cosmetics/Rossmann/scripts
 _ROSSMANN_DIR  = _SCRIPTS_DIR.parent                       # …/Cosmetics/Rossmann
-_PROJECT_ROOT  = _ROSSMANN_DIR.parent.parent.parent.parent # …/InflationResearchStudy
+_PROJECT_ROOT  = next((p for p in _ROSSMANN_DIR.parents if (p / ".git").exists()), _ROSSMANN_DIR.parents[4])
 
 # CSV output → InflationItems/Datas/Cosmetics/Rossmann/
-BASE_OUTPUT_DIR = str(_PROJECT_ROOT / "InflationItems" / "Datas" / "Cosmetics" / "Rossmann")
+BASE_OUTPUT_DIR = str(_PROJECT_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Cosmetics" / "Rossmann")
 OUTPUT_DIR      = BASE_OUTPUT_DIR
 
 # Checkpoints → InflationItems/Codes/Cosmetics/Rossmann/checkpoints/

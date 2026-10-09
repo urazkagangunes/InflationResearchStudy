@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import sys
 import subprocess
@@ -50,9 +51,9 @@ def merge_csv_files():
     print("\n🧩 INITIATING DATA MERGE...")
     print("=" * 50)
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    root_dir = os.path.abspath(os.path.join(current_dir, "..", "..", ".."))
-    data_dir = os.path.join(root_dir, "Datas", "Cosmetics", "Boyner")
+    current_dir = Path(__file__).resolve()
+    root_dir = next((p for p in current_dir.parents if (p / ".git").exists()), current_dir.parents[5])
+    data_dir = os.path.join(root_dir, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "Boyner")
 
     date_str = datetime.now().strftime("%Y-%m-%d")
     all_dataframes = []

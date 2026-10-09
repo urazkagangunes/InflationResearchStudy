@@ -17,7 +17,7 @@ from datetime import date
 from pathlib import Path
 
 REPO_ROOT = next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5])
-OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "Cosmetics" / "Dermoeczanem"
+OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Cosmetics" / "Dermoeczanem"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 BASE_URL = "https://www.dermoeczanem.com"

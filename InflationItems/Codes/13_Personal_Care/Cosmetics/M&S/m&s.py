@@ -1,3 +1,4 @@
+from pathlib import Path
 import csv
 import os
 import re
@@ -9,9 +10,9 @@ from zoneinfo import ZoneInfo
 from bs4 import BeautifulSoup
 import undetected_chromedriver as uc
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-_PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", "..", ".."))
-OUT_DIR = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "Cosmetics", "M&S")
+SCRIPT_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = next((p for p in SCRIPT_DIR.parents if (p / ".git").exists()), SCRIPT_DIR.parents[4])
+OUT_DIR = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "M&S")
 PROFILE_DIR = os.path.join(SCRIPT_DIR, "SeleniumProfile_MS")
 URL = "https://www.marksandspencer.com.tr/list/?layout=4&category_ids=84"
 

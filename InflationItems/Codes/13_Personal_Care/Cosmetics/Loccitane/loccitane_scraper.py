@@ -1,3 +1,4 @@
+from pathlib import Path
 """
 loccitane_scraper.py — L'Occitane Turkey Daily Product Price Scraper
 
@@ -29,9 +30,9 @@ DELAY_RANGE = (0.3, 0.8)
 
 
 def get_save_path():
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.abspath(os.path.join(this_dir, "..", "..", "..", ".."))
-    datas_dir = os.path.join(project_root, "InflationItems", "Datas", "Cosmetics", "LOccitane")
+    this_dir = Path(__file__).resolve()
+    project_root = next((p for p in this_dir.parents if (p / ".git").exists()), this_dir.parents[5])
+    datas_dir = os.path.join(project_root, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "LOccitane")
     os.makedirs(datas_dir, exist_ok=True)
     today = datetime.now().strftime("%Y-%m-%d")
     return os.path.join(datas_dir, f"LOccitane_{today}.csv")

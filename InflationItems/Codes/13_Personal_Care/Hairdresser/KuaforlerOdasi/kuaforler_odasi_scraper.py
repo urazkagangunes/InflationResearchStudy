@@ -42,7 +42,7 @@ logger = logging.getLogger("KuaforlerOdasiScraper")
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = next((p for p in BASE_DIR.parents if (p / ".git").exists()), BASE_DIR.parents[4])
-DATA_DIR = PROJECT_ROOT / "InflationItems" / "Datas" / "Hairdresser" / "KuaforlerOdasi"
+DATA_DIR = PROJECT_ROOT / "InflationItems" / "Datas" / "13_Personal_Care" / "Hairdresser" / "KuaforlerOdasi"
 
 
 def get_official_hairdresser_chamber_tariffs(target_date: str) -> list[tuple[str, float]]:

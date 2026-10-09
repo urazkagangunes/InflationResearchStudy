@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import re
 import pandas as pd
@@ -43,9 +44,9 @@ def clean_price(price_text):
 
 
 def get_save_path():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    root = os.path.abspath(os.path.join(current_dir, "..", "..", ".."))
-    out_dir = os.path.join(root, "Datas", "Cosmetics", "Boyner")
+    current_dir = Path(__file__).resolve()
+    root = next((p for p in current_dir.parents if (p / ".git").exists()), current_dir.parents[5])
+    out_dir = os.path.join(root, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "Boyner")
     os.makedirs(out_dir, exist_ok=True)
 
     date_str = datetime.now().strftime("%Y-%m-%d")
