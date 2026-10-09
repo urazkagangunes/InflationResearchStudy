@@ -3,7 +3,7 @@
 # Cron: 0 3 * * * /root/InflationResearchStudy/run_cosmetics.sh >> /root/InflationResearchStudy/logs/cosmetics/cron.log 2>&1
 
 BASE="$(cd "$(dirname "$0")" && pwd)"
-COSMETICS_DIR="$BASE/InflationItems/Codes/Cosmetics"
+COSMETICS_DIR="$BASE/InflationItems/Codes/13_Personal_Care/Cosmetics"
 DATE=$(date +%Y-%m-%d)
 LOG_DIR="$BASE/logs/cosmetics"
 mkdir -p "$LOG_DIR"
@@ -120,18 +120,18 @@ run_scraper "Watsons" \
 # =============================================
 echo ""
 echo "--- Group 13 Services, Jewellery & Daycare Scrapers ---"
-python3 -u "$BASE/InflationItems/Codes/PersonalCareServices/run_all_group13_scrapers.py" --services-only 2>&1 || true
+python3 -u "$BASE/InflationItems/Codes/13_Personal_Care/PersonalCareServices/run_all_group13_scrapers.py" --services-only 2>&1 || true
 
 # =============================================
 # INFLATION CALCULATION
 # =============================================
 echo ""
 echo "--- Cosmetics Inflation Calculation ---"
-python3 "$BASE/Inflations/Codes/Cosmetics/cosmetics_inflation.py" --date "$DATE" 2>&1 || true
+python3 "$BASE/Inflations/Codes/13_Personal_Care/Cosmetics/cosmetics_inflation.py" --date "$DATE" 2>&1 || true
 
 echo ""
 echo "--- TÜİK Group 13 Unified Inflation Calculation ---"
-python3 "$BASE/Inflations/Codes/PersonalCareServices/group13_inflation.py" --date "$DATE" 2>&1 || true
+python3 "$BASE/Inflations/Codes/13_Personal_Care/PersonalCareServices/group13_inflation.py" --date "$DATE" 2>&1 || true
 
 # =============================================
 # GIT PUSH
@@ -139,13 +139,8 @@ python3 "$BASE/Inflations/Codes/PersonalCareServices/group13_inflation.py" --dat
 echo ""
 echo "--- Git push ---"
 cd "$BASE"
-git add InflationItems/Datas/Cosmetics/ \
-        InflationItems/Datas/Jewelry/ \
-        InflationItems/Datas/Hairdresser/ \
-        InflationItems/Datas/Services/ \
-        InflationItems/Datas/Daycare/ \
-        Inflations/Datas/Cosmetics/ \
-        Inflations/Datas/Group13/ 2>/dev/null || true
+git add InflationItems/Datas/13_Personal_Care/ \
+        Inflations/Datas/13_Personal_Care/ 2>/dev/null || true
 
 if git diff --cached --quiet; then
     echo "No new data to commit. Skipping push."
@@ -160,7 +155,7 @@ fi
 # =============================================
 echo ""
 echo "--- Data Retention Cleanup (Purging files older than 2 days) ---"
-DATAS_COSMETICS="$BASE/InflationItems/Datas/Cosmetics"
+DATAS_COSMETICS="$BASE/InflationItems/Datas/13_Personal_Care/Cosmetics"
 
 # Remove CSV data files older than 2 days (48 hours)
 if [ -d "$DATAS_COSMETICS" ]; then

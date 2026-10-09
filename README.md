@@ -12,21 +12,21 @@ Scrapers cover about 110 retailers and service providers in 13 categories, plus 
 
 | Category folder | What it covers | COICOP group | In the index |
 |---|---|---|---|
-| `Markets` | Supermarkets (food and groceries) | 01 Food and non-alcoholic beverages | Yes |
-| `ClothingStores` | Clothing and footwear chains | 03 Clothing and footwear | Yes |
-| `HousesRent` | Rental listings by city | 04 Housing (rent only) | Yes, handled separately |
-| `HomeGoods` | Furniture, home textiles, kitchen and decor | 05 Furnishings and household equipment | Yes |
-| `ConstructionSuppliesMarkets` | Hardware and building materials | 05 Furnishings and household equipment | Yes |
-| `Health` | Doctor, dentist, diagnostics, physical therapy, medicine and glasses | 06 Health | Yes, monthly |
-| `TechnologicalProducts` | Electronics and technology retailers | 08 Information and communication | Yes |
-| `TravelTourism` | Hotels, holiday packages, Hajj and Umrah | 11 Restaurants and accommodation | Yes |
-| `RestaurantMealPricesVenueHallRentalFees` | Restaurant and venue prices | 11 Restaurants and accommodation | Yes |
-| `Cosmetics` | Cosmetics and personal care retailers | 13 Personal care | Yes |
-| `PublicTransportation` | Taxi, minibus, train, ferry and boat fares | 07 Transport | Not yet |
-| `BooksStationery` | Books and stationery | | Not yet |
-| `motor_bicyle_car` | Vehicle prices | | Not yet |
+| `01_Food` | Supermarkets (food and groceries) | 01 Food and non-alcoholic beverages | Yes |
+| `02_Alcohol_Tobacco` | Alcohol and tobacco products | 02 Alcoholic beverages and tobacco | Planned |
+| `03_Clothing` | Clothing and footwear chains | 03 Clothing and footwear | Yes |
+| `04_Housing` | Rental listings by city | 04 Housing (rent only) | Yes, handled separately |
+| `05_Furnishings` | Furniture, home textiles, hardware and appliances | 05 Furnishings and household equipment | Yes |
+| `06_Health` | Doctor, dentist, diagnostics, physical therapy, medicine and glasses | 06 Health | Yes, monthly |
+| `07_Transport` | Taxi, minibus, train, ferry, boat fares & vehicle prices | 07 Transport | Yes |
+| `08_Communication` | Electronics and technology retailers | 08 Information and communication | Yes |
+| `09_Recreation` | Books, stationery, recreation | 09 Recreation, sport and culture | Yes |
+| `10_Education` | Educational services | 10 Education services | Planned |
+| `11_Restaurants` | Hotels, holiday packages, Hajj/Umrah, restaurant dining | 11 Restaurants and accommodation | Yes |
+| `12_Insurance` | Insurance and financial services | 12 Insurance and financial services | Planned |
+| `13_Personal_Care` | Cosmetics, salons, jewelry, watches, daycare, legal, notary, inspection | 13 Personal care, social protection, misc | Yes |
 
-Groups 02 (alcohol and tobacco), 07 (transport), 09 (recreation), 10 (education) and 12 (insurance) have no data source yet, so at most about 73% of the official basket is covered. Weighted figures are re-normalised over the groups present on each run.
+Groups are structured according to the official TÜİK COICOP-13 standard. Weighted figures are re-normalised over the groups present on each run.
 
 ## Repository layout
 

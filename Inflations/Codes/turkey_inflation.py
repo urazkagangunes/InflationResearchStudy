@@ -276,15 +276,23 @@ _SKIP_STORES: set[str] = {"EnglishHome"}
 # Maps sector directory name → (tuik_code, sector_label, date_granularity)
 # date_granularity: "daily" matches *YYYY-MM-DD*, "monthly" matches *YYYY-MM*
 _SECTOR_CONFIG: dict[str, tuple[str, str, str]] = {
-    "Markets":                                ("01", "market",       "daily"),
-    "ClothingStores":                         ("03", "clothing",     "daily"),
-    "HomeGoods":                              ("05", "homegoods",    "daily"),
-    "ConstructionSuppliesMarkets":            ("05", "construction", "daily"),
-    "Health":                                 ("06", "health",       "monthly"),
-    "TechnologicalProducts":                  ("08", "tech",         "daily"),
-    "TravelTourism":                          ("11", "tourism",      "daily"),
-    "RestaurantMealPricesVenueHallRentalFees": ("11", "restaurant",  "flat_daily"),
-    "Cosmetics":                              ("13", "cosmetics",    "daily"),
+    "01_Food":                                ("01", "market",       "daily"),
+    "03_Clothing":                            ("03", "clothing",     "daily"),
+    "04_Housing":                             ("04", "rent",         "daily"),
+    "05_Furnishings/HomeGoods":               ("05", "homegoods",    "daily"),
+    "05_Furnishings/ConstructionSuppliesMarkets": ("05", "construction", "daily"),
+    "06_Health":                              ("06", "health",       "monthly"),
+    "07_Transport/PublicTransportation":      ("07", "transport",    "daily"),
+    "07_Transport/motor_bicyle_car":          ("07", "vehicle",      "daily"),
+    "08_Communication":                       ("08", "tech",         "daily"),
+    "09_Recreation":                          ("09", "recreation",   "daily"),
+    "11_Restaurants/TravelTourism":           ("11", "tourism",      "daily"),
+    "11_Restaurants/RestaurantMealPricesVenueHallRentalFees": ("11", "restaurant",  "flat_daily"),
+    "13_Personal_Care/Cosmetics":             ("13", "cosmetics",    "daily"),
+    "13_Personal_Care/Jewelry":               ("13", "jewelry",      "daily"),
+    "13_Personal_Care/Hairdresser":           ("13", "hairdresser",  "daily"),
+    "13_Personal_Care/Services":              ("13", "services",     "daily"),
+    "13_Personal_Care/Daycare":               ("13", "daycare",      "daily"),
 }
 
 
