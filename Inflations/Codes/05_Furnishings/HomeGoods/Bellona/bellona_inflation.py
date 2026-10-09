@@ -25,8 +25,13 @@ from pathlib import Path
 import pandas as pd
 
 _THIS_DIR = Path(__file__).resolve().parent
-_CODES_DIR = _THIS_DIR.parent.parent
-_PROJECT_ROOT = _CODES_DIR.parent.parent
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Bellona), so they hold in any category layout.
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+_CODES_DIR = Path(*_PARTS[:_ROOT + 2])
+_PROJECT_ROOT = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 
 # Append directory containing tuik_config
 sys.path.insert(0, str(_CODES_DIR))
@@ -34,8 +39,8 @@ from tuik_config import TUIK_WEIGHTS, normalised_weights
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "Bellona" 
-INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / "HomeGoods" / "Bellona"
+DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Bellona"
+INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / _CATEGORY / "Bellona"
 
 # TUIK Category 05: Furnishings, household equipment and routine household maintenance
 TUIK_CATEGORY = "05" 

@@ -16,8 +16,13 @@ from pathlib import Path
 import pandas as pd
 
 _THIS_DIR = Path(__file__).resolve().parent
-_CODES_DIR = _THIS_DIR.parent.parent
-_PROJECT_ROOT = _CODES_DIR.parent.parent
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Karaca), so they hold in any category layout.
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+_CODES_DIR = Path(*_PARTS[:_ROOT + 2])
+_PROJECT_ROOT = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 
 _tuik_config_path = _THIS_DIR / "tuik_config.py"
 _tuik_spec = importlib.util.spec_from_file_location("karaca_tuik_config", _tuik_config_path)
@@ -30,7 +35,7 @@ normalised_weights = _tuik_config.normalised_weights
 
 try:
     _SCRAPER_DIR = (
-        _PROJECT_ROOT / "InflationItems" / "Codes" / "HomeGoods" / "Karaca" / "scripts"
+        _PROJECT_ROOT / "InflationItems" / "Codes" / _CATEGORY / "Karaca" / "scripts"
     )
     _config_path = _SCRAPER_DIR / "config.py"
     _spec = importlib.util.spec_from_file_location("karaca_scraper_config", _config_path)
@@ -40,9 +45,9 @@ try:
     _spec.loader.exec_module(_config)
     DATA_DIR = Path(_config.OUTPUT_DIR)
 except Exception:
-    DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "Karaca"
+    DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Karaca"
 
-INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / "HomeGoods" / "Karaca"
+INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / _CATEGORY / "Karaca"
 MATCH_KEY = "Product ID"
 PRICE_COLUMN = "price"
 NAME_COLUMN = "product_name"

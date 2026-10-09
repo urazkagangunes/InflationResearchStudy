@@ -9,10 +9,15 @@ day = datetime.datetime.today().day
 year = datetime.datetime.today().year
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", "..", ".."))
-DATA_DIR = os.path.join(REPO_ROOT, "InflationItems", "Datas", "HomeGoods",
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Ikea), so they hold in any category layout.
+_PARTS = SCRIPT_DIR.split(os.sep)
+_ROOT = _PARTS.index("Inflations")
+REPO_ROOT = os.sep.join(_PARTS[:_ROOT])
+CATEGORY = os.path.join(*_PARTS[_ROOT + 2:-1])
+DATA_DIR = os.path.join(REPO_ROOT, "InflationItems", "Datas", CATEGORY,
                         "Ikea")
-OUT_DIR = os.path.join(REPO_ROOT, "Inflations", "Datas", "HomeGoods", "Ikea")
+OUT_DIR = os.path.join(REPO_ROOT, "Inflations", "Datas", CATEGORY, "Ikea")
 
 
 def dataFile(date):

@@ -8,7 +8,12 @@ import pandas as pd
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 _THIS_DIR     = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent.parent  # repo root
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Chakra), so they hold in any category layout.
+_PARTS        = _THIS_DIR.parts
+_ROOT         = _PARTS.index("Inflations")
+_PROJECT_ROOT = Path(*_PARTS[:_ROOT])
+_CATEGORY     = Path(*_PARTS[_ROOT + 2:-1])
 
 sys.path.insert(0, str(_THIS_DIR))
 from tuik_config import (  # noqa: E402
@@ -16,13 +21,13 @@ from tuik_config import (  # noqa: E402
 )
 
 # Daily CSVs written by the Chakra scraper
-DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "Chakra"
+DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Chakra"
 
 logger = logging.getLogger(__name__)
 
 # ── Output directory ──────────────────────────────────────────────────────────
 INFLATION_OUT_DIR = (
-    _PROJECT_ROOT / "Inflations" / "Datas" / "HomeGoods" / "Chakra"
+    _PROJECT_ROOT / "Inflations" / "Datas" / _CATEGORY / "Chakra"
 )
 
 # Files without an id column can only be matched on the product name.

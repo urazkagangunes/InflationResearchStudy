@@ -33,18 +33,23 @@ from pathlib import Path
 import pandas as pd
 
 # ── Path setup ────────────────────────────────────────────────────────────────
-# Bu dosya: Inflations/Codes/HomeGoods/EnglishHome/englishhome_inflation.py
-# Veri:     InflationItems/Datas/HomeGoods/EnglishHome/
-# Çıktı:    Inflations/Datas/HomeGoods/EnglishHome/
+# Bu dosya: Inflations/Codes/05_Furnishings/HomeGoods/EnglishHome/englishhome_inflation.py
+# Veri:     InflationItems/Datas/05_Furnishings/HomeGoods/EnglishHome/
+# Çıktı:    Inflations/Datas/05_Furnishings/HomeGoods/EnglishHome/
+# Repo root and category folder come from this file's path, so they hold in
+# any category layout.
 _THIS_DIR = Path(__file__).resolve().parent
-REPO_ROOT  = _THIS_DIR.parents[3]
+_PARTS     = _THIS_DIR.parts
+_ROOT      = _PARTS.index("Inflations")
+REPO_ROOT  = Path(*_PARTS[:_ROOT])
+_CATEGORY  = Path(*_PARTS[_ROOT + 2:-1])
 sys.path.insert(0, str(_THIS_DIR))
 from englishhome_tuik_config import normalised_weights
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "EnglishHome"
-OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / "HomeGoods" / "EnglishHome"
+DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / _CATEGORY / "EnglishHome"
+OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / _CATEGORY / "EnglishHome"
 
 KEY = ["product_name"]
 

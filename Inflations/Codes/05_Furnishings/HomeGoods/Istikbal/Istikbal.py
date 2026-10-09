@@ -6,11 +6,16 @@ import pandas as pd
 # 1. SETUP PATHS
 # ==========================================
 script_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(script_dir, '..', '..', '..', '..'))
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Istikbal), so they hold in any category layout.
+_parts = script_dir.split(os.sep)
+_root = _parts.index('Inflations')
+project_root = os.sep.join(_parts[:_root])
+category_dir = os.path.join(*_parts[_root + 2:-1])
 
 # Updated paths for Istikbal
-input_dir = os.path.join(project_root, 'InflationItems', 'Datas', 'HomeGoods', 'Istikbal')
-output_dir = os.path.join(project_root, 'Inflations', 'Datas', 'HomeGoods', 'Istikbal')
+input_dir = os.path.join(project_root, 'InflationItems', 'Datas', category_dir, 'Istikbal')
+output_dir = os.path.join(project_root, 'Inflations', 'Datas', category_dir, 'Istikbal')
 output_filename = os.path.join(output_dir, 'Istikbal_inflation_summary.csv')
 
 os.makedirs(output_dir, exist_ok=True)

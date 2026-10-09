@@ -13,9 +13,9 @@ Product key: product_name (daily CSVs hold only product_name,price). Spring
 
 Intervals: 1d, 7d, 15d, 30d back from target date (skipped if data missing).
 
-Input files  : InflationItems/Datas/HomeGoods/Tchibo/
+Input files  : InflationItems/Datas/05_Furnishings/HomeGoods/Tchibo/
                tchibo_ev_yasam_YYYY-MM-DD.csv
-Output files : Inflations/Datas/HomeGoods/Tchibo/
+Output files : Inflations/Datas/05_Furnishings/HomeGoods/Tchibo/
   - tchibo_inflation_YYYY-MM-DD.csv  - per-product detail
   - tchibo_inflation_summary.csv     - store summary, one row per day
 
@@ -34,16 +34,20 @@ from pathlib import Path
 import pandas as pd
 
 # ── Path setup ───────────────────────────────────────────────────────────────
-# This file: Inflations/Codes/HomeGoods/Tchibo/tchibo_inflation.py
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Tchibo), so they hold in any category layout.
 _THIS_DIR = Path(__file__).resolve().parent
-REPO_ROOT = _THIS_DIR.parents[3]
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+REPO_ROOT = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 sys.path.insert(0, str(_THIS_DIR))
 from tchibo_tuik_config import normalised_weights  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = REPO_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "Tchibo"
-OUTPUT_DIR = REPO_ROOT / "Inflations" / "Datas" / "HomeGoods" / "Tchibo"
+DATA_DIR = REPO_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Tchibo"
+OUTPUT_DIR = REPO_ROOT / "Inflations" / "Datas" / _CATEGORY / "Tchibo"
 
 KEY = ["product_name"]
 

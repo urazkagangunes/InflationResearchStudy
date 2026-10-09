@@ -11,9 +11,9 @@ Product key: product_name (daily CSVs hold only product_name,price).
 
 Intervals: 1d, 7d, 15d, 30d back from target date (skipped if data missing).
 
-Input files  : InflationItems/Datas/HomeGoods/MadameCoco/
+Input files  : InflationItems/Datas/05_Furnishings/HomeGoods/MadameCoco/
                madamecoco_YYYY-MM-DD.csv
-Output files : Inflations/Datas/HomeGoods/MadameCoco/
+Output files : Inflations/Datas/05_Furnishings/HomeGoods/MadameCoco/
   - madamecoco_inflation_YYYY-MM-DD.csv  - per-product detail
   - madamecoco_inflation_summary.csv     - store summary, one row per day
 
@@ -32,16 +32,20 @@ from pathlib import Path
 import pandas as pd
 
 # ── Path setup ───────────────────────────────────────────────────────────────
-# This file: Inflations/Codes/HomeGoods/MadameCoco/madamecoco_inflation.py
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/MadameCoco), so they hold in any category layout.
 _THIS_DIR = Path(__file__).resolve().parent
-REPO_ROOT = _THIS_DIR.parents[3]
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+REPO_ROOT = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 sys.path.insert(0, str(_THIS_DIR))
 from madamecoco_tuik_config import normalised_weights  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = REPO_ROOT / "InflationItems" / "Datas" / "HomeGoods" / "MadameCoco"
-OUTPUT_DIR = REPO_ROOT / "Inflations" / "Datas" / "HomeGoods" / "MadameCoco"
+DATA_DIR = REPO_ROOT / "InflationItems" / "Datas" / _CATEGORY / "MadameCoco"
+OUTPUT_DIR = REPO_ROOT / "Inflations" / "Datas" / _CATEGORY / "MadameCoco"
 
 KEY = ["product_name"]
 
