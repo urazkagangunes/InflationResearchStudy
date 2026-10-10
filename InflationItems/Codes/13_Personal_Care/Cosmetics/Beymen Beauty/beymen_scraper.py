@@ -67,7 +67,7 @@ while True:
 
 # --- Output directory setup ---
 _THIS_DIR = Path(__file__).resolve()
-_PROJECT_ROOT = next((p for p in _THIS_DIR.parents if (p / ".git").exists()), _THIS_DIR.parents[4])
+_PROJECT_ROOT = next((p for p in _THIS_DIR.parents if (p / ".git").exists() or (p / "requirements.txt").exists()), _THIS_DIR.parents[5])
 out_dir = os.path.join(_PROJECT_ROOT, "InflationItems", "Datas", "13_Personal_Care", "Cosmetics", "BeymenBeauty")
 os.makedirs(out_dir, exist_ok=True)
 
