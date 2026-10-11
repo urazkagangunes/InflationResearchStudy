@@ -40,39 +40,50 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
+import time
+
 CATEGORY_URLS = [
     f"https://www.altinbas.com/altin?sayfa={p}" for p in range(1, 6)
 ]
 
 
 def scrape_altinbas_products() -> list[tuple[str, float]]:
-    """Scrapes gold jewelry product names and selling prices from Altınbaş catalog pages."""
+    """Scrapes gold jewelry product names and selling prices from Altınbaş catalog pages with retry logic."""
     results = []
     seen = set()
 
     for url in CATEGORY_URLS:
-        logger.info("Fetching Altınbaş page: %s", url)
-        try:
-            req = urllib.request.Request(url, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=12) as response:
-                html = response.read().decode("utf-8", errors="ignore")
+        for attempt in range(1, 4):
+            logger.info("Fetching Altınbaş page (attempt %d/3): %s", attempt, url)
+            try:
+                req = urllib.request.Request(url, headers=HEADERS)
+                with urllib.request.urlopen(req, timeout=15) as response:
+                    html = response.read().decode("utf-8", errors="ignore")
 
-            # Parse products from data-googletag attributes
-            matches = re.findall(
-                r"name:'([^']+)'.*?id:'([^']+)'.*?sale_price:'([0-9.]+)'",
-                html
-            )
-            for name, pid, price_str in matches:
-                full_name = f"Altınbaş {name.strip()} ({pid.strip()})"
-                try:
-                    price = float(price_str)
-                    if price > 0 and full_name not in seen:
-                        seen.add(full_name)
-                        results.append((full_name, price))
-                except ValueError:
-                    continue
-        except Exception as exc:
-            logger.warning("Failed to fetch %s: %s", url, exc)
+                # Parse products from data-googletag attributes
+                matches = re.findall(
+                    r"name:'([^']+)'.*?id:'([^']+)'.*?sale_price:'([0-9.]+)'",
+                    html
+                )
+                if matches:
+                    for name, pid, price_str in matches:
+                        full_name = f"Altınbaş {name.strip()} ({pid.strip()})"
+                        try:
+                            price = float(price_str)
+                            if price > 0 and full_name not in seen:
+                                seen.add(full_name)
+                                results.append((full_name, price))
+                        except ValueError:
+                            continue
+                    break  # Success, exit retry loop
+                else:
+                    logger.warning("Empty matches on %s (attempt %d)", url, attempt)
+                    time.sleep(3 * attempt)
+            except Exception as exc:
+                logger.warning("Failed to fetch %s (attempt %d): %s", url, attempt, exc)
+                time.sleep(3 * attempt)
+
+        time.sleep(3.0)  # Generous 3-second delay between catalog pages to avoid rate limits
 
     logger.info("Extracted %d unique gold jewelry items from Altınbaş", len(results))
     return results
