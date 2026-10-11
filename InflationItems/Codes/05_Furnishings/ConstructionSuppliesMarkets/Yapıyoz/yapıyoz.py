@@ -1,5 +1,7 @@
 import csv
+import os
 import re
+import sys
 import time
 import random
 from datetime import datetime
@@ -13,7 +15,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 BASE_URL = "https://www.yapiyoz.net/"
-CSV_FILE = f"yapiyoz_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}.csv"
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...); the file used to land in the working directory.
+_PARTS = os.path.dirname(os.path.abspath(__file__)).split(os.sep)
+_ROOT = _PARTS.index("InflationItems")
+DATA_DIR = os.sep.join(_PARTS[:_ROOT + 1] + ["Datas"] + _PARTS[_ROOT + 2:])
+CSV_FILE = os.path.join(DATA_DIR, f"yapiyoz_{datetime.now().strftime('%Y-%m-%d')}.csv")
 
 SPACE_RE = re.compile(r"\s+")
 PRICE_RE = re.compile(r"(\d[\d\.\,]*)\s*TL", re.IGNORECASE)
@@ -136,8 +143,11 @@ def get_product_links_from_category(driver, category_url: str):
                 continue
 
             
+            # Filter links (?marka=...) list a subset of the same products and
+            # multiplied the browser page loads; only plain subcategories are followed.
             if (
                 "/kategori/" in full
+                and "?" not in full
                 and full.startswith(category_url.rstrip("/"))
                 and full not in visited_pages
             ):
@@ -234,34 +244,41 @@ def main():
         all_product_links = sorted(all_product_links)
         print(f"\n[+] Toplam benzersiz ürün linki: {len(all_product_links)}")
 
-        written = 0
+        rows = []
         seen = set()
 
+        for i, product_url in enumerate(all_product_links, start=1):
+            print(f"[URUN {i}/{len(all_product_links)}] {product_url}")
+            result = scrape_product(driver, product_url)
+
+            if not result:
+                continue
+
+            name, price = result
+            key = (name, f"{price:.2f}")
+
+            if key in seen:
+                continue
+            seen.add(key)
+
+            rows.append([name, f"{price:.2f}"])
+
+            print(f"  [OK] {name} -> {price:.2f}")
+            time.sleep(random.uniform(0.8, 1.8))
+
+        if not rows:
+            print("[HATA] Hiç ürün okunamadı, CSV yazılmadı.")
+            sys.exit(1)
+
+        # Written once at the end with the header the central inflation script
+        # reads; the old rows (timestamp, 0, name, price) had no header.
+        os.makedirs(DATA_DIR, exist_ok=True)
         with open(CSV_FILE, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
+            writer.writerow(["product_name", "price"])
+            writer.writerows(rows)
 
-            for i, product_url in enumerate(all_product_links, start=1):
-                print(f"[URUN {i}/{len(all_product_links)}] {product_url}")
-                result = scrape_product(driver, product_url)
-
-                if not result:
-                    continue
-
-                name, price = result
-                key = (name, f"{price:.2f}")
-
-                if key in seen:
-                    continue
-                seen.add(key)
-
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                writer.writerow([timestamp, 0, name, f"{price:.2f}"])
-                written += 1
-
-                print(f"  [OK] {name} -> {price:.2f}")
-                time.sleep(random.uniform(0.8, 1.8))
-
-        print(f"\n[BİTTİ] {written} kayıt yazıldı -> {CSV_FILE}")
+        print(f"\n[BİTTİ] {len(rows)} kayıt yazıldı -> {CSV_FILE}")
 
     finally:
         if driver is not None:

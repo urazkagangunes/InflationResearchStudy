@@ -16,10 +16,16 @@ except ImportError:
     print("pip install undetected-chromedriver beautifulsoup4 setuptools")
     sys.exit(1)
 
-CHROME_VERSION = 145
+# None lets undetected-chromedriver match the installed Chrome; a fixed
+# version breaks as soon as Chrome updates.
+CHROME_VERSION = None
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_BASE_DIR = os.path.join(SCRIPT_DIR, "Datas", "Ereyon")
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_parts = SCRIPT_DIR.split(os.sep)
+_root = _parts.index("InflationItems")
+DATA_BASE_DIR = os.sep.join(_parts[:_root + 1] + ["Datas"] + _parts[_root + 2:])
 
 ANA_KATEGORILER = [
     ("Kucuk Ev Aletleri",  "https://www.ereyon.com.tr/kucuk-ev-aletleri-8"),
@@ -53,16 +59,23 @@ def setup_driver():
 def get_output_path():
     today_str = datetime.now().strftime("%Y-%m-%d")
     os.makedirs(DATA_BASE_DIR, exist_ok=True)
-    return os.path.join(DATA_BASE_DIR, today_str + ".csv")
+    return os.path.join(DATA_BASE_DIR, today_str + "_Ereyonprices.csv")
+
+
+all_rows = []
 
 
 def save_batch(batch, file_path):
-    file_exists = os.path.isfile(file_path)
-    with open(file_path, mode='a', newline='', encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f, fieldnames=["Kategori", "Urun_Adi", "Fiyat"])
-        if not file_exists:
-            writer.writeheader()
-        writer.writerows(batch)
+    # Rows are written once at the end; appending per page left partial or
+    # doubled files when a run stopped or was repeated on the same day.
+    all_rows.extend(batch)
+
+
+def write_csv(file_path):
+    with open(file_path, mode='w', newline='', encoding='utf-8-sig') as f:
+        writer = csv.DictWriter(f, fieldnames=["product_name", "price", "kategori"])
+        writer.writeheader()
+        writer.writerows(all_rows)
 
 
 def scroll_until_stable(driver):
@@ -107,9 +120,9 @@ def parse_products(driver, kategori):
             seen_products.add(key)
 
             batch.append({
-                "Kategori": kategori,
-                "Urun_Adi": name,
-                "Fiyat": price
+                "kategori": kategori,
+                "product_name": name,
+                "price": price
             })
 
         except Exception:
@@ -188,11 +201,14 @@ def main():
 
     file_path = get_output_path()
     driver = setup_driver()
+    completed = False
 
     try:
         for kategori, url in ANA_KATEGORILER:
-            scrape_category(driver, kategori, url, file_path)
+            if scrape_category(driver, kategori, url, file_path) == 0:
+                print("  UYARI: " + kategori + " kategorisinden urun gelmedi.")
             time.sleep(random.uniform(4, 7))
+        completed = True
 
     except KeyboardInterrupt:
         print("\nDurduruldu.")
@@ -200,11 +216,17 @@ def main():
     finally:
         driver.quit()
         cleanup()
-        print("\n" + "=" * 55)
-        print("TAMAMLANDI!")
-        print("Toplam benzersiz urun: " + str(len(seen_products)))
-        print("Dosya: " + file_path)
-        print("=" * 55)
+
+    if not completed or not all_rows:
+        print("Calisma tamamlanmadi, CSV yazilmadi.")
+        sys.exit(1)
+
+    write_csv(file_path)
+    print("\n" + "=" * 55)
+    print("TAMAMLANDI!")
+    print("Toplam benzersiz urun: " + str(len(seen_products)))
+    print("Dosya: " + file_path)
+    print("=" * 55)
 
 
 if __name__ == "__main__":

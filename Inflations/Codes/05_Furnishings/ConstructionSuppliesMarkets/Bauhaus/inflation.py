@@ -28,24 +28,29 @@ import pandas as pd
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 _THIS_DIR = Path(__file__).resolve().parent
-_CODES_DIR = _THIS_DIR.parent.parent               # .../Inflations/Codes
-_PROJECT_ROOT = _CODES_DIR.parent.parent            # .../InflationResearchStudy
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Bauhaus), so they hold in any category layout.
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+_CODES_DIR = Path(*_PARTS[:_ROOT + 2])              # .../Inflations/Codes
+_PROJECT_ROOT = Path(*_PARTS[:_ROOT])               # .../InflationResearchStudy
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 
 sys.path.insert(0, str(_THIS_DIR))
 from tuik_config import normalised_weights, TUIK_WEIGHTS
 
 try:
-    _scraper_dir = _PROJECT_ROOT / "InflationItems" / "Codes" / "ConstructionSuppliesMarkets" / "Bauhaus" / "scripts"
+    _scraper_dir = _PROJECT_ROOT / "InflationItems" / "Codes" / _CATEGORY / "Bauhaus" / "scripts"
     sys.path.insert(0, str(_scraper_dir))
     import config
     DATA_DIR = Path(config.OUTPUT_DIR)
 except Exception:
-    DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "ConstructionSuppliesMarkets" / "Bauhaus"
+    DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Bauhaus"
 
 logger = logging.getLogger(__name__)
 
 # ── Output directory ──────────────────────────────────────────────────────────
-INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / "ConstructionSuppliesMarkets" / "Bauhaus"
+INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / _CATEGORY / "Bauhaus"
 
 TUIK_CATEGORY = "05"  # Mobilya, ev aletleri ve ev bakım hizmetleri
 

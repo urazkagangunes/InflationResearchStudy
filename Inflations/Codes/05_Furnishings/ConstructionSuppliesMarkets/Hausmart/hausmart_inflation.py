@@ -29,18 +29,20 @@ from pathlib import Path
 import pandas as pd
 
 # ── Path setup ────────────────────────────────────────────────────────────────
-# Bu dosya: Inflations/Codes/ConstructionSuppliesMarkets/Hausmart/hausmart_inflation.py
-# Veri:     InflationItems/Datas/ConstructionSuppliesMarkets/Hausmart/
-# Çıktı:    Inflations/Datas/ConstructionSuppliesMarkets/Hausmart/
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Hausmart), so they hold in any category layout.
 _THIS_DIR = Path(__file__).resolve().parent
-REPO_ROOT  = _THIS_DIR.parents[3]
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+REPO_ROOT  = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 sys.path.insert(0, str(_THIS_DIR))
 from hausmart_tuik_config import normalised_weights
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / "ConstructionSuppliesMarkets" / "Hausmart"
-OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / "ConstructionSuppliesMarkets" / "Hausmart"
+DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Hausmart"
+OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / _CATEGORY / "Hausmart"
 
 # Yeni CSV formatı sadece product_name,price içeriyor — kategori yok.
 # Hausmart ürünleri ağırlıklı olarak yapı/ev bakım: tek TUIK kodu 05.

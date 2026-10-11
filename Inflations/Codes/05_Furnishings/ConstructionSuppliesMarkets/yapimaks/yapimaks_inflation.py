@@ -7,12 +7,16 @@ from datetime import datetime, timedelta
 
 # --- RELATIVE PATH SETUP ---
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# Target: inflationstudymirror root (Up 4 levels from Inflations/Codes/ConstructionMarkets/yapimaks)
-PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", "..", ".."))
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/yapimaks), so they hold in any category layout.
+_PARTS = SCRIPT_DIR.split(os.sep)
+_ROOT = _PARTS.index("Inflations")
+PROJECT_ROOT = os.sep.join(_PARTS[:_ROOT])
+CATEGORY = os.sep.join(_PARTS[_ROOT + 2:-1])
 
-DATA_DIR = os.path.join(PROJECT_ROOT, "Datas", "yapimaks")
-OUT_DIR = os.path.join(PROJECT_ROOT, "Inflations", "Datas", "ConstructionSuppliesMarkets", "Yapimaks")
-JSON_PATH = os.path.join(PROJECT_ROOT, "Inflations", "Codes", "ConstructionMarkets", "yapimaks", "Category", "kategori_haritasi.json")
+DATA_DIR = os.path.join(PROJECT_ROOT, "InflationItems", "Datas", CATEGORY, "yapimaks")
+OUT_DIR = os.path.join(PROJECT_ROOT, "Inflations", "Datas", CATEGORY, "Yapimaks")
+JSON_PATH = os.path.join(PROJECT_ROOT, "Inflations", "Codes", CATEGORY, "yapimaks", "Category", "kategori_haritasi.json")
 
 # Ensure output directory exists
 os.makedirs(OUT_DIR, exist_ok=True)
@@ -41,8 +45,11 @@ def load_data(date_str, category_map):
     # Handle both column name patterns safely
     price_col = 'product-price' if 'product-price' in df.columns else 'price'
 
-    df['price'] = df[price_col].astype(str).str.replace('.', '', regex=False).str.replace(',', '.', regex=False)
-    df['price'] = pd.to_numeric(df['price'], errors='coerce')
+    # Spring files hold "1.234,50"; summer files and the current scraper write 1234.5
+    raw = df[price_col].astype(str)
+    turkish = raw.str.contains(',', regex=False)
+    raw = raw.where(~turkish, raw.str.replace('.', '', regex=False).str.replace(',', '.', regex=False))
+    df['price'] = pd.to_numeric(raw, errors='coerce')
 
     df['category'] = df['url'].map(category_map).fillna("Bilinmeyen")
     df['tuik_code'] = df['category'].apply(get_tuik_class)

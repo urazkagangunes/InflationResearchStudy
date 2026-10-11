@@ -103,10 +103,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import config, category_fetcher, product_fetcher
 
-# Add the location of inflation.py to sys.path
-_inflation_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 
-    "..", "..", "..", "..", "..", "Inflations", "Codes", "ConstructionSuppliesMarkets", "Bauhaus"
+# Add the location of inflation.py to sys.path. Inflations/Codes mirrors
+# InflationItems/Codes, so the path holds in any category layout.
+_store_parts = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).split(os.sep)
+_items_root = _store_parts.index("InflationItems")
+_inflation_dir = os.sep.join(
+    _store_parts[:_items_root] + ["Inflations"] + _store_parts[_items_root + 1:]
 )
 sys.path.append(os.path.abspath(_inflation_dir))
 try:
@@ -145,7 +147,7 @@ def save_csv(products, out_path):
     """
     if not products:
         return
-    fieldnames = ["id", "sku", "name", "brand", "category", "regular_price", "shown_price", "discount_rate", "unit", "status"]
+    fieldnames = ["product_name", "price"]
     with open(out_path, 'w', encoding='utf-8-sig', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -443,7 +445,9 @@ def main():
     
     # Deduplicate
     before_count = len(all_products)
-    unique_products = list({p["id"]: p for p in all_products}.values())
+    # Products carry only product_name and price since the May column change;
+    # the old "id" key no longer exists.
+    unique_products = list({(p["product_name"], p["price"]): p for p in all_products}.values())
     after_count = len(unique_products)
     
     if before_count > after_count:

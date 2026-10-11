@@ -9,35 +9,20 @@ import pandas as pd
 # 1. PATH SETTINGS
 # ============================================================
 
-project_root = os.path.dirname(os.path.abspath(__file__))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Yapıyoz), so they hold in any category layout.
+_parts = script_dir.split(os.sep)
+_root = _parts.index("Inflations")
+project_root = os.sep.join(_parts[:_root])
+category = os.sep.join(_parts[_root + 2:-1])
 
-# Yapıyoz datasını bu klasör isimlerinden biriyle proje içine koyarsan otomatik bulur.
-possible_input_dirs = [
-    os.path.join(project_root, "yapiyoz_isim_fiyat_cleaned"),
-    os.path.join(project_root, "Yapiyoz - datas updated"),
-    os.path.join(project_root, "Yapıyoz - datas updated"),
-    os.path.join(project_root, "Yapiyoz"),
-    os.path.join(project_root, "yapiyoz"),
-]
+input_dir = os.path.join(project_root, "InflationItems", "Datas", category, "Yapıyoz")
 
-input_dir = None
+if not os.path.isdir(input_dir):
+    raise FileNotFoundError(f"Yapıyoz input folder bulunamadı: {input_dir}")
 
-for candidate in possible_input_dirs:
-    if os.path.exists(candidate):
-        input_dir = candidate
-        break
-
-if input_dir is None:
-    raise FileNotFoundError(
-        "Yapıyoz input folder bulunamadı. Proje klasörüne şu isimlerden biriyle koy:\n"
-        "- yapiyoz_isim_fiyat_cleaned\n"
-        "- Yapiyoz - datas updated\n"
-        "- Yapıyoz - datas updated\n"
-        "- Yapiyoz\n"
-        "- yapiyoz"
-    )
-
-output_dir = os.path.join(project_root, "outputs_yapiyoz")
+output_dir = os.path.join(project_root, "Inflations", "Datas", category, "Yapıyoz")
 
 summary_output = os.path.join(output_dir, "yapiyoz_inflation_summary.csv")
 diagnostics_output = os.path.join(output_dir, "yapiyoz_diagnostics.csv")
@@ -73,7 +58,7 @@ def read_csv_safely(file_path):
 
     for encoding in encodings:
         try:
-            return pd.read_csv(file_path, sep=";", encoding=encoding)
+            return pd.read_csv(file_path, sep=",", encoding=encoding)
         except Exception as e:
             last_error = e
 
@@ -254,6 +239,8 @@ for file_path in sorted(all_csv_files):
         df = read_csv_safely(file_path)
 
         df.columns = [str(col).strip().lower() for col in df.columns]
+        # Repo files use the shared product_name,price header
+        df = df.rename(columns={"product_name": "isim", "price": "fiyat"})
 
         if "isim" not in df.columns or "fiyat" not in df.columns:
             skipped_rows.append({

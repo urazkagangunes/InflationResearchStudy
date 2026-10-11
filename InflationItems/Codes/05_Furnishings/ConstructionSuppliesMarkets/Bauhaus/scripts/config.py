@@ -144,12 +144,12 @@ MAX_403_PAGE_RETRIES = 3       # Per-page 403 retry attempts before bailing
 PAGE_403_COOLDOWN_BASE = 30    # Base seconds; actual = BASE * attempt
 
 # --- Paths ---
-# By default, save to InflationItems/Datas/ConstructionSuppliesMarkets/Datas/
-# Compute absolute paths relative to this config file's location to be robust
+# The data folder mirrors the scraper folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPTS_DIR, "../../../../../"))
-
-OUTPUT_DIR = os.path.join(PROJECT_ROOT, "InflationItems", "Datas", "ConstructionSuppliesMarkets", "Bauhaus")
+_parts = os.path.dirname(SCRIPTS_DIR).split(os.sep)
+_root = _parts.index("InflationItems")
+OUTPUT_DIR = os.sep.join(_parts[:_root + 1] + ["Datas"] + _parts[_root + 2:])
 CHECKPOINT_DIR = os.path.join(SCRIPTS_DIR, "..", "checkpoints")
 
 # Ensure directories exist

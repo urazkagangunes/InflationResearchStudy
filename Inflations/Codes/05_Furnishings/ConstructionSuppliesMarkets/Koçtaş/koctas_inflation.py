@@ -3,9 +3,10 @@ koctas_inflation.py — Koçtaş Daily Inflation Calculator
 
 Intervals: 1d, 7d, 15d, 30d
 
-Input  : koctas_YYYY.MM.DD.csv
+Input  : Koctas/koctas_YYYY-MM-DD.csv (the current scraper; the old Koçtaş
+         folder with YYYY.MM.DD files ends with real data on 2026.06.10)
 Output :
-  - koctas_inflation_YYYY.MM.DD.csv   — per-product detail
+  - koctas_inflation_YYYY-MM-DD.csv   — per-product detail
   - koctas_inflation_summary.csv      — one row per day
 """
 
@@ -18,17 +19,19 @@ from pathlib import Path
 import pandas as pd
 
 _THIS_DIR = Path(__file__).resolve().parent
-# Bu dosya: Inflations/Codes/05_Furnishings/ConstructionSuppliesMarkets/Koçtaş/koctas_inflation.py
-# Veri:     InflationItems/Datas/05_Furnishings/ConstructionSuppliesMarkets/Koçtaş/
-# Çıktı:    Inflations/Datas/05_Furnishings/ConstructionSuppliesMarkets/Koçtaş/
-REPO_ROOT  = _THIS_DIR.parents[4]
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Koçtaş), so they hold in any category layout.
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+REPO_ROOT  = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 sys.path.insert(0, str(_THIS_DIR))
 from koctas_tuik_config import normalised_weights
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / "05_Furnishings" / "ConstructionSuppliesMarkets" / "Koçtaş"
-OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / "05_Furnishings" / "ConstructionSuppliesMarkets" / "Koçtaş"
+DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Koctas"
+OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / _CATEGORY / "Koçtaş"
 
 # Yeni CSV formatı sadece product_name,price içeriyor — kategori yok.
 # Koçtaş ürünleri ağırlıklı olarak ev aletleri / yapı: tek TUIK kodu 05.
@@ -36,7 +39,7 @@ _STORE_TUIK_CODE = "05"
 
 
 def _date_to_str(dt):
-    return dt.strftime("%Y.%m.%d")
+    return dt.strftime("%Y-%m-%d")
 
 
 def _load_csv(date_str):
@@ -87,7 +90,7 @@ def _compute_metrics(df_current, df_past):
 
 def calculate_inflation(target_date=None, compare_date=None):
     if target_date:
-        base_date = datetime.strptime(target_date, "%Y.%m.%d")
+        base_date = datetime.strptime(target_date, "%Y-%m-%d")
     else:
         base_date = datetime.today()
     today_str = _date_to_str(base_date)
@@ -158,8 +161,8 @@ def calculate_inflation(target_date=None, compare_date=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Koçtaş inflation calculator")
-    parser.add_argument("--date", help="Hedef tarih (YYYY.MM.DD)", default=None)
-    parser.add_argument("--compare", help="Karşılaştırma tarihi (YYYY.MM.DD)", default=None)
+    parser.add_argument("--date", help="Hedef tarih (YYYY-MM-DD)", default=None)
+    parser.add_argument("--compare", help="Karşılaştırma tarihi (YYYY-MM-DD)", default=None)
     args = parser.parse_args()
 
     logging.basicConfig(

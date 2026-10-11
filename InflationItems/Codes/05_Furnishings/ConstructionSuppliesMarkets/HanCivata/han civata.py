@@ -197,9 +197,10 @@ def parse_products(soup, kategori):
 
         products.append({
             "urun_id": urun_id,
-            "urun_adi": product_name,
+            # The central inflation script reads only product_name and price columns.
+            "product_name": product_name,
             "kategori": kategori,
-            "fiyat": fiyat,
+            "price": fiyat,
             "urun_url": product_url
         })
 
@@ -243,8 +244,17 @@ def main():
     print(f"Bulunan kategori sayısı: {len(categories)}")
 
     today = datetime.now().strftime("%Y-%m-%d")
-    file_name = f"han_civata_{today}.csv"
-    kontrol_name = f"han_civata_kontrol_{today}.csv"
+    # The data folder mirrors this code folder (InflationItems/Codes/... ->
+    # InflationItems/Datas/...); the resume file stays next to the code.
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    parts = script_dir.split(os.sep)
+    root = parts.index("InflationItems")
+    data_dir = os.sep.join(parts[:root + 1] + ["Datas"] + parts[root + 2:])
+    checkpoint_dir = os.path.join(script_dir, "checkpoints")
+    os.makedirs(data_dir, exist_ok=True)
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    file_name = os.path.join(data_dir, f"han_civata_{today}.csv")
+    kontrol_name = os.path.join(checkpoint_dir, f"han_civata_kontrol_{today}.csv")
 
     # --- Yarıda kesilmeye karşı kaldığı yerden devam etme (Resume) Mantığı ---
     processed_categories = set()
@@ -271,7 +281,7 @@ def main():
             if rows:
                 df = pd.DataFrame(rows)
                 # Kategori bazında kopyaları temizle
-                df.drop_duplicates(subset=["urun_id", "urun_adi", "kategori", "fiyat", "urun_url"], inplace=True)
+                df.drop_duplicates(subset=["urun_id", "product_name", "kategori", "price", "urun_url"], inplace=True)
                 
                 # CSV'ye ekleme modunda (append - 'a') yazdır
                 # Dosya yoksa header ekle, varsa ekleme

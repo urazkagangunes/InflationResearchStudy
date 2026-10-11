@@ -39,18 +39,36 @@ class CategoryScanner:
         return categories
 
 class LinkCollector:
+    def __init__(self):
+        self.failed = []
+
+    async def fetch(self, session, url, attempts=3):
+        # A single failed request used to end the category silently, so a
+        # whole category could be missing from the day's file.
+        for attempt in range(attempts):
+            try:
+                async with session.get(url, timeout=aiohttp.ClientTimeout(total=30)) as response:
+                    if response.status == 200:
+                        return await response.text()
+                    print(f"status {response.status} on {url}")
+            except Exception as e:
+                print(f"error on page {url}: {e}")
+            await asyncio.sleep(2 * (attempt + 1))
+        return None
+
     async def collect_pages(self, session, category):
         page = 1
         all_category_pages = []
-        
+
         while True:
-            url = f"{category['url']}?sayfa={page}"
+            # The site pages with ?tp=; it ignores ?sayfa= and keeps serving page 1.
+            url = f"{category['url']}?tp={page}"
             try:
-                async with session.get(url, timeout=10) as response:
-                    if response.status != 200:
-                        break
-                    html = await response.text()
-                
+                html = await self.fetch(session, url)
+                if html is None:
+                    self.failed.append(f"{category['name']} (page {page})")
+                    break
+
                 soup = BeautifulSoup(html, "html.parser")
                 items = soup.select(".showcase") 
                 
@@ -64,11 +82,11 @@ class LinkCollector:
                 })
                 
                 # checking next pages
-                next_btn = soup.select_one(".pagination-next")
-                if not next_btn and page > 1:
-                    break
-                
                 print(f"[{category['name']}] {page} pages scraped")
+                next_btn = soup.select_one(".paginate-right.paginate-active")
+                if not next_btn:
+                    break
+
                 page += 1
                 await asyncio.sleep(random.uniform(*DELAY_RANGE))
                 
@@ -110,7 +128,7 @@ class DataExtractor:
             
             extracted_items.append({
                 # "category": page_data["category"],
-                "title": title_el.get_text(strip=True) if title_el else "N/A",
+                "product_name": title_el.get_text(strip=True) if title_el else "N/A",
                 "price": numeric_price  
             })
         return extracted_items
@@ -118,7 +136,12 @@ class DataExtractor:
 class Storage:
     @staticmethod
     def data_dir_for_market():
-        return os.path.join("InflationItems", "Datas", "ConstructionSuppliesMarkets", "FiltasYapi")
+        # The data folder mirrors this code folder (InflationItems/Codes/... ->
+        # InflationItems/Datas/...), so the path holds in any category layout
+        # and does not depend on the working directory.
+        parts = os.path.dirname(os.path.abspath(__file__)).split(os.sep)
+        root = parts.index("InflationItems")
+        return os.sep.join(parts[:root + 1] + ["Datas"] + parts[root + 2:])
 
     @staticmethod
     def save(rows: list[dict]) -> str:
@@ -130,7 +153,7 @@ class Storage:
         out_path = os.path.join(path, filename)
 
         with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
-            fieldnames = ["title", "price"]
+            fieldnames = ["product_name", "price"]
             w = csv.DictWriter(f, fieldnames=fieldnames)
             
             w.writeheader()
@@ -155,6 +178,10 @@ class Scraper:
             
             tasks = [self.collector.collect_pages(session, cat) for cat in categories]
             results = await asyncio.gather(*tasks)
+
+            if self.collector.failed:
+                print("incomplete, CSV not written; failed: " + ", ".join(self.collector.failed))
+                raise SystemExit(1)
 
             all_data = []
             for pages in results:

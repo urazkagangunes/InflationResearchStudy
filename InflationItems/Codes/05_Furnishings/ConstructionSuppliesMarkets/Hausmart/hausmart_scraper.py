@@ -24,10 +24,11 @@ from datetime import datetime
 from pathlib import Path
 
 # ── Repo-relative output path ─────────────────────────────────────────────────
-# Bu dosya: InflationItems/Codes/ConstructionSuppliesMarkets/Hausmart/hausmart_scraper.py
-# Veri:     InflationItems/Datas/ConstructionSuppliesMarkets/Hausmart/
-REPO_ROOT = next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5])
-OUT_DIR   = REPO_ROOT / "InflationItems" / "Datas" / "ConstructionSuppliesMarkets" / "Hausmart"
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_PARTS = Path(__file__).resolve().parent.parts
+_ROOT  = _PARTS.index("InflationItems")
+OUT_DIR = Path(*_PARTS[:_ROOT + 1], "Datas", *_PARTS[_ROOT + 2:])
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 from bs4 import BeautifulSoup
@@ -334,6 +335,7 @@ def main():
     # Her kategori bağımsız fiyat serisi oluşturduğundan, tüm category-level sonuçlar
     # ayrı satır olarak tutulur. Dedup yalnızca kategori içinde (scrape_category) yapılır.
     all_products: list[dict] = []
+    failed: list[str] = []
 
     with ThreadPoolExecutor(max_workers=DEFAULT_WORKERS) as executor:
         future_to_cat = {
@@ -349,8 +351,16 @@ def main():
                     f"[{cat['name']}] merge edildi → +{len(cat_results)} ürün "
                     f"(genel toplam: {len(all_products)})"
                 )
+                if not cat_results:
+                    failed.append(cat["name"])
             except Exception as exc:
                 logger.error(f"[{cat['name']}] Hata: {exc}")
+                failed.append(cat["name"])
+
+    # An empty or partial day used to be written as a normal CSV (4 Oct had 0 rows).
+    if failed:
+        logger.error(f"Eksik kategori, CSV yazılmadı: {', '.join(failed)}")
+        raise SystemExit(1)
 
     final = sorted(
         all_products,

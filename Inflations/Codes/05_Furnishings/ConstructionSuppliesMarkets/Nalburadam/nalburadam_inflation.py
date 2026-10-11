@@ -7,7 +7,7 @@ Computes inflation metrics for Nalburadam construction supply products:
   3. TUIK weighted avg  — weighted average using TUIK 2026 CPI basket weights
 
 All Nalburadam products map to TUIK category 05 (Furniture, appliances, maintenance).
-Products are matched across dates by id.
+Products are matched across dates by product_name.
 
 Intervals: 1d, 7d, 15d, 30d
 
@@ -24,16 +24,21 @@ from pathlib import Path
 import pandas as pd
 
 _THIS_DIR = Path(__file__).resolve().parent
-_CODES_DIR = _THIS_DIR.parent.parent
-_PROJECT_ROOT = _CODES_DIR.parent.parent
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/Nalburadam), so they hold in any category layout.
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+_CODES_DIR = Path(*_PARTS[:_ROOT + 2])
+_PROJECT_ROOT = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 
 sys.path.insert(0, str(_CODES_DIR))
 from tuik_config import TUIK_WEIGHTS, normalised_weights
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "ConstructionSuppliesMarkets" / "Nalburadam"
-INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / "ConstructionSuppliesMarkets" / "Nalburadam"
+DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / _CATEGORY / "Nalburadam"
+INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / _CATEGORY / "Nalburadam"
 
 TUIK_CATEGORY = "05"  # All Nalburadam products -> Furniture/appliances/maintenance
 
@@ -44,8 +49,10 @@ def _load_csv(date_str):
         logger.info(f"Data file not found: {fpath}")
         return None
     try:
-        df = pd.read_csv(fpath, encoding="utf-8")
-        df["Product Cost"] = pd.to_numeric(df["Product Cost"], errors="coerce")
+        # The scraper writes product_name and price; most files have no id column.
+        df = pd.read_csv(fpath, encoding="utf-8-sig")
+        df["price"] = pd.to_numeric(df["price"], errors="coerce")
+        df = df.drop_duplicates(subset=["product_name"])
         return df
     except Exception as e:
         logger.error(f"Failed to read {fpath}: {e}")
@@ -53,13 +60,13 @@ def _load_csv(date_str):
 
 
 def _compute_metrics(df_current, df_past):
-    past_subset = df_past[["id", "Product Cost"]].rename(
-        columns={"Product Cost": "past_price"}
+    past_subset = df_past[["product_name", "price"]].rename(
+        columns={"price": "past_price"}
     )
-    merged = df_current.merge(past_subset, on="id", how="inner")
+    merged = df_current.merge(past_subset, on="product_name", how="inner")
 
     merged["per_item_inflation"] = (
-        (merged["Product Cost"] - merged["past_price"]) / merged["past_price"]
+        (merged["price"] - merged["past_price"]) / merged["past_price"]
     ) * 100
     merged["per_item_inflation"] = merged["per_item_inflation"].replace(
         [float("inf"), float("-inf")], pd.NA
@@ -108,10 +115,10 @@ def calculate_inflation(target_date=None):
         merged, avg_inf, tuik_w = _compute_metrics(df_today, df_past)
 
         detail_base = detail_base.merge(
-            merged[["id", "per_item_inflation"]].rename(
+            merged[["product_name", "per_item_inflation"]].rename(
                 columns={"per_item_inflation": f"per_item_inflation_{label}"}
             ),
-            on="id",
+            on="product_name",
             how="left",
         )
 

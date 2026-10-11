@@ -1,4 +1,3 @@
-from pathlib import Path
 """
 config.py — Nalburadam scraper configuration settings.
 
@@ -26,9 +25,11 @@ DEFAULT_WORKERS = 10  # Number of parallel workers
 
 # --- Paths ---
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = str(next((p for p in Path(__file__).resolve().parents if (p / ".git").exists()), Path(__file__).resolve().parents[5]))
-
-OUTPUT_DIR = os.path.join(PROJECT_ROOT, "InflationItems", "Datas", "ConstructionSuppliesMarkets", "Nalburadam")
+# The data folder mirrors the scraper folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_parts = os.path.dirname(SCRIPTS_DIR).split(os.sep)
+_root = _parts.index("InflationItems")
+OUTPUT_DIR = os.sep.join(_parts[:_root + 1] + ["Datas"] + _parts[_root + 2:])
 CHECKPOINT_DIR = os.path.join(SCRIPTS_DIR, "..", "checkpoints")
 
 # Ensure directories exist

@@ -51,20 +51,14 @@ BRAND_RE      = re.compile(r'brandName\s*:\s*"([^"]+)"')
 # Path helpers
 # ---------------------------------------------------------------------------
 
-def inflationitems_root() -> str:
+def data_dir() -> str:
     """
-    This file lives at:
-      [project_root]/InflationItems/Codes/ConstructionSuppliesMarkets/Nalburcuk/nalburcuk_scraper.py
-    Four dirname() calls reach InflationItems/.
+    The data folder mirrors this code folder (InflationItems/Codes/... ->
+    InflationItems/Datas/...), so the path holds in any category layout.
     """
-    here = os.path.abspath(__file__)
-    return os.path.dirname(   # Nalburcuk/
-        os.path.dirname(       # ConstructionSuppliesMarkets/
-            os.path.dirname(   # Codes/
-                os.path.dirname(here)  # InflationItems/
-            )
-        )
-    )
+    parts = os.path.dirname(os.path.abspath(__file__)).split(os.sep)
+    root = parts.index("InflationItems")
+    return os.sep.join(parts[:root + 1] + ["Datas"] + parts[root + 2:])
 
 # ---------------------------------------------------------------------------
 # HTTP helpers
@@ -268,10 +262,7 @@ def main() -> None:
     print(f"Unique products after SKU dedup: {len(final_rows)}")
 
     # ── Step 5: Write CSV ─────────────────────────────────────────────────
-    out_dir = os.path.join(
-        inflationitems_root(),
-        "Datas", "ConstructionSuppliesMarkets", "Nalburcuk"
-    )
+    out_dir = data_dir()
     os.makedirs(out_dir, exist_ok=True)
 
     today    = datetime.now().strftime("%Y-%m-%d")
@@ -279,7 +270,8 @@ def main() -> None:
 
     with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        writer.writerow(["ID", "SKU", "Product Name", "Category", "Price (TL)", "URL"])
+        # The central inflation script reads only product_name and price columns.
+        writer.writerow(["ID", "SKU", "product_name", "Category", "price", "URL"])
         for row_id, row in enumerate(final_rows, 1):
             writer.writerow([
                 row_id,

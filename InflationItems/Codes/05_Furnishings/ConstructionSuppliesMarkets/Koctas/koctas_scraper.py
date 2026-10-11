@@ -35,8 +35,11 @@ import time
 from datetime import date
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[5]
-OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "05_Furnishings" / "ConstructionSuppliesMarkets" / "Koctas"
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), like the other Group 05 scrapers.
+_PARTS = Path(__file__).resolve().parent.parts
+_ROOT = _PARTS.index("InflationItems")
+OUT_DIR = Path(*_PARTS[:_ROOT + 1], "Datas", *_PARTS[_ROOT + 2:])
 
 # (label, url, expected dataLayer list name, tuik code, max pages)
 CATEGORIES = [

@@ -10,10 +10,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # 1. DIRECTORY SETUP
 # ==========================================
 current_script_path = os.path.abspath(__file__)
-# Script lives at: InflationItems/Codes/ConstructionSuppliesMarkets/SanatYapiOnline/
-# So go up 4 levels to reach the project root (same as mudo scraper)
-base_project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(current_script_path))))
-data_dir = os.path.join(base_project_dir, "Datas", "ConstructionSuppliesMarkets", "SanatYapiOnline")
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...), so the path holds in any category layout.
+_parts = os.path.dirname(current_script_path).split(os.sep)
+_root = _parts.index("InflationItems")
+data_dir = os.sep.join(_parts[:_root + 1] + ["Datas"] + _parts[_root + 2:])
 os.makedirs(data_dir, exist_ok=True)
 
 OUTPUT_FILE = os.path.join(data_dir, f"sanatyapionline_{datetime.now().strftime('%Y-%m-%d')}.csv")
@@ -317,7 +318,9 @@ def main():
         print("      pip install playwright && playwright install chromium")
         return
 
-    df = pd.DataFrame(all_products)[["Category", "Name", "Current Price", "Original Price"]]
+    # The central inflation script reads only product_name and price columns.
+    df = pd.DataFrame(all_products)[["Name", "Current Price", "Category", "Original Price"]]
+    df = df.rename(columns={"Name": "product_name", "Current Price": "price"})
     df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8-sig")
     print(f"✅ Saved {len(all_products)} products → {OUTPUT_FILE}")
 

@@ -7,25 +7,28 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 import undetected_chromedriver as uc
 
-# User provided categories
+# User provided categories; goz-koruyucular and silikon-mastik-kopuk-cesitleri
+# were dropped, the site answers 404 for both (11 Oct 2026).
 CATEGORIES = [
     "https://nalburtek.com/hirdavat-ve-nalbur",
-    "https://nalburtek.com/goz-koruyucular",
     "https://nalburtek.com/yapi-market",
     "https://nalburtek.com/el-aletleri",
-    "https://nalburtek.com/silikon-mastik-kopuk-cesitleri"
 ]
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_BASE_DIR = os.path.join(os.path.expanduser("~"), "Desktop", "Datas", "Nalburtek")
+# The data folder mirrors this code folder (InflationItems/Codes/... ->
+# InflationItems/Datas/...); it used to be a folder on one person's Desktop.
+_parts = SCRIPT_DIR.split(os.sep)
+_root = _parts.index("InflationItems")
+DATA_BASE_DIR = os.sep.join(_parts[:_root + 1] + ["Datas"] + _parts[_root + 2:])
 
 def setup_driver():
     options = uc.ChromeOptions()
     # Use a profile to avoid detection and maintain session if needed
     profile_path = os.path.join(SCRIPT_DIR, "SeleniumProfile_Nalburtek")
     options.add_argument(f"--user-data-dir={profile_path}")
-    # Based on previous session, version 145 was used
-    driver = uc.Chrome(options=options, version_main=145)
+    # No fixed version: undetected-chromedriver matches the installed Chrome.
+    driver = uc.Chrome(options=options)
     return driver
 
 def normalize_price(price_text):
@@ -105,10 +108,11 @@ def scrape_category(driver, category_url):
                 if len(stok_elem) > 1:
                     stok_kodu = stok_elem[1].split("\n")[0].strip()
 
+                # The central inflation script reads only product_name and price columns.
                 all_products.append({
-                    "Name": name,
+                    "product_name": name,
                     "Brand": brand,
-                    "SalePrice": sale_price,
+                    "price": sale_price,
                     "RegularPrice": reg_price,
                     "StockCode": stok_kodu,
                     "URL": url,
@@ -142,7 +146,7 @@ def save_to_csv(data):
     today_str = datetime.now().strftime("%Y-%m-%d")
     file_path = os.path.join(DATA_BASE_DIR, f"Nalburtek_Products_{today_str}.csv")
     
-    fieldnames = ["Name", "Brand", "SalePrice", "RegularPrice", "StockCode", "URL", "CategoryURL"]
+    fieldnames = ["product_name", "Brand", "price", "RegularPrice", "StockCode", "URL", "CategoryURL"]
     
     with open(file_path, mode="w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -155,18 +159,27 @@ def main():
     driver = setup_driver()
     all_scraped_data = []
     
+    failed = []
+
     try:
         for cat_url in CATEGORIES:
             try:
                 cat_data = scrape_category(driver, cat_url)
                 all_scraped_data.extend(cat_data)
+                if not cat_data:
+                    failed.append(cat_url)
             except Exception as e:
                 print(f"Error scraping category {cat_url}: {e}")
-                
-        save_to_csv(all_scraped_data)
+                failed.append(cat_url)
     finally:
         driver.quit()
-        print("\nScraping complete!")
+
+    # A failed category used to be dropped silently from the day's file.
+    if failed:
+        print(f"Incomplete, CSV not written; failed: {', '.join(failed)}")
+        raise SystemExit(1)
+    save_to_csv(all_scraped_data)
+    print("\nScraping complete!")
 
 if __name__ == "__main__":
     main()

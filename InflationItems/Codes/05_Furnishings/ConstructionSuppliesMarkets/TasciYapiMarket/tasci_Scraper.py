@@ -10,11 +10,11 @@ import random  # Added for the randomized sleep timer
 # 1. Get the directory where this script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# 2. Navigate up 3 levels to the main 'InflationItems' project root
-project_root = os.path.abspath(os.path.join(script_dir, '..', '..', '..'))
-
-# 3. Define the correct save directory
-save_dir = os.path.join(project_root, 'Datas', 'ConstructionSuppliesMarkets', 'TasciYapiMarket')
+# 2. The data folder mirrors this code folder (InflationItems/Codes/... ->
+#    InflationItems/Datas/...), so the path holds in any category layout.
+_parts = script_dir.split(os.sep)
+_root = _parts.index('InflationItems')
+save_dir = os.sep.join(_parts[:_root + 1] + ['Datas'] + _parts[_root + 2:])
 
 # 4. Create the directory if it doesn't exist
 os.makedirs(save_dir, exist_ok=True)
@@ -62,7 +62,7 @@ session.headers.update(headers)
 
 with open(csv_file_path, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['Product Name', 'Price', 'Category'])
+    writer.writerow(['product_name', 'price', 'category'])
 
     for category in categories:
         offset = 0

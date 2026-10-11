@@ -7,7 +7,7 @@ Computes inflation metrics for FiltaşYapı construction supply products:
   3. TUIK weighted avg  — weighted average using TUIK 2026 CPI basket weights
 
 All FiltaşYapı products map to TUIK category 05 (Furniture, appliances, maintenance).
-Products are matched across dates by title.
+Products are matched across dates by product_name (title in files before October 2026).
 
 Intervals: 1d, 7d, 15d, 30d
 
@@ -27,8 +27,13 @@ from pathlib import Path
 import pandas as pd
 
 _THIS_DIR = Path(__file__).resolve().parent
-_CODES_DIR = _THIS_DIR.parent.parent
-_PROJECT_ROOT = _CODES_DIR.parent.parent
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/FiltasYapi), so they hold in any category layout.
+_PARTS = _THIS_DIR.parts
+_ROOT = _PARTS.index("Inflations")
+_CODES_DIR = Path(*_PARTS[:_ROOT + 2])
+_PROJECT_ROOT = Path(*_PARTS[:_ROOT])
+_CATEGORY = Path(*_PARTS[_ROOT + 2:-1])
 
 # Append directory containing tuik_config
 sys.path.insert(0, str(_CODES_DIR))
@@ -37,11 +42,11 @@ from tuik_config import TUIK_WEIGHTS, normalised_weights
 logger = logging.getLogger(__name__)
 
 # Paths aligned with FiltaşYapı scraper
-DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / "ConstructionSuppliesMarkets" / "FiltasYapi"
-INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / "ConstructionSuppliesMarkets" / "FiltasYapi"
+DATA_DIR = _PROJECT_ROOT / "InflationItems" / "Datas" / _CATEGORY / "FiltasYapi"
+INFLATION_OUT_DIR = _CODES_DIR.parent / "Datas" / _CATEGORY / "FiltasYapi"
 
 # Match keys based on FiltaşYapı's CSV structure
-MATCH_KEY = "title"
+MATCH_KEY = "product_name"
 PRICE_COLUMN = "price"
 TUIK_CATEGORY_CODE = "05"  # Furniture, household equipment, routine maintenance
 
@@ -57,6 +62,7 @@ def _load_csv(date_str):
 
     try:
         df = pd.read_csv(fpath, encoding="utf-8-sig")
+        df = df.rename(columns={"title": MATCH_KEY})
         df[PRICE_COLUMN] = pd.to_numeric(df[PRICE_COLUMN], errors="coerce")
         df[MATCH_KEY] = df[MATCH_KEY].astype("string").str.strip()
         df = df[df[MATCH_KEY].notna() & (df[MATCH_KEY] != "")]

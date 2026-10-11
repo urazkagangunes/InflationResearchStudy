@@ -6,11 +6,16 @@ import pandas as pd
 # 1. SETUP PATHS
 # ==========================================
 script_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(script_dir, '..', '..', '..', '..'))
+# Repo root and category folder come from this file's path
+# (Inflations/Codes/<category>/TasciYapiMarket), so they hold in any category layout.
+_parts = script_dir.split(os.sep)
+_root = _parts.index('Inflations')
+project_root = os.sep.join(_parts[:_root])
+category = os.sep.join(_parts[_root + 2:-1])
 
 # Updated paths for Tasci Yapi Market
-input_dir = os.path.join(project_root, 'InflationItems', 'Datas', 'ConstructionSuppliesMarkets', 'TasciYapiMarket')
-output_dir = os.path.join(project_root, 'Inflations', 'Datas', 'ConstructionSuppliesMarkets', 'TasciYapiMarket')
+input_dir = os.path.join(project_root, 'InflationItems', 'Datas', category, 'TasciYapiMarket')
+output_dir = os.path.join(project_root, 'Inflations', 'Datas', category, 'TasciYapiMarket')
 output_filename = os.path.join(output_dir, 'tasciyapi_inflation_summary.csv')
 
 os.makedirs(output_dir, exist_ok=True)
@@ -34,6 +39,8 @@ else:
 
         try:
             df = pd.read_csv(file)
+            # Most files since May use lowercase headers (product_name,price,category)
+            df = df.rename(columns={'price': 'Price', 'category': 'Category'})
             df['Date'] = pd.to_datetime(date_str)
 
             # Target the specific 'Price (TL)' column and ensure it acts as a number
