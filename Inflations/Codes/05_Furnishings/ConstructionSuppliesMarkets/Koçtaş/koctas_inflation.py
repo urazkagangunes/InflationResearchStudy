@@ -18,17 +18,17 @@ from pathlib import Path
 import pandas as pd
 
 _THIS_DIR = Path(__file__).resolve().parent
-# Bu dosya: Inflations/Codes/TechnologicalProducts/Koçtaş/koctas_inflation.py
-# Veri:     InflationItems/Datas/TechnologicalProducts/Koçtaş/
-# Çıktı:    Inflations/Datas/TechnologicalProducts/Koçtaş/
-REPO_ROOT  = _THIS_DIR.parents[3]
+# Bu dosya: Inflations/Codes/05_Furnishings/ConstructionSuppliesMarkets/Koçtaş/koctas_inflation.py
+# Veri:     InflationItems/Datas/05_Furnishings/ConstructionSuppliesMarkets/Koçtaş/
+# Çıktı:    Inflations/Datas/05_Furnishings/ConstructionSuppliesMarkets/Koçtaş/
+REPO_ROOT  = _THIS_DIR.parents[4]
 sys.path.insert(0, str(_THIS_DIR))
 from koctas_tuik_config import normalised_weights
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / "TechnologicalProducts" / "Koçtaş"
-OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / "TechnologicalProducts" / "Koçtaş"
+DATA_DIR   = REPO_ROOT / "InflationItems" / "Datas" / "05_Furnishings" / "ConstructionSuppliesMarkets" / "Koçtaş"
+OUTPUT_DIR = REPO_ROOT / "Inflations"     / "Datas" / "05_Furnishings" / "ConstructionSuppliesMarkets" / "Koçtaş"
 
 # Yeni CSV formatı sadece product_name,price içeriyor — kategori yok.
 # Koçtaş ürünleri ağırlıklı olarak ev aletleri / yapı: tek TUIK kodu 05.

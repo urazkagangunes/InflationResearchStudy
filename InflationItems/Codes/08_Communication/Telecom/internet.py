@@ -233,7 +233,7 @@ TURKNET = "https://www.turk.net"
 
 def chrome_major_version():
     """Installed Chrome's major version (uc otherwise fetches the newest driver -> SessionNotCreated)."""
-    if os.getenv("CHROME_VERSION_MAIN"):  # server .env override, same as Beymen/Koctas
+    if os.getenv("CHROME_VERSION_MAIN"):  # server .env override, same as Beymen
         return int(os.environ["CHROME_VERSION_MAIN"])
     for binary in ("google-chrome", "google-chrome-stable", "chromium", "chromium-browser"):
         try:

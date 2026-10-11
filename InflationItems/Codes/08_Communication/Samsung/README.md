@@ -1,5 +1,25 @@
 # Samsung Türkiye Product Scraper
 
+## TÜİK 08 kalemleri
+
+| Kalem | Ürün var mı | Kaynak (`category` kolonu, 2026-10-10 verisi) |
+|---|---|---|
+| Cep telefonu | ✅ | Smartphones (61) |
+| Bilgisayar | ✅ | Tablets (22) |
+| Bilgisayar çevre birimleri | ✅ | Monitors (25), Memory & Storage (6), taşınabilir ekran |
+| Ses ve görüntü ekipmanı | ✅ | Audio Devices: soundbar (13), Audio Sound: Galaxy Buds (3) |
+| Televizyon | ✅ | TVs (48), Lifestyle TVs (4) |
+| Diğer iletişim cihazları | ✅ | Watches: Galaxy Watch (10) |
+| Bilgi ve iletişim aksesuarları | ✅ | Mobile Accessories (86), TV Accessories (14) |
+| Cep telefonu hizmet ücreti | — | |
+| İnternet hizmet ücreti | — | |
+| Bilgi ve iletişim ekipmanı bakım / onarım ücreti | — | Samsung onarım ücretleri `Telecom/repair.py` içinde |
+| Dijital içerik / streaming platform aboneliği | — | |
+
+Kapsam dışı (aynı CSV'ye yazılır, `category` ile ayrılabilir): beyaz eşya ve ev aletleri
+(Washers & Dryers, Refrigerators, Air Conditioners, Cooking Appliances, Dishwashers,
+Vacuum Cleaners, Air Purifier).
+
 A Python-based scraping tool that systematically extracts product data
 from [samsung.com/tr](https://www.samsung.com/tr) through its public
 **Product Finder v2 (`pfv2`) JSON API**.

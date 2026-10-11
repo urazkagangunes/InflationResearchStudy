@@ -19,7 +19,7 @@ categories (106001 = Jeneratörler, 106003 = Tezgah Tipi Testereler,
 ``list`` name is checked against the expected name and written to the CSV
 (``site_category``) so a future remap is visible in the data.
 
-Output: InflationItems/Datas/08_Communication/Koctas/koctas_YYYY-MM-DD.csv
+Output: InflationItems/Datas/05_Furnishings/ConstructionSuppliesMarkets/Koctas/koctas_YYYY-MM-DD.csv
 """
 
 import csv
@@ -35,8 +35,8 @@ import time
 from datetime import date
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
-OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "08_Communication" / "Koctas"
+REPO_ROOT = Path(__file__).resolve().parents[5]
+OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "05_Furnishings" / "ConstructionSuppliesMarkets" / "Koctas"
 
 # (label, url, expected dataLayer list name, tuik code, max pages)
 CATEGORIES = [
