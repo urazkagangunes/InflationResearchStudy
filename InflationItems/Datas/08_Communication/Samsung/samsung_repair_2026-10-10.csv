@@ -1,0 +1,172 @@
+product_name,price,date,operator,group,product_id,service,list_price,url
+Galaxy S21 5G,8300.0,2026-10-10,samsung,tablo-1,SM-G990-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S21,11300.0,2026-10-10,samsung,tablo-1,SM-G991-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S21,7900.0,2026-10-10,samsung,tablo-1,SM-G991-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S21+,11500.0,2026-10-10,samsung,tablo-1,SM-G996-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S21+,7900.0,2026-10-10,samsung,tablo-1,SM-G996-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S21 Ultra,16800.0,2026-10-10,samsung,tablo-1,SM-G998-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S21 Ultra,12000.0,2026-10-10,samsung,tablo-1,SM-G998-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23 FE,5000.0,2026-10-10,samsung,tablo-1,SM-S711-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23 FE,5200.0,2026-10-10,samsung,tablo-1,SM-S711-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24 FE,5000.0,2026-10-10,samsung,tablo-1,SM-S721-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24 FE,5200.0,2026-10-10,samsung,tablo-1,SM-S721-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25 FE,5000.0,2026-10-10,samsung,tablo-1,SM-S731-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25 FE,6000.0,2026-10-10,samsung,tablo-1,SM-S731-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S22,10700.0,2026-10-10,samsung,tablo-1,SM-S901-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S22,7700.0,2026-10-10,samsung,tablo-1,SM-S901-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S22+,11100.0,2026-10-10,samsung,tablo-1,SM-S906-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S22+,7500.0,2026-10-10,samsung,tablo-1,SM-S906-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S22 Ultra,15000.0,2026-10-10,samsung,tablo-1,SM-S908-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S22 Ultra,12700.0,2026-10-10,samsung,tablo-1,SM-S908-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23,10600.0,2026-10-10,samsung,tablo-1,SM-S911-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23,7200.0,2026-10-10,samsung,tablo-1,SM-S911-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23,5600.0,2026-10-10,samsung,tablo-1,SM-S911-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23+,11600.0,2026-10-10,samsung,tablo-1,SM-S916-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23+,9300.0,2026-10-10,samsung,tablo-1,SM-S916-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23+,5600.0,2026-10-10,samsung,tablo-1,SM-S916-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23 Ultra,14900.0,2026-10-10,samsung,tablo-1,SM-S918-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23 Ultra,12200.0,2026-10-10,samsung,tablo-1,SM-S918-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S23 Ultra,5800.0,2026-10-10,samsung,tablo-1,SM-S918-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24,7200.0,2026-10-10,samsung,tablo-1,SM-S921-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24,5500.0,2026-10-10,samsung,tablo-1,SM-S921-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24+,9300.0,2026-10-10,samsung,tablo-1,SM-S926-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24+,5400.0,2026-10-10,samsung,tablo-1,SM-S926-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24 Ultra,12200.0,2026-10-10,samsung,tablo-1,SM-S928-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S24 Ultra,7700.0,2026-10-10,samsung,tablo-1,SM-S928-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25,7200.0,2026-10-10,samsung,tablo-1,SM-S931-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25,5200.0,2026-10-10,samsung,tablo-1,SM-S931-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25+,9300.0,2026-10-10,samsung,tablo-1,SM-S936-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25+,5500.0,2026-10-10,samsung,tablo-1,SM-S936-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25 Edge,14600.0,2026-10-10,samsung,tablo-1,SM-S937-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25 Ultra,12200.0,2026-10-10,samsung,tablo-1,SM-S938-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S25 Ultra,8000.0,2026-10-10,samsung,tablo-1,SM-S938-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 3,19300.0,2026-10-10,samsung,tablo-2,SM-F711-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 3,11400.0,2026-10-10,samsung,tablo-2,SM-F711-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 3,4600.0,2026-10-10,samsung,tablo-2,SM-F711-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 4,16600.0,2026-10-10,samsung,tablo-2,SM-F721-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 4,15000.0,2026-10-10,samsung,tablo-2,SM-F721-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 4,5100.0,2026-10-10,samsung,tablo-2,SM-F721-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 5,16600.0,2026-10-10,samsung,tablo-2,SM-F731-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 5,12100.0,2026-10-10,samsung,tablo-2,SM-F731-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 5,5600.0,2026-10-10,samsung,tablo-2,SM-F731-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 6,16600.0,2026-10-10,samsung,tablo-2,SM-F741-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 6,10500.0,2026-10-10,samsung,tablo-2,SM-F741-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 6,5600.0,2026-10-10,samsung,tablo-2,SM-F741-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 7 FE,14900.0,2026-10-10,samsung,tablo-2,SM-F761-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 7 FE,9200.0,2026-10-10,samsung,tablo-2,SM-F761-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 7 FE,5300.0,2026-10-10,samsung,tablo-2,SM-F761-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 7,17000.0,2026-10-10,samsung,tablo-2,SM-F766-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 7,11400.0,2026-10-10,samsung,tablo-2,SM-F766-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Flip 7,5900.0,2026-10-10,samsung,tablo-2,SM-F766-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 3,27500.0,2026-10-10,samsung,tablo-2,SM-F926-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 3,22000.0,2026-10-10,samsung,tablo-2,SM-F926-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 3,8300.0,2026-10-10,samsung,tablo-2,SM-F926-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 4,27500.0,2026-10-10,samsung,tablo-2,SM-F936-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 4,26500.0,2026-10-10,samsung,tablo-2,SM-F936-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 4,6400.0,2026-10-10,samsung,tablo-2,SM-F936-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 5,28600.0,2026-10-10,samsung,tablo-2,SM-F946-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 5,23900.0,2026-10-10,samsung,tablo-2,SM-F946-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 5,6800.0,2026-10-10,samsung,tablo-2,SM-F946-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 6,28600.0,2026-10-10,samsung,tablo-2,SM-F956-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 6,24000.0,2026-10-10,samsung,tablo-2,SM-F956-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 6,6700.0,2026-10-10,samsung,tablo-2,SM-F956-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 7,36300.0,2026-10-10,samsung,tablo-2,SM-F966-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 7,24100.0,2026-10-10,samsung,tablo-2,SM-F966-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Fold 7,7000.0,2026-10-10,samsung,tablo-2,SM-F966-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Flip 8,19400.0,2026-10-10,samsung,tablo-2,SM-F776-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Flip 8,10800.0,2026-10-10,samsung,tablo-2,SM-F776-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Flip 8,6500.0,2026-10-10,samsung,tablo-2,SM-F776-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Fold 8,38400.0,2026-10-10,samsung,tablo-2,SM-F971-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Fold 8,25500.0,2026-10-10,samsung,tablo-2,SM-F971-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Fold 8,7100.0,2026-10-10,samsung,tablo-2,SM-F971-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Fold 8 Ultra,41900.0,2026-10-10,samsung,tablo-2,SM-F976-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Fold 8 Ultra,28700.0,2026-10-10,samsung,tablo-2,SM-F976-ekran-eko-onarim,Ekran - Eko Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Fold 8 Ultra,7200.0,2026-10-10,samsung,tablo-2,SM-F976-dis-ekran-onarimi,Dış Ekran Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A02,4200.0,2026-10-10,samsung,tablo-3,SM-A022-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A03,3700.0,2026-10-10,samsung,tablo-3,SM-A035-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A03s,4300.0,2026-10-10,samsung,tablo-3,SM-A037-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A04e,4600.0,2026-10-10,samsung,tablo-3,SM-A042-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A04,3500.0,2026-10-10,samsung,tablo-3,SM-A045-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A04s,3300.0,2026-10-10,samsung,tablo-3,SM-A047-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A055,3000.0,2026-10-10,samsung,tablo-3,SM-A055-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A05,3300.0,2026-10-10,samsung,tablo-3,SM-A057-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A065,3600.0,2026-10-10,samsung,tablo-3,SM-A065-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A075,4100.0,2026-10-10,samsung,tablo-3,SM-A075-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A076,3500.0,2026-10-10,samsung,tablo-3,SM-A076-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A12,3600.0,2026-10-10,samsung,tablo-3,SM-A127-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A13,3600.0,2026-10-10,samsung,tablo-3,SM-A135-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A13,3500.0,2026-10-10,samsung,tablo-3,SM-A137-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A14,3400.0,2026-10-10,samsung,tablo-3,SM-A145-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A15,3700.0,2026-10-10,samsung,tablo-3,SM-A155-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A16,3900.0,2026-10-10,samsung,tablo-3,SM-A165-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A16 5G,3900.0,2026-10-10,samsung,tablo-3,SM-A166-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A17,3900.0,2026-10-10,samsung,tablo-3,SM-A175-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A17 5G,3900.0,2026-10-10,samsung,tablo-3,SM-A176-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A22,4000.0,2026-10-10,samsung,tablo-3,SM-A225-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A23,3600.0,2026-10-10,samsung,tablo-3,SM-A235-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A24,4100.0,2026-10-10,samsung,tablo-3,SM-A245-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A25,4100.0,2026-10-10,samsung,tablo-3,SM-A256-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A26,4400.0,2026-10-10,samsung,tablo-3,SM-A266-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A27 5G,4600.0,2026-10-10,samsung,tablo-3,SM-A276-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A32,4500.0,2026-10-10,samsung,tablo-3,SM-A325-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A33 5G,5000.0,2026-10-10,samsung,tablo-3,SM-A336-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A34,5100.0,2026-10-10,samsung,tablo-3,SM-A346-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A34,4500.0,2026-10-10,samsung,tablo-3,SM-A346-ekran-eko-onarim,Ekran - Eko-Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A34,3300.0,2026-10-10,samsung,tablo-3,SM-A346-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A35,4400.0,2026-10-10,samsung,tablo-3,SM-A356-ekran-eko-onarim,Ekran - Eko-Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A35,3400.0,2026-10-10,samsung,tablo-3,SM-A356-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A36,5200.0,2026-10-10,samsung,tablo-3,SM-A366-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A37,5200.0,2026-10-10,samsung,tablo-3,SM-A376-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A52,5300.0,2026-10-10,samsung,tablo-3,SM-A525-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A52s,5300.0,2026-10-10,samsung,tablo-3,SM-A528-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A53 5G,5500.0,2026-10-10,samsung,tablo-3,SM-A536-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A54 5G,5400.0,2026-10-10,samsung,tablo-3,SM-A546-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A54 5G,4200.0,2026-10-10,samsung,tablo-3,SM-A546-ekran-eko-onarim,Ekran - Eko-Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A54 5G,3300.0,2026-10-10,samsung,tablo-3,SM-A546-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A55,4400.0,2026-10-10,samsung,tablo-3,SM-A556-ekran-eko-onarim,Ekran - Eko-Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A55,3900.0,2026-10-10,samsung,tablo-3,SM-A556-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A56,4600.0,2026-10-10,samsung,tablo-3,SM-A566-ekran-eko-onarim,Ekran - Eko-Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A56,3900.0,2026-10-10,samsung,tablo-3,SM-A566-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A57,4800.0,2026-10-10,samsung,tablo-3,SM-A576-ekran-eko-onarim,Ekran - Eko-Onarım,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A57,3700.0,2026-10-10,samsung,tablo-3,SM-A576-cerceve-onarimi,Çerçeve Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A72,6000.0,2026-10-10,samsung,tablo-3,SM-A725-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A73 5G,4400.0,2026-10-10,samsung,tablo-3,SM-A736-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M12,3900.0,2026-10-10,samsung,tablo-4,SM-M127-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M13,4000.0,2026-10-10,samsung,tablo-4,SM-M135-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M14 5G,3800.0,2026-10-10,samsung,tablo-4,SM-M146-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M15 5G,4000.0,2026-10-10,samsung,tablo-4,SM-M156-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M22,3800.0,2026-10-10,samsung,tablo-4,SM-M225-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M23 5G,3800.0,2026-10-10,samsung,tablo-4,SM-M236-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M32,4800.0,2026-10-10,samsung,tablo-4,SM-M325-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M33 5G,4000.0,2026-10-10,samsung,tablo-4,SM-M336-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M34 5G,4300.0,2026-10-10,samsung,tablo-4,SM-M346-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M52 5G,5600.0,2026-10-10,samsung,tablo-4,SM-M526-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M54,5300.0,2026-10-10,samsung,tablo-4,SM-M546-ekran-modul-onarimi,Ekran - Modül Onarımı,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S Serisi (2023 ve sonrası modeller**),4000.0,2026-10-10,samsung,batarya,galaxy-s-serisi-2023-ve-sonrasi-modeller-batarya-degisimi,Batarya Değişimi,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy S Serisi (2023 öncesi modeller),3150.0,2026-10-10,samsung,batarya,galaxy-s-serisi-2023-oncesi-modeller-batarya-degisimi,Batarya Değişimi,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Z Serisi (iki batarya dahil),4000.0,2026-10-10,samsung,batarya,galaxy-z-serisi-iki-batarya-dahil-batarya-degisimi,Batarya Değişimi,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy A Serisi,3000.0,2026-10-10,samsung,batarya,galaxy-a-serisi-batarya-degisimi,Batarya Değişimi,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy M Serisi,3000.0,2026-10-10,samsung,batarya,galaxy-m-serisi-batarya-degisimi,Batarya Değişimi,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Note Serisi,3150.0,2026-10-10,samsung,batarya,galaxy-note-serisi-batarya-degisimi,Batarya Değişimi,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q500-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q500-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q501-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q501-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q502-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q502-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q503-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q503-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q505-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q505-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q506-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q506-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q507-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q507-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q508-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q508-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q509-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q509-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q514-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q514-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,11000.0,2026-10-10,samsung,tablo-6,SM-Q515-yuzuk,Yüzük,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/
+Galaxy Ring,5000.0,2026-10-10,samsung,tablo-6,SM-Q515-sarj-kutusu,Şarj Kutusu,,https://www.samsung.com/tr/support/ekran-degisimi-fiyat-bilgisi/

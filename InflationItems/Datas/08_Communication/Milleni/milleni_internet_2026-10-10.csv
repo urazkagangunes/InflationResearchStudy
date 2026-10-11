@@ -1,0 +1,8 @@
+product_name,price,date,operator,group,product_id,list_price,period,speed_mbps,upload_mbps,infrastructure,commitment_months,url
+FiberMill Kampanyası 200 Mbps (Türk Telekom),999.0,2026-10-10,milleni,internet,fibermill-200,,1_ay,200,,Fiber,,https://www.milleni.com.tr/eviniz-icin/basvuru/internet/fibermill-200
+FiberMill Kampanyası 1000 Mbps (Türk Telekom),1399.0,2026-10-10,milleni,internet,fibermill-1000,,1_ay,1000,,Fiber,,https://www.milleni.com.tr/eviniz-icin/basvuru/internet/fibermill-1000
+12 Ay Spor Kampanyası 100 Mbps (Türk Telekom),999.0,2026-10-10,milleni,internet-tv,12-ay-spor-100,,1_ay,100,,"Vdsl,Fiber",12,https://www.milleni.com.tr/eviniz-icin/basvuru/internet/12-ay-spor-100
+Tek Fiyat Taahhütlü Kampanyası 100 Mbps (Türk Telekom),799.0,2026-10-10,milleni,internet,tek-fiyat-taahhutlu-100,,1_ay,100,,"Vdsl,Fiber",12,https://www.milleni.com.tr/eviniz-icin/basvuru/internet/tek-fiyat-taahhutlu-100
+Tek Fiyat Kampanyası 100 Mbps (Türk Telekom),699.0,2026-10-10,milleni,internet,tek-fiyat-100,869.0,1_ay,100,,"Vdsl,Fiber",,https://www.milleni.com.tr/eviniz-icin/basvuru/internet/tek-fiyat-100
+Tek Fiyat Superonline Taahhütlü Kampanyası 100 Mbps (Superonline),849.0,2026-10-10,milleni,internet,tek-fiyat-taahhutlu-sol-100,,1_ay,100,,Fiber,12,https://www.milleni.com.tr/eviniz-icin/basvuru/internet/tek-fiyat-taahhutlu-sol-100
+Tek Fiyat Superonline Kampanyası 100 Mbps (Superonline),699.0,2026-10-10,milleni,internet,tek-fiyat-sol-100,,1_ay,100,,Fiber,,https://www.milleni.com.tr/eviniz-icin/basvuru/internet/tek-fiyat-sol-100

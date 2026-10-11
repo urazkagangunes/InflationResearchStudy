@@ -1,0 +1,5 @@
+product_name,price,date,operator,group,product_id,list_price,period,url
+Spotify Premium Bireysel,115.0,2026-10-10,spotify,,spotify-premium-bireysel,,1_ay,https://www.spotify.com/tr-tr/premium/
+Spotify Premium Öğrenci,60.0,2026-10-10,spotify,,spotify-premium-ogrenci,,1_ay,https://www.spotify.com/tr-tr/premium/
+Spotify Premium Duo,159.0,2026-10-10,spotify,,spotify-premium-duo,,1_ay,https://www.spotify.com/tr-tr/premium/
+Spotify Premium Aile,199.0,2026-10-10,spotify,,spotify-premium-aile,,1_ay,https://www.spotify.com/tr-tr/premium/

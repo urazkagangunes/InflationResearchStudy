@@ -1,0 +1,9 @@
+product_name,price,date,operator,segment,group,product_id,list_price,period,data_gb,minutes,sms,commitment_months,url
+4 GB 500 DK + 100 SMS,157.0,2026-10-09,netgsm,faturali,mobil-hat,4-gb-500-dk-100-sms,,1_ay,4,500,100,,https://www.netgsm.com.tr/fiyatlar/mobil-hat
+6 GB 500 DK + 50 SMS,193.0,2026-10-09,netgsm,faturali,mobil-hat,6-gb-500-dk-50-sms,,1_ay,6,500,50,,https://www.netgsm.com.tr/fiyatlar/mobil-hat
+6 GB 1000 DK + 100 SMS,222.0,2026-10-09,netgsm,faturali,mobil-hat,6-gb-1000-dk-100-sms,,1_ay,6,1000,100,,https://www.netgsm.com.tr/fiyatlar/mobil-hat
+10 GB 500 DK + 50 SMS,258.0,2026-10-09,netgsm,faturali,mobil-hat,10-gb-500-dk-50-sms,,1_ay,10,500,50,,https://www.netgsm.com.tr/fiyatlar/mobil-hat
+10 GB 1500 DK + 100 SMS,304.0,2026-10-09,netgsm,faturali,mobil-hat,10-gb-1500-dk-100-sms,,1_ay,10,1500,100,,https://www.netgsm.com.tr/fiyatlar/mobil-hat
+15 GB 500 DK + 50 SMS,339.0,2026-10-09,netgsm,faturali,mobil-hat,15-gb-500-dk-50-sms,,1_ay,15,500,50,,https://www.netgsm.com.tr/fiyatlar/mobil-hat
+20 GB 500 DK + 100 SMS,431.0,2026-10-09,netgsm,faturali,mobil-hat,20-gb-500-dk-100-sms,,1_ay,20,500,100,,https://www.netgsm.com.tr/fiyatlar/mobil-hat
+20 GB 1000 DK + 100 SMS,490.0,2026-10-09,netgsm,faturali,mobil-hat,20-gb-1000-dk-100-sms,,1_ay,20,1000,100,,https://www.netgsm.com.tr/fiyatlar/mobil-hat

@@ -1,0 +1,106 @@
+product_name,price,date,operator,segment,group,product_id,list_price,period,data_gb,minutes,sms,commitment_months,url
+5G Online Plus 5GB Paketi,315.0,2026-10-09,vodafone,faturali,ONLINE,120798,800.0,1_ay,5,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120798
+5G Online Plus 10GB Paketi,365.0,2026-10-09,vodafone,faturali,ONLINE,120799,1000.0,1_ay,10,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120799
+5G Online Plus 20GB Paketi,465.0,2026-10-09,vodafone,faturali,ONLINE,120800,1300.0,1_ay,20,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120800
+5G Online Plus 30GB Paketi,565.0,2026-10-09,vodafone,faturali,ONLINE,120801,1600.0,1_ay,30,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120801
+5G Online Plus 50GB Paketi,685.0,2026-10-09,vodafone,faturali,ONLINE,120893,2350.0,1_ay,50,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120893
+5G Red 40GB Sınırsız Sosyal Tarifesi,790.0,2026-10-09,vodafone,faturali,RED,120856,2070.0,1_ay,40,sinirsiz,sinirsiz,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120856
+5G Red 60GB Sınırsız Eğlence Tarifesi,1000.0,2026-10-09,vodafone,faturali,RED,120857,2780.0,1_ay,60,sinirsiz,sinirsiz,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120857
+5G Red 100GB Sınırsız Tiktok Tarifesi,1200.0,2026-10-09,vodafone,faturali,RED,120858,3040.0,1_ay,100,sinirsiz,sinirsiz,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120858
+5G Plus 5GB Tarifesi,375.0,2026-10-09,vodafone,faturali,YALIN,120881,800.0,1_ay,5,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120881
+5G Plus 10GB Tarifesi,450.0,2026-10-09,vodafone,faturali,YALIN,120882,1000.0,1_ay,10,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120882
+5G Plus 20GB Tarifesi,550.0,2026-10-09,vodafone,faturali,YALIN,120883,1300.0,1_ay,20,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120883
+5G Plus 30GB Tarifesi,650.0,2026-10-09,vodafone,faturali,YALIN,120884,1600.0,1_ay,30,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120884
+5G Plus 50GB Tarifesi,800.0,2026-10-09,vodafone,faturali,YALIN,120885,2350.0,1_ay,50,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120885
+5G Plus Genç 10GB Tarifesi,380.0,2026-10-09,vodafone,faturali,FREEZONE,120865,800.0,1_ay,10,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120865
+5G Plus Genç 20GB Tarifesi,480.0,2026-10-09,vodafone,faturali,FREEZONE,120866,1000.0,1_ay,20,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120866
+5G Plus Genç 40GB Tarifesi,680.0,2026-10-09,vodafone,faturali,FREEZONE,120867,1300.0,1_ay,40,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120867
+5G Plus Genç 60GB Tarifesi,780.0,2026-10-09,vodafone,faturali,FREEZONE,120868,1600.0,1_ay,60,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120868
+5G Plus Genç 100GB Tarifesi,880.0,2026-10-09,vodafone,faturali,FREEZONE,120892,2350.0,1_ay,100,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120892
+5G Genç Red 80GB Sinirsiz Sosyal Tarifesi,900.0,2026-10-09,vodafone,faturali,FREEZONE,120869,2070.0,1_ay,80,sinirsiz,sinirsiz,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120869
+5G Genç Red 120GB Sinirsiz Eglence Tarifesi,1000.0,2026-10-09,vodafone,faturali,FREEZONE,120870,2780.0,1_ay,120,sinirsiz,sinirsiz,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120870
+İlk Hattım 5G Plus 5GB Tarifesi,300.0,2026-10-09,vodafone,faturali,POME,120877,800.0,1_ay,5,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120877
+İlk Hattım 5G Plus 10GB Tarifesi,350.0,2026-10-09,vodafone,faturali,POME,120878,1000.0,1_ay,10,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120878
+İlk Hattım 5G Plus 20GB Tarifesi,400.0,2026-10-09,vodafone,faturali,POME,120879,1300.0,1_ay,20,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120879
+İlk Hattım 5G Plus 30GB Tarifesi,500.0,2026-10-09,vodafone,faturali,POME,120880,1600.0,1_ay,30,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120880
+İlk Hattım 5G Plus 50GB Tarifesi,600.0,2026-10-09,vodafone,faturali,POME,120894,2350.0,1_ay,50,1000,250,12,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120894
+5G Fırsat 25 GB Paketi,300.0,2026-10-09,vodafone,faturasiz,HOSGELDIN,120847,,1_ay,25,750,750,,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120847
+5G Fırsat 3 Ay 100 GB Paketi,300.0,2026-10-09,vodafone,faturasiz,FREEZONE,120849,,3_ay,100,1000,1000,,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120849
+5G 3 Ay 50GB Paketi,875.0,2026-10-09,vodafone,faturasiz,3AYLIK,21103,,3_ay,50,5000,1000,,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/21103
+5G 3 Ay 50 GB Paketi,875.0,2026-10-09,vodafone,faturasiz,3AYLIK,120918,,3_ay,50,5000,1000,,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120918
+5G 6 Ay 60 GB Paketi,1400.0,2026-10-09,vodafone,faturasiz,3AYLIK,120917,,6_ay,60,10000,2000,,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/120917
+5G 6 Ay 60GB Paketi,1400.0,2026-10-09,vodafone,faturasiz,3AYLIK,21105,,6_ay,60,10000,2000,,https://www.vodafone.com.tr/numara-tasima-yeni-hat/iletisimyenigelen/tariffId/21105
+15 GB Ön Muhasebe E-Fatura 100 Paketi,1309.0,2026-10-09,vodafone,faturali,ek-paket/internet,15-gb-on-muhasebe-e-fatura-100-paketi,,,15,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/15-gb-on-muhasebe-e-fatura-100-paketi
+20 GB E-Fatura 250 Paketi,1529.0,2026-10-09,vodafone,faturali,ek-paket/internet,20gb-e-fatura-250-paketi,,,20,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/20gb-e-fatura-250-paketi
+5 GB E-Fatura 100 Paketi,819.0,2026-10-09,vodafone,faturali,ek-paket/internet,5gb-e-fatura-100-paketi,,,5,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/5gb-e-fatura-100-paketi
+Akıllı Ekip Takip 1+3 Paketi,899.0,2026-10-09,vodafone,faturali,ek-paket/internet,akilli-ekip-takip-1-3-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/akilli-ekip-takip-1-3-paketi
+Firsat 20GB Paketi,420.0,2026-10-09,vodafone,faturali,ek-paket/internet,firsat-20gb-paketi,,,20,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/firsat-20gb-paketi
+Firsat 15GB Paketi,360.0,2026-10-09,vodafone,faturali,ek-paket/internet,firsat-15gb-paketi,,,15,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/firsat-15gb-paketi
+Firsat 10GB Paketi,315.0,2026-10-09,vodafone,faturali,ek-paket/internet,firsat-10gb-paketi,,,10,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/firsat-10gb-paketi
+Firsat 5GB Paketi,260.0,2026-10-09,vodafone,faturali,ek-paket/internet,firsat-5gb-paketi,,,5,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/firsat-5gb-paketi
+Hediyeli 10GB,249.0,2026-10-09,vodafone,faturali,ek-paket/internet,hediyeli-10gb,,,10,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/hediyeli-10gb
+100 GB Güvenli Depo Ek Paketi,74.99,2026-10-09,vodafone,faturali,ek-paket/internet,100-gb-guvenli-depo-ek-paketi,,,100,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/100-gb-guvenli-depo-ek-paketi
+Astroloji Servisi hediyeli haftalık 3 GB,127.0,2026-10-09,vodafone,faturali,ek-paket/internet,haftalik-3gb-astroloji-paketi,,1_hafta,3,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/haftalik-3gb-astroloji-paketi
+Haber Ekstra Servisi hediyeli aylık 1 GB,139.0,2026-10-09,vodafone,faturali,ek-paket/internet,aylik-1gb-haber-ekstra-paketi,,1_ay,1,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-1gb-haber-ekstra-paketi
+Taraftar Servisi hediyeli 3 GB,169.0,2026-10-09,vodafone,faturali,ek-paket/internet,aylik-3-gb-taraftar-paketi,,,3,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-3-gb-taraftar-paketi
+Maçkolik Maç Tahmin Servisi Hediyeli Haftalık 1 GB,96.0,2026-10-09,vodafone,faturali,ek-paket/internet,mac-tahmin-servisi-hediyeli-haftalik-1-gb,,1_hafta,1,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/mac-tahmin-servisi-hediyeli-haftalik-1-gb
+Aylık Fırsatım 50GB Paketi,749.0,2026-10-09,vodafone,faturali,ek-paket/internet,aylik-firsatim-50gb-paketi,,1_ay,50,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-firsatim-50gb-paketi
+Aylık Fırsatım 15GB Paketi,485.0,2026-10-09,vodafone,faturali,ek-paket/internet,aylik-firsatim-15gb-paketi,,1_ay,15,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-firsatim-15gb-paketi
+Aylık Fırsatım 10GB Paketi,419.0,2026-10-09,vodafone,faturali,ek-paket/internet,aylik-firsatim-10gb-paketi,,1_ay,10,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-firsatim-10gb-paketi
+Haftalık Fırsatım 10GB Paketi,379.0,2026-10-09,vodafone,faturali,ek-paket/internet,haftalik-firsatim-10gb-paketi-548436,,1_hafta,10,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/haftalik-firsatim-10gb-paketi-548436
+Spor Servisi hediyeli haftalık 2 GB,108.0,2026-10-09,vodafone,faturali,ek-paket/internet,spor-paketli-hediyeli-haftalik-2gb,,1_hafta,2,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/spor-paketli-hediyeli-haftalik-2gb
+30 GB E-Fatura 500 Paketi,2499.0,2026-10-09,vodafone,faturali,ek-paket/internet,30gb-e-fatura-500-paket,,,30,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/30gb-e-fatura-500-paket
+50 GB Ön Muhasebe E-Fatura 500 Paketi,3439.0,2026-10-09,vodafone,faturali,ek-paket/internet,50-gb-on-muhasebe-e-fatura-500-paketi,,,50,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/50-gb-on-muhasebe-e-fatura-500-paketi
+25 GB Ön Muhasebe E-Fatura 250 Paketi,2019.0,2026-10-09,vodafone,faturali,ek-paket/internet,25-gb-on-muhasebe-e-fatura-250-paketi,,,25,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/25-gb-on-muhasebe-e-fatura-250-paketi
+Akıllı Ekip Takip 1+1 Paketi,549.0,2026-10-09,vodafone,faturali,ek-paket/internet,akilli-ekip-takip-1-1-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/akilli-ekip-takip-1-1-paketi
+Akıllı Ekip Takip 1+2 Paketi,749.0,2026-10-09,vodafone,faturali,ek-paket/internet,akilli-ekip-takip-1-2-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/akilli-ekip-takip-1-2-paketi
+Ayrıcalıklı Esnaf GB Paketi,189.0,2026-10-09,vodafone,faturali,ek-paket/internet,ayricalikli-esnaf-gb,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/ayricalikli-esnaf-gb
+50 GB Güvenli Depo Ek Paketi,49.99,2026-10-09,vodafone,faturali,ek-paket/internet,50-gb-guvenli-depo-ek-paketi,,,50,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/50-gb-guvenli-depo-ek-paketi
+500 GB Güvenli Depo Ek Paketi,154.99,2026-10-09,vodafone,faturali,ek-paket/internet,500-gb-guvenli-depo-ek-paketi,,,500,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/500-gb-guvenli-depo-ek-paketi
+Koruma Özelliği,119.0,2026-10-09,vodafone,faturali,ek-paket/internet,koruma-ozelligi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/koruma-ozelligi
+Aylık Fırsatım 3GB Paketi,259.0,2026-10-09,vodafone,faturali,ek-paket/internet,aylik-firsatim-3gb-paketi,,1_ay,3,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-firsatim-3gb-paketi
+Kişilik Testi hediyeli aylık 2 GB,157.0,2026-10-09,vodafone,faturali,ek-paket/internet,kisilik-testi-hediyeli-aylik-2gb,,1_ay,2,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/kisilik-testi-hediyeli-aylik-2gb
+Paylaşım 50GB Paketi,519.0,2026-10-09,vodafone,faturali,ek-paket/internet,paylasim-50gb-paketi-548515,,,50,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/paylasim-50gb-paketi-548515
+5 GB Ön Muhasebe Paketi,819.0,2026-10-09,vodafone,faturali,ek-paket/internet,5gb-on-muhasebe-paketi,,,5,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/5gb-on-muhasebe-paketi
+Dijital Koruma Pro Hediyeli Aylık 1 GB Paketi,105.0,2026-10-09,vodafone,faturali,ek-paket/internet,dijital-koruma-pro-hediyeli-aylik-1-gb-paketi,,1_ay,1,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/dijital-koruma-pro-hediyeli-aylik-1-gb-paketi
+Dijital Koruma Pro,30.99,2026-10-09,vodafone,faturali,ek-paket/internet,dijital-koruma-pro,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/dijital-koruma-pro
+İşim Durmasın Paketi,99.0,2026-10-09,vodafone,faturali,ek-paket/konusma,isim-durmasin,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/isim-durmasin
+Ayrıcalıklı Esnaf Paketi,159.0,2026-10-09,vodafone,faturali,ek-paket/konusma,ayricalikli-esnaf,,,,1000,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/ayricalikli-esnaf
+Aylik 500 Dakika Konusma Paketi,125.0,2026-10-09,vodafone,faturali,ek-paket/konusma,aylik-500-dakika-konusma-paketi,,1_ay,,500,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-500-dakika-konusma-paketi
+Teknoloji Asistanım Paketi,104.0,2026-10-09,vodafone,faturali,ek-paket/konusma,teknoloji-asistanim-paketi,,,,250,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/teknoloji-asistanim-paketi
+Konuşturan Arama Asistanı,109.0,2026-10-09,vodafone,faturali,ek-paket/konusma,konusturan-arama-asistani,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/konusturan-arama-asistani
+Sınırsız Konuşma Paketi,99.0,2026-10-09,vodafone,faturali,ek-paket/konusma,sinirsiz-konusma-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/sinirsiz-konusma-paketi
+Aylik 500 SMS Firsat Paketi,125.0,2026-10-09,vodafone,faturali,ek-paket/mesaj,aylik-500-sms-firsat-paketi,,1_ay,,,500,,https://www.vodafone.com.tr/tarifeler/ek-paketler/aylik-500-sms-firsat-paketi
+30 Günlük Sınırsız Eğlence Paketi,299.0,2026-10-09,vodafone,faturali,ek-paket/sinirsiz,30-gunluk-sinirsiz-eglence-paketi,,30_gun,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/30-gunluk-sinirsiz-eglence-paketi
+30 Günlük Sınırsız İletişim Paketi,299.0,2026-10-09,vodafone,faturali,ek-paket/sinirsiz,30-gunluk-sinirsiz-iletisim-paketi,,30_gun,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/30-gunluk-sinirsiz-iletisim-paketi
+30 Günlük Sınırsız Sosyal Medya Paketi,299.0,2026-10-09,vodafone,faturali,ek-paket/sinirsiz,30-gunluk-sinirsiz-sosyal-medya-paketi,,30_gun,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/30-gunluk-sinirsiz-sosyal-medya-paketi
+30 Günlük Sınırsız TikTok Paketi,299.0,2026-10-09,vodafone,faturali,ek-paket/sinirsiz,30-gunluk-sinirsiz-tiktok-paketi,,30_gun,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/30-gunluk-sinirsiz-tiktok-paketi
+30 Günlük Sınırsız Gamer Paketi,299.0,2026-10-09,vodafone,faturali,ek-paket/sinirsiz,30-gunluk-sinirsiz-gamer-paketi,,30_gun,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/30-gunluk-sinirsiz-gamer-paketi
+Yurt Dışı 1 GB,299.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,yurt-disi-1-gb,,,1,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/yurt-disi-1-gb
+Her Şey Dahil Pasaport Red,599.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,her-sey-dahil-pasaport-red,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/her-sey-dahil-pasaport-red
+Hac ve Umre Paketi,399.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,hac-ve-umre-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/hac-ve-umre-paketi
+Yurt Dışı 5 GB,999.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,yurt-disi-5-gb,,,5,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/yurt-disi-5-gb
+Red Her Şey Dahil Pasaport,599.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,red-her-sey-dahil-pasaport,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/red-her-sey-dahil-pasaport
+Tüm Dünya 30DK Konuşma Paketi,259.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,tum-dunya-yurt-disi-konusma-paketi-548537,,,,30,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/tum-dunya-yurt-disi-konusma-paketi-548537
+Tüm Dünya 60DK Konuşma,299.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,tum-dunya-1-saat-paketi-548539,,,,60,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/tum-dunya-1-saat-paketi-548539
+Her Şey Dahil Pasaport,599.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,her-sey-dahil-pasaport,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/her-sey-dahil-pasaport
+Yurt Dışı 3 GB,699.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,yurt-disi-3-gb,,,3,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/yurt-disi-3-gb
+Tüm Dünyada 60DK Konuşma,599.0,2026-10-09,vodafone,faturali,ek-paket/yurt-disi,tum-dunya-konusma-paketi,,,,60,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/tum-dunya-konusma-paketi
+Durma Özelliği,119.0,2026-10-09,vodafone,faturali,ek-paket/durma-ozelligi,durma-ozelligi-548558,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/durma-ozelligi-548558
+Ucretsiz Whatsapp Paketi,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,ucretsiz-whatsapp-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/ucretsiz-whatsapp-paketi
+65 Yaş ve Üzeri Her Yöne Sınırsız Konuşma Paketi,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,65-yas-uzeri-her-yone-sinirsiz-konusma,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/65-yas-uzeri-her-yone-sinirsiz-konusma
+20GB FreeZone Guzelligi Paketi,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,20gb-freezone-guzelligi-paketi,,,20,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/20gb-freezone-guzelligi-paketi
+3GB FreeZone Guzelligi Paketi,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,3gb-freezone-guzelligi-paketi,,,3,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/3gb-freezone-guzelligi-paketi
+Faturalı Hediye Durma Özelliği,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,faturali-hediye-durma-ozelligi-548555,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/faturali-hediye-durma-ozelligi-548555
+65 Yaş ve Üzeri Hediye Durma Özelliği,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,65-yas-uzeri-hediye-durma-ozelligi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/65-yas-uzeri-hediye-durma-ozelligi
+Yurt Dışı İnterneti Durdurma Özelliği,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,yurt-disi-interneti-durdurma-ozelligi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/yurt-disi-interneti-durdurma-ozelligi
+Avrupa Her Şey Dahil Pasaport,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,avrupa-her-sey-dahil-pasaport,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/avrupa-her-sey-dahil-pasaport
+Red Yurt Dışını Arama Paketi,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,red-yurt-disini-arama-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/red-yurt-disini-arama-paketi
+Ucretsiz Durma Paketi,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,ucretsiz-durma-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/ucretsiz-durma-paketi
+Bütçe Dostu Hediye Durma Özelliği,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,butce-dostu-hediye-durma-ozelligi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/butce-dostu-hediye-durma-ozelligi
+Sınırsız ChatGPT Paketi,0.0,2026-10-09,vodafone,faturali,ek-paket/ucretsiz,sinirsiz-yapay-zeka-paketi,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/sinirsiz-yapay-zeka-paketi
+50 GB Guvenli Depo Ek Paketi,14.9,2026-10-09,vodafone,faturasiz,ek-paket/internet,50-gb-guvenli-depo-ek-paketi-548423,,,50,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/50-gb-guvenli-depo-ek-paketi-548423
+100 GB Güvenli Depo Ek Paketi,19.9,2026-10-09,vodafone,faturasiz,ek-paket/internet,100-gb-guvenli-depo-ek-paketi-548422,,,100,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/100-gb-guvenli-depo-ek-paketi-548422
+500 GB Guvenli Depo Ek Paketi,39.9,2026-10-09,vodafone,faturasiz,ek-paket/internet,500-gb-guvenli-depo-ek-paketi-548424,,,500,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/500-gb-guvenli-depo-ek-paketi-548424
+Konuşturan Arama Asistanı,109.0,2026-10-09,vodafone,faturasiz,ek-paket/konusma,konusturan-arama-asistani-548534,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/konusturan-arama-asistani-548534
+Hac ve Umre Paketi,299.0,2026-10-09,vodafone,faturasiz,ek-paket/yurt-disi,hac-ve-umre-paketi-2254927,,,,,,,https://www.vodafone.com.tr/tarifeler/ek-paketler/hac-ve-umre-paketi-2254927

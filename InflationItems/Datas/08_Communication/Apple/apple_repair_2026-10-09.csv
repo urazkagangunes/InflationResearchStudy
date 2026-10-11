@@ -1,0 +1,534 @@
+product_name,price,date,operator,group,product_id,service,list_price,url
+iPhone 18 Pro Max,7339.0,2026-10-09,apple,iphone,TAG_1789103412101-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro Max,8979.0,2026-10-09,apple,iphone,TAG_1789103412101-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro Max,14539.0,2026-10-09,apple,iphone,TAG_1789103412101-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro Max,21519.0,2026-10-09,apple,iphone,TAG_1789103412101-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro Max,26139.0,2026-10-09,apple,iphone,TAG_1789103412101-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro Max,97649.0,2026-10-09,apple,iphone,TAG_1789103412101-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro,7339.0,2026-10-09,apple,iphone,TAG_1789103423330-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro,8979.0,2026-10-09,apple,iphone,TAG_1789103423330-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro,14539.0,2026-10-09,apple,iphone,TAG_1789103423330-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro,18639.0,2026-10-09,apple,iphone,TAG_1789103423330-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro,23089.0,2026-10-09,apple,iphone,TAG_1789103423330-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 18 Pro,89139.0,2026-10-09,apple,iphone,TAG_1789103423330-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone Air,6769.0,2026-10-09,apple,iphone,TAG_1760017610488-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone Air,8979.0,2026-10-09,apple,iphone,TAG_1760017610488-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone Air,9659.0,2026-10-09,apple,iphone,TAG_1760017610488-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone Air,18639.0,2026-10-09,apple,iphone,TAG_1760017610488-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone Air,23089.0,2026-10-09,apple,iphone,TAG_1760017610488-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone Air,73939.0,2026-10-09,apple,iphone,TAG_1760017610488-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro Max,6769.0,2026-10-09,apple,iphone,TAG_1760017610887-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro Max,8979.0,2026-10-09,apple,iphone,TAG_1760017610887-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro Max,14539.0,2026-10-09,apple,iphone,TAG_1760017610887-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro Max,21519.0,2026-10-09,apple,iphone,TAG_1760017610887-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro Max,26139.0,2026-10-09,apple,iphone,TAG_1760017610887-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro Max,97649.0,2026-10-09,apple,iphone,TAG_1760017610887-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro,6769.0,2026-10-09,apple,iphone,TAG_1760017611086-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro,8979.0,2026-10-09,apple,iphone,TAG_1760017611086-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro,14539.0,2026-10-09,apple,iphone,TAG_1760017611086-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro,18639.0,2026-10-09,apple,iphone,TAG_1760017611086-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro,23089.0,2026-10-09,apple,iphone,TAG_1760017611086-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17 Pro,89139.0,2026-10-09,apple,iphone,TAG_1760017611086-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17,5559.0,2026-10-09,apple,iphone,TAG_1760017610687-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17,8979.0,2026-10-09,apple,iphone,TAG_1760017610687-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17,9659.0,2026-10-09,apple,iphone,TAG_1760017610687-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17,18639.0,2026-10-09,apple,iphone,TAG_1760017610687-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17,23089.0,2026-10-09,apple,iphone,TAG_1760017610687-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17,62929.0,2026-10-09,apple,iphone,TAG_1760017610687-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17e,5559.0,2026-10-09,apple,iphone,TAG_1772519701558-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17e,8979.0,2026-10-09,apple,iphone,TAG_1772519701558-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17e,7559.0,2026-10-09,apple,iphone,TAG_1772519701558-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17e,13599.0,2026-10-09,apple,iphone,TAG_1772519701558-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17e,18109.0,2026-10-09,apple,iphone,TAG_1772519701558-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 17e,47599.0,2026-10-09,apple,iphone,TAG_1772519701558-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro Max,6769.0,2026-10-09,apple,iphone,TAG_1754519564322-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro Max,8979.0,2026-10-09,apple,iphone,TAG_1754519564322-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro Max,14539.0,2026-10-09,apple,iphone,TAG_1754519564322-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro Max,21519.0,2026-10-09,apple,iphone,TAG_1754519564322-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro Max,26139.0,2026-10-09,apple,iphone,TAG_1754519564322-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro Max,82139.0,2026-10-09,apple,iphone,TAG_1754519564322-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro,6769.0,2026-10-09,apple,iphone,TAG_1754519564124-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro,8979.0,2026-10-09,apple,iphone,TAG_1754519564124-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro,14539.0,2026-10-09,apple,iphone,TAG_1754519564124-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro,18639.0,2026-10-09,apple,iphone,TAG_1754519564124-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro,23089.0,2026-10-09,apple,iphone,TAG_1754519564124-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Pro,69069.0,2026-10-09,apple,iphone,TAG_1754519564124-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Plus,5559.0,2026-10-09,apple,iphone,TAG_1754519563923-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Plus,8979.0,2026-10-09,apple,iphone,TAG_1754519563923-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Plus,9659.0,2026-10-09,apple,iphone,TAG_1754519563923-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Plus,18639.0,2026-10-09,apple,iphone,TAG_1754519563923-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Plus,23089.0,2026-10-09,apple,iphone,TAG_1754519563923-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16 Plus,62359.0,2026-10-09,apple,iphone,TAG_1754519563923-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16,5559.0,2026-10-09,apple,iphone,TAG_1754519563723-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16,8979.0,2026-10-09,apple,iphone,TAG_1754519563723-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16,9659.0,2026-10-09,apple,iphone,TAG_1754519563723-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16,15849.0,2026-10-09,apple,iphone,TAG_1754519563723-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16,20419.0,2026-10-09,apple,iphone,TAG_1754519563723-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16,57789.0,2026-10-09,apple,iphone,TAG_1754519563723-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16e,5559.0,2026-10-09,apple,iphone,TAG_1754519564518-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16e,8979.0,2026-10-09,apple,iphone,TAG_1754519564518-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16e,7559.0,2026-10-09,apple,iphone,TAG_1754519564518-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16e,13599.0,2026-10-09,apple,iphone,TAG_1754519564518-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16e,18109.0,2026-10-09,apple,iphone,TAG_1754519564518-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 16e,47029.0,2026-10-09,apple,iphone,TAG_1754519564518-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro Max,5559.0,2026-10-09,apple,iphone,TAG_1754519563525-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro Max,8979.0,2026-10-09,apple,iphone,TAG_1754519563525-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro Max,14539.0,2026-10-09,apple,iphone,TAG_1754519563525-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro Max,21519.0,2026-10-09,apple,iphone,TAG_1754519563525-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro Max,26139.0,2026-10-09,apple,iphone,TAG_1754519563525-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro Max,72799.0,2026-10-09,apple,iphone,TAG_1754519563525-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro,5559.0,2026-10-09,apple,iphone,TAG_1754519563325-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro,8979.0,2026-10-09,apple,iphone,TAG_1754519563325-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro,12649.0,2026-10-09,apple,iphone,TAG_1754519563325-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro,18639.0,2026-10-09,apple,iphone,TAG_1754519563325-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro,23089.0,2026-10-09,apple,iphone,TAG_1754519563325-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Pro,69069.0,2026-10-09,apple,iphone,TAG_1754519563325-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Plus,5559.0,2026-10-09,apple,iphone,TAG_1754519563125-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Plus,8979.0,2026-10-09,apple,iphone,TAG_1754519563125-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Plus,9659.0,2026-10-09,apple,iphone,TAG_1754519563125-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Plus,18639.0,2026-10-09,apple,iphone,TAG_1754519563125-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Plus,23089.0,2026-10-09,apple,iphone,TAG_1754519563125-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15 Plus,61789.0,2026-10-09,apple,iphone,TAG_1754519563125-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15,5559.0,2026-10-09,apple,iphone,TAG_1754519562929-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15,8979.0,2026-10-09,apple,iphone,TAG_1754519562929-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15,9659.0,2026-10-09,apple,iphone,TAG_1754519562929-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15,15849.0,2026-10-09,apple,iphone,TAG_1754519562929-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15,20419.0,2026-10-09,apple,iphone,TAG_1754519562929-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 15,57219.0,2026-10-09,apple,iphone,TAG_1754519562929-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro Max,5559.0,2026-10-09,apple,iphone,TAG_1754519562734-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro Max,55389.0,2026-10-09,apple,iphone,TAG_1754519562734-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro Max,12649.0,2026-10-09,apple,iphone,TAG_1754519562734-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro Max,21519.0,2026-10-09,apple,iphone,TAG_1754519562734-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro Max,55229.0,2026-10-09,apple,iphone,TAG_1754519562734-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro Max,71659.0,2026-10-09,apple,iphone,TAG_1754519562734-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro,5559.0,2026-10-09,apple,iphone,TAG_1754519562536-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro,50399.0,2026-10-09,apple,iphone,TAG_1754519562536-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro,12649.0,2026-10-09,apple,iphone,TAG_1754519562536-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro,18639.0,2026-10-09,apple,iphone,TAG_1754519562536-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro,51709.0,2026-10-09,apple,iphone,TAG_1754519562536-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Pro,67929.0,2026-10-09,apple,iphone,TAG_1754519562536-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Plus,5559.0,2026-10-09,apple,iphone,TAG_1754519562341-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Plus,8979.0,2026-10-09,apple,iphone,TAG_1754519562341-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Plus,9659.0,2026-10-09,apple,iphone,TAG_1754519562341-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Plus,18639.0,2026-10-09,apple,iphone,TAG_1754519562341-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Plus,23089.0,2026-10-09,apple,iphone,TAG_1754519562341-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14 Plus,61789.0,2026-10-09,apple,iphone,TAG_1754519562341-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14,5559.0,2026-10-09,apple,iphone,TAG_1754519562140-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14,8979.0,2026-10-09,apple,iphone,TAG_1754519562140-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14,9659.0,2026-10-09,apple,iphone,TAG_1754519562140-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14,15849.0,2026-10-09,apple,iphone,TAG_1754519562140-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14,20419.0,2026-10-09,apple,iphone,TAG_1754519562140-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 14,52339.0,2026-10-09,apple,iphone,TAG_1754519562140-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro Max,4929.0,2026-10-09,apple,iphone,TAG_1754519561943-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro Max,50399.0,2026-10-09,apple,iphone,TAG_1754519561943-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro Max,11129.0,2026-10-09,apple,iphone,TAG_1754519561943-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro Max,18639.0,2026-10-09,apple,iphone,TAG_1754519561943-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro Max,61789.0,2026-10-09,apple,iphone,TAG_1754519561943-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro Max,61789.0,2026-10-09,apple,iphone,TAG_1754519561943-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro,4929.0,2026-10-09,apple,iphone,TAG_1754519561745-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro,44889.0,2026-10-09,apple,iphone,TAG_1754519561745-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro,11129.0,2026-10-09,apple,iphone,TAG_1754519561745-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro,15849.0,2026-10-09,apple,iphone,TAG_1754519561745-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro,52339.0,2026-10-09,apple,iphone,TAG_1754519561745-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 Pro,52339.0,2026-10-09,apple,iphone,TAG_1754519561745-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13,4929.0,2026-10-09,apple,iphone,TAG_1754519561350-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13,36499.0,2026-10-09,apple,iphone,TAG_1754519561350-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13,9659.0,2026-10-09,apple,iphone,TAG_1754519561350-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13,15849.0,2026-10-09,apple,iphone,TAG_1754519561350-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13,45889.0,2026-10-09,apple,iphone,TAG_1754519561350-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13,45889.0,2026-10-09,apple,iphone,TAG_1754519561350-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 mini,4929.0,2026-10-09,apple,iphone,TAG_1754519561551-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 mini,31189.0,2026-10-09,apple,iphone,TAG_1754519561551-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 mini,9659.0,2026-10-09,apple,iphone,TAG_1754519561551-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 mini,13599.0,2026-10-09,apple,iphone,TAG_1754519561551-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 mini,38809.0,2026-10-09,apple,iphone,TAG_1754519561551-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 13 mini,38809.0,2026-10-09,apple,iphone,TAG_1754519561551-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro Max,4929.0,2026-10-09,apple,iphone,TAG_1754519561153-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro Max,46989.0,2026-10-09,apple,iphone,TAG_1754519561153-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro Max,11129.0,2026-10-09,apple,iphone,TAG_1754519561153-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro Max,18639.0,2026-10-09,apple,iphone,TAG_1754519561153-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro Max,58379.0,2026-10-09,apple,iphone,TAG_1754519561153-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro Max,58379.0,2026-10-09,apple,iphone,TAG_1754519561153-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro,4929.0,2026-10-09,apple,iphone,TAG_1754519560952-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro,41469.0,2026-10-09,apple,iphone,TAG_1754519560952-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro,11129.0,2026-10-09,apple,iphone,TAG_1754519560952-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro,15849.0,2026-10-09,apple,iphone,TAG_1754519560952-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro,48929.0,2026-10-09,apple,iphone,TAG_1754519560952-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 Pro,48929.0,2026-10-09,apple,iphone,TAG_1754519560952-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12,4929.0,2026-10-09,apple,iphone,TAG_1754519560557-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12,33649.0,2026-10-09,apple,iphone,TAG_1754519560557-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12,9659.0,2026-10-09,apple,iphone,TAG_1754519560557-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12,15849.0,2026-10-09,apple,iphone,TAG_1754519560557-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12,43049.0,2026-10-09,apple,iphone,TAG_1754519560557-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12,43049.0,2026-10-09,apple,iphone,TAG_1754519560557-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 mini,4929.0,2026-10-09,apple,iphone,TAG_1754519560755-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 mini,28349.0,2026-10-09,apple,iphone,TAG_1754519560755-arka-cam-hasari,Arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 mini,9659.0,2026-10-09,apple,iphone,TAG_1754519560755-arka-kamera-hasari,Arka kamera hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 mini,13599.0,2026-10-09,apple,iphone,TAG_1754519560755-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 mini,35959.0,2026-10-09,apple,iphone,TAG_1754519560755-ekran-ve-arka-cam-hasari,Ekran ve arka cam hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 12 mini,35959.0,2026-10-09,apple,iphone,TAG_1754519560755-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 11,4929.0,2026-10-09,apple,iphone,TAG_1754519559949-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 11,11229.0,2026-10-09,apple,iphone,TAG_1754519559949-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone 11,35959.0,2026-10-09,apple,iphone,TAG_1754519559949-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone XR,4929.0,2026-10-09,apple,iphone,TAG_1760016472465-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone XR,11229.0,2026-10-09,apple,iphone,TAG_1760016472465-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone XR,35959.0,2026-10-09,apple,iphone,TAG_1760016472465-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone SE (3. nesil),3879.0,2026-10-09,apple,iphone,TAG_1754519567299-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone SE (3. nesil),8399.0,2026-10-09,apple,iphone,TAG_1754519567299-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone SE (3. nesil),32099.0,2026-10-09,apple,iphone,TAG_1754519567299-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPhone SE (2. nesil),3879.0,2026-10-09,apple,iphone,TAG_1754519567101-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/iphone/repair
+iPhone SE (2. nesil),8399.0,2026-10-09,apple,iphone,TAG_1754519567101-ekran-hasari,Ekran hasarı,,https://support.apple.com/tr-tr/iphone/repair
+iPhone SE (2. nesil),23519.0,2026-10-09,apple,iphone,TAG_1754519567101-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/iphone/repair
+iPad Pro 13 inç (M5) Wi-Fi,10689.0,2026-10-09,apple,ipad,TAG_1762420508018-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 13 inç (M5) Wi-Fi,67069.0,2026-10-09,apple,ipad,TAG_1762420508018-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 13 inç (M5) Wi-Fi + Cellular,10689.0,2026-10-09,apple,ipad,TAG_1762420508218-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 13 inç (M5) Wi-Fi + Cellular,69819.0,2026-10-09,apple,ipad,TAG_1762420508218-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M5) Wi-Fi,9609.0,2026-10-09,apple,ipad,TAG_1762420508420-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M5) Wi-Fi,57939.0,2026-10-09,apple,ipad,TAG_1762420508420-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M5) Wi-Fi + Cellular,9609.0,2026-10-09,apple,ipad,TAG_1762420508622-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M5) Wi-Fi + Cellular,60099.0,2026-10-09,apple,ipad,TAG_1762420508622-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 13 inç (M4) Wi-Fi,10689.0,2026-10-09,apple,ipad,TAG_1750383134701-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 13 inç (M4) Wi-Fi,60189.0,2026-10-09,apple,ipad,TAG_1750383134701-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 13 inç (M4) Wi-Fi + Cellular,10689.0,2026-10-09,apple,ipad,TAG_1750383134897-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 13 inç (M4) Wi-Fi + Cellular,67069.0,2026-10-09,apple,ipad,TAG_1750383134897-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M4) Wi-Fi,9609.0,2026-10-09,apple,ipad,TAG_1750383132696-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M4) Wi-Fi,55189.0,2026-10-09,apple,ipad,TAG_1750383132696-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M4) Wi-Fi + Cellular,9609.0,2026-10-09,apple,ipad,TAG_1750383132896-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (M4) Wi-Fi + Cellular,57349.0,2026-10-09,apple,ipad,TAG_1750383132896-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 12.9 inç (6. nesil) Wi-Fi,9609.0,2026-10-09,apple,ipad,TAG_1750383134300-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 12.9 inç (6. nesil) Wi-Fi,47309.0,2026-10-09,apple,ipad,TAG_1750383134300-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 12.9 inç (6. nesil) Wi-Fi + Cellular,9609.0,2026-10-09,apple,ipad,TAG_1750383134501-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 12.9 inç (6. nesil) Wi-Fi + Cellular,47389.0,2026-10-09,apple,ipad,TAG_1750383134501-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+"iPad Pro 12,9 inç (5. nesil) Wi-Fi",6369.0,2026-10-09,apple,ipad,TAG_1750383133899-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+"iPad Pro 12,9 inç (5. nesil) Wi-Fi",47309.0,2026-10-09,apple,ipad,TAG_1750383133899-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+"iPad Pro 12,9 inç (5. nesil) Wi-Fi + Cellular",6369.0,2026-10-09,apple,ipad,TAG_1750383134099-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+"iPad Pro 12,9 inç (5. nesil) Wi-Fi + Cellular",47389.0,2026-10-09,apple,ipad,TAG_1750383134099-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+"iPad Pro 12,9 inç (4. nesil)",6369.0,2026-10-09,apple,ipad,TAG_1750383133698-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+"iPad Pro 12,9 inç (4. nesil)",34879.0,2026-10-09,apple,ipad,TAG_1750383133698-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (4. nesil) Wi-Fi,7989.0,2026-10-09,apple,ipad,TAG_1750383132296-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (4. nesil) Wi-Fi,34109.0,2026-10-09,apple,ipad,TAG_1750383132296-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (4. nesil) Wi-Fi + Cellular,7989.0,2026-10-09,apple,ipad,TAG_1750383132497-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (4. nesil) Wi-Fi + Cellular,38509.0,2026-10-09,apple,ipad,TAG_1750383132497-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (3. nesil) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383131899-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (3. nesil) Wi-Fi,34109.0,2026-10-09,apple,ipad,TAG_1750383131899-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (3. nesil) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383132099-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (3. nesil) Wi-Fi + Cellular,38509.0,2026-10-09,apple,ipad,TAG_1750383132099-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (2. nesil),6369.0,2026-10-09,apple,ipad,TAG_1750383131701-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç (2. nesil),26999.0,2026-10-09,apple,ipad,TAG_1750383131701-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç,6369.0,2026-10-09,apple,ipad,TAG_1750383131502-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Pro 11 inç,26999.0,2026-10-09,apple,ipad,TAG_1750383131502-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (A17 Pro) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383130310-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (A17 Pro) Wi-Fi,23309.0,2026-10-09,apple,ipad,TAG_1750383130310-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (A17 Pro) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383130507-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (A17 Pro) Wi-Fi + Cellular,26219.0,2026-10-09,apple,ipad,TAG_1750383130507-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (6. nesil) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383129907-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (6. nesil) Wi-Fi,21899.0,2026-10-09,apple,ipad,TAG_1750383129907-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (6. nesil) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383130111-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (6. nesil) Wi-Fi + Cellular,24809.0,2026-10-09,apple,ipad,TAG_1750383130111-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (5. nesil),6369.0,2026-10-09,apple,ipad,TAG_1750383129709-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad mini (5. nesil),16199.0,2026-10-09,apple,ipad,TAG_1750383129709-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M4) Wi-Fi,7989.0,2026-10-09,apple,ipad,TAG_1772520719102-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M4) Wi-Fi,39269.0,2026-10-09,apple,ipad,TAG_1772520719102-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M4) Wi-Fi + Cellular,7989.0,2026-10-09,apple,ipad,TAG_1772520769996-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M4) Wi-Fi + Cellular,40389.0,2026-10-09,apple,ipad,TAG_1772520769996-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M4) Wi-Fi,6839.0,2026-10-09,apple,ipad,TAG_1772520795348-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M4) Wi-Fi,29809.0,2026-10-09,apple,ipad,TAG_1772520795348-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M4) Wi-Fi + Cellular,6839.0,2026-10-09,apple,ipad,TAG_1772520813373-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M4) Wi-Fi + Cellular,32509.0,2026-10-09,apple,ipad,TAG_1772520813373-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M3) Wi-Fi,7989.0,2026-10-09,apple,ipad,TAG_1750383128914-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M3) Wi-Fi,38509.0,2026-10-09,apple,ipad,TAG_1750383128914-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M3) Wi-Fi + Cellular,7989.0,2026-10-09,apple,ipad,TAG_1750383129112-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M3) Wi-Fi + Cellular,39289.0,2026-10-09,apple,ipad,TAG_1750383129112-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M3) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383128110-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M3) Wi-Fi,28709.0,2026-10-09,apple,ipad,TAG_1750383128110-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M3) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383128311-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M3) Wi-Fi + Cellular,31409.0,2026-10-09,apple,ipad,TAG_1750383128311-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M2) Wi-Fi,7989.0,2026-10-09,apple,ipad,TAG_1750383128513-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M2) Wi-Fi,38509.0,2026-10-09,apple,ipad,TAG_1750383128513-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M2) Wi-Fi + Cellular,7989.0,2026-10-09,apple,ipad,TAG_1750383128713-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 13 inç (M2) Wi-Fi + Cellular,39289.0,2026-10-09,apple,ipad,TAG_1750383128713-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M2) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383127711-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M2) Wi-Fi,28709.0,2026-10-09,apple,ipad,TAG_1750383127711-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M2) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383127910-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air 11 inç (M2) Wi-Fi + Cellular,31409.0,2026-10-09,apple,ipad,TAG_1750383127910-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air (5. nesil) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383127311-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air (5. nesil) Wi-Fi,27199.0,2026-10-09,apple,ipad,TAG_1750383127311-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air (5. nesil) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383127513-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air (5. nesil) Wi-Fi + Cellular,29999.0,2026-10-09,apple,ipad,TAG_1750383127513-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air (4. nesil),6369.0,2026-10-09,apple,ipad,TAG_1750383127111-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad Air (4. nesil),22789.0,2026-10-09,apple,ipad,TAG_1750383127111-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad (A16) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383123525-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad (A16) Wi-Fi,20609.0,2026-10-09,apple,ipad,TAG_1750383123525-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad (A16) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383123726-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad (A16) Wi-Fi + Cellular,23309.0,2026-10-09,apple,ipad,TAG_1750383123726-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad (10. nesil) Wi-Fi,6369.0,2026-10-09,apple,ipad,TAG_1750383122126-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad (10. nesil) Wi-Fi,19199.0,2026-10-09,apple,ipad,TAG_1750383122126-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad (10. nesil) Wi-Fi + Cellular,6369.0,2026-10-09,apple,ipad,TAG_1750383122325-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad (10. nesil) Wi-Fi + Cellular,21899.0,2026-10-09,apple,ipad,TAG_1750383122325-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad (9. nesil),4749.0,2026-10-09,apple,ipad,TAG_1750383123326-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad (9. nesil),16499.0,2026-10-09,apple,ipad,TAG_1750383123326-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad (8. nesil),4749.0,2026-10-09,apple,ipad,TAG_1750383123125-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad (8. nesil),13499.0,2026-10-09,apple,ipad,TAG_1750383123125-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+iPad (7. nesil),4749.0,2026-10-09,apple,ipad,TAG_1750383122924-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+iPad (7. nesil),13499.0,2026-10-09,apple,ipad,TAG_1750383122924-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil Pro,1419.0,2026-10-09,apple,ipad,TAG_1750383124726-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil Pro,6199.0,2026-10-09,apple,ipad,TAG_1750383124726-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil (USB-C),1419.0,2026-10-09,apple,ipad,TAG_1750383124527-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil (USB-C),3999.0,2026-10-09,apple,ipad,TAG_1750383124527-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil (2. nesil),1419.0,2026-10-09,apple,ipad,TAG_1750383124326-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil (2. nesil),6199.0,2026-10-09,apple,ipad,TAG_1750383124326-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil,1419.0,2026-10-09,apple,ipad,TAG_1750383124125-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/ipad/repair
+Apple Pencil,4549.0,2026-10-09,apple,ipad,TAG_1750383124125-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/ipad/repair
+Apple Watch Hermès Ultra 4,6999.0,2026-10-09,apple,watch,TAG_1788977649258-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Ultra 4,58999.0,2026-10-09,apple,watch,TAG_1788977649258-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra 4,6999.0,2026-10-09,apple,watch,TAG_1788977664211-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra 4,58999.0,2026-10-09,apple,watch,TAG_1788977664211-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Ultra 3,6999.0,2026-10-09,apple,watch,TAG_1761293739144-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Ultra 3,54199.0,2026-10-09,apple,watch,TAG_1761293739144-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra 3,6999.0,2026-10-09,apple,watch,TAG_1761293719482-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra 3,54199.0,2026-10-09,apple,watch,TAG_1761293719482-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Ultra 2,6999.0,2026-10-09,apple,watch,TAG_1755239112934-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Ultra 2,54199.0,2026-10-09,apple,watch,TAG_1755239112934-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra 2,6999.0,2026-10-09,apple,watch,TAG_1755239113353-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra 2,54199.0,2026-10-09,apple,watch,TAG_1755239113353-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra,6999.0,2026-10-09,apple,watch,TAG_1755239113145-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Ultra,54199.0,2026-10-09,apple,watch,TAG_1755239113145-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Seramik 42 mm,6999.0,2026-10-09,apple,watch,TAG_1788977499828-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Seramik 42 mm,65099.0,2026-10-09,apple,watch,TAG_1788977499828-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Seramik 46 mm,6999.0,2026-10-09,apple,watch,TAG_1788977517147-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Seramik 46 mm,65099.0,2026-10-09,apple,watch,TAG_1788977517147-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 12 GPS + Cellular 42 mm,6999.0,2026-10-09,apple,watch,TAG_1788977535314-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 12 GPS + Cellular 42 mm,47399.0,2026-10-09,apple,watch,TAG_1788977535314-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 12 GPS + Cellular 46 mm,6999.0,2026-10-09,apple,watch,TAG_1788977548295-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 12 GPS + Cellular 46 mm,47399.0,2026-10-09,apple,watch,TAG_1788977548295-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Titanyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1788977562715-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Titanyum 42 mm,47399.0,2026-10-09,apple,watch,TAG_1788977562715-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Titanyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1788977571870-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Titanyum 46 mm,47399.0,2026-10-09,apple,watch,TAG_1788977571870-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Alüminyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1788977588428-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Alüminyum 42 mm,36699.0,2026-10-09,apple,watch,TAG_1788977588428-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Alüminyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1788977603367-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS + Cellular Alüminyum 46 mm,36699.0,2026-10-09,apple,watch,TAG_1788977603367-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS Alüminyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1788977619276-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS Alüminyum 42 mm,22199.0,2026-10-09,apple,watch,TAG_1788977619276-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS Alüminyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1788977634718-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 12 GPS Alüminyum 46 mm,22199.0,2026-10-09,apple,watch,TAG_1788977634718-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 11 GPS + Cellular 42 mm,6999.0,2026-10-09,apple,watch,TAG_1761842128942-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 11 GPS + Cellular 42 mm,42099.0,2026-10-09,apple,watch,TAG_1761842128942-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 11 GPS + Cellular 46 mm,6999.0,2026-10-09,apple,watch,TAG_1761842143607-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 11 GPS + Cellular 46 mm,42099.0,2026-10-09,apple,watch,TAG_1761842143607-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Titanyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1761842155118-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Titanyum 42 mm,42099.0,2026-10-09,apple,watch,TAG_1761842155118-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Titanyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1761842165353-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Titanyum 46 mm,42099.0,2026-10-09,apple,watch,TAG_1761842165353-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Alüminyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1761842174642-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Alüminyum 42 mm,36699.0,2026-10-09,apple,watch,TAG_1761842174642-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Alüminyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1761842187032-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS + Cellular Alüminyum 46 mm,36699.0,2026-10-09,apple,watch,TAG_1761842187032-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS Alüminyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1761842200118-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS Alüminyum 42 mm,22199.0,2026-10-09,apple,watch,TAG_1761842200118-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS Alüminyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1761842212886-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 11 GPS Alüminyum 46 mm,22199.0,2026-10-09,apple,watch,TAG_1761842212886-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 10 GPS + Cellular 42 mm,6999.0,2026-10-09,apple,watch,TAG_1755239091233-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 10 GPS + Cellular 42 mm,42099.0,2026-10-09,apple,watch,TAG_1755239091233-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 10 GPS + Cellular 46 mm,6999.0,2026-10-09,apple,watch,TAG_1755239091441-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 10 GPS + Cellular 46 mm,42099.0,2026-10-09,apple,watch,TAG_1755239091441-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Titanyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1755239092063-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Titanyum 42 mm,42099.0,2026-10-09,apple,watch,TAG_1755239092063-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Titanyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1755239092270-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Titanyum 46 mm,42099.0,2026-10-09,apple,watch,TAG_1755239092270-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Alüminyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1755239091649-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Alüminyum 42 mm,36699.0,2026-10-09,apple,watch,TAG_1755239091649-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Alüminyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1755239091856-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS + Cellular Alüminyum 46 mm,36699.0,2026-10-09,apple,watch,TAG_1755239091856-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS Alüminyum 42 mm,6999.0,2026-10-09,apple,watch,TAG_1755239092478-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS Alüminyum 42 mm,22199.0,2026-10-09,apple,watch,TAG_1755239092478-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS Alüminyum 46 mm,6999.0,2026-10-09,apple,watch,TAG_1755239092686-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 10 GPS Alüminyum 46 mm,22199.0,2026-10-09,apple,watch,TAG_1755239092686-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 9 GPS + Cellular 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239111269-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 9 GPS + Cellular 41 mm,42099.0,2026-10-09,apple,watch,TAG_1755239111269-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 9 GPS + Cellular 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239111477-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 9 GPS + Cellular 45 mm,42099.0,2026-10-09,apple,watch,TAG_1755239111477-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Paslanmaz Çelik 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239112101-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Paslanmaz Çelik 41 mm,42099.0,2026-10-09,apple,watch,TAG_1755239112101-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Paslanmaz Çelik 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239112309-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Paslanmaz Çelik 45 mm,42099.0,2026-10-09,apple,watch,TAG_1755239112309-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Alüminyum 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239111685-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Alüminyum 41 mm,36699.0,2026-10-09,apple,watch,TAG_1755239111685-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Alüminyum 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239111893-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS + Cellular Alüminyum 45 mm,36699.0,2026-10-09,apple,watch,TAG_1755239111893-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS Alüminyum 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239112517-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS Alüminyum 41 mm,22199.0,2026-10-09,apple,watch,TAG_1755239112517-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS Alüminyum 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239112725-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 9 GPS Alüminyum 45 mm,22199.0,2026-10-09,apple,watch,TAG_1755239112725-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 8 (GPS + Cellular) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239109601-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 8 (GPS + Cellular) 41 mm,42099.0,2026-10-09,apple,watch,TAG_1755239109601-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 8 (GPS + Cellular) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239109809-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 8 (GPS + Cellular) 45 mm,42099.0,2026-10-09,apple,watch,TAG_1755239109809-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Paslanmaz Çelik) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239110437-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Paslanmaz Çelik) 41 mm,42099.0,2026-10-09,apple,watch,TAG_1755239110437-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Paslanmaz Çelik) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239110645-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Paslanmaz Çelik) 45 mm,42099.0,2026-10-09,apple,watch,TAG_1755239110645-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Alüminyum) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239110021-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Alüminyum) 41 mm,36699.0,2026-10-09,apple,watch,TAG_1755239110021-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Alüminyum) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239110229-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS + Cellular) (Alüminyum) 45 mm,36699.0,2026-10-09,apple,watch,TAG_1755239110229-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS) (Alüminyum) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239110853-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS) (Alüminyum) 41 mm,22199.0,2026-10-09,apple,watch,TAG_1755239110853-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS) (Alüminyum) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239111061-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 8 (GPS) (Alüminyum) 45 mm,22199.0,2026-10-09,apple,watch,TAG_1755239111061-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 7 (GPS + Cellular) (Titanyum) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239106682-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 7 (GPS + Cellular) (Titanyum) 41 mm,54199.0,2026-10-09,apple,watch,TAG_1755239106682-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 7 (GPS + Cellular) (Titanyum) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239106890-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 7 (GPS + Cellular) (Titanyum) 45 mm,54199.0,2026-10-09,apple,watch,TAG_1755239106890-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 7 (GPS + Cellular) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239107100-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 7 (GPS + Cellular) 41 mm,42099.0,2026-10-09,apple,watch,TAG_1755239107100-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 7 (GPS + Cellular) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239107308-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 7 (GPS + Cellular) 45 mm,42099.0,2026-10-09,apple,watch,TAG_1755239107308-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS + Cellular) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239107518-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS + Cellular) 41 mm,36699.0,2026-10-09,apple,watch,TAG_1755239107518-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS + Cellular) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239107727-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS + Cellular) 45 mm,36699.0,2026-10-09,apple,watch,TAG_1755239107727-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239107937-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS) 41 mm,22199.0,2026-10-09,apple,watch,TAG_1755239107937-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239108145-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 7 (GPS) 45 mm,22199.0,2026-10-09,apple,watch,TAG_1755239108145-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Alüminyum) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239108354-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Alüminyum) 41 mm,36699.0,2026-10-09,apple,watch,TAG_1755239108354-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Alüminyum) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239108562-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Alüminyum) 45 mm,36699.0,2026-10-09,apple,watch,TAG_1755239108562-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Paslanmaz Çelik) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239108770-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Paslanmaz Çelik) 41 mm,42099.0,2026-10-09,apple,watch,TAG_1755239108770-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Paslanmaz Çelik) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239108977-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS + Cellular) (Paslanmaz Çelik) 45 mm,42099.0,2026-10-09,apple,watch,TAG_1755239108977-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS) (Alüminyum) 41 mm,6999.0,2026-10-09,apple,watch,TAG_1755239109185-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS) (Alüminyum) 41 mm,22199.0,2026-10-09,apple,watch,TAG_1755239109185-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS) (Alüminyum) 45 mm,6999.0,2026-10-09,apple,watch,TAG_1755239109393-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 7 (GPS) (Alüminyum) 45 mm,22199.0,2026-10-09,apple,watch,TAG_1755239109393-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Alüminyum) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239105427-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Alüminyum) 40 mm,36699.0,2026-10-09,apple,watch,TAG_1755239105427-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Alüminyum) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239105635-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Alüminyum) 44 mm,36699.0,2026-10-09,apple,watch,TAG_1755239105635-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Paslanmaz Çelik) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239105844-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Paslanmaz Çelik) 40 mm,42099.0,2026-10-09,apple,watch,TAG_1755239105844-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Paslanmaz Çelik) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239106053-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS + Cellular) (Paslanmaz Çelik) 44 mm,42099.0,2026-10-09,apple,watch,TAG_1755239106053-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS) (Alüminyum) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239106262-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS) (Alüminyum) 40 mm,22199.0,2026-10-09,apple,watch,TAG_1755239106262-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS) (Alüminyum) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239106473-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Series 6 (GPS) (Alüminyum) 44 mm,22199.0,2026-10-09,apple,watch,TAG_1755239106473-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 6 (GPS + Cellular) (Titanyum) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239103747-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 6 (GPS + Cellular) (Titanyum) 40 mm,54199.0,2026-10-09,apple,watch,TAG_1755239103747-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 6 (GPS + Cellular) (Titanyum) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239103956-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Edition Series 6 (GPS + Cellular) (Titanyum) 44 mm,54199.0,2026-10-09,apple,watch,TAG_1755239103956-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 6 (GPS + Cellular) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239104167-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 6 (GPS + Cellular) 40 mm,42099.0,2026-10-09,apple,watch,TAG_1755239104167-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 6 (GPS + Cellular) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239104378-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Hermès Series 6 (GPS + Cellular) 44 mm,42099.0,2026-10-09,apple,watch,TAG_1755239104378-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS + Cellular) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239104588-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS + Cellular) 40 mm,36699.0,2026-10-09,apple,watch,TAG_1755239104588-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS + Cellular) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239104798-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS + Cellular) 44 mm,36699.0,2026-10-09,apple,watch,TAG_1755239104798-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239105008-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS) 40 mm,22199.0,2026-10-09,apple,watch,TAG_1755239105008-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239105218-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike Series 6 (GPS) 44 mm,22199.0,2026-10-09,apple,watch,TAG_1755239105218-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS + Cellular 40mm,6999.0,2026-10-09,apple,watch,TAG_1761842277565-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS + Cellular 40mm,25999.0,2026-10-09,apple,watch,TAG_1761842277565-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS + Cellular 44mm,6999.0,2026-10-09,apple,watch,TAG_1761842285216-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS + Cellular 44mm,25999.0,2026-10-09,apple,watch,TAG_1761842285216-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS 40mm,6999.0,2026-10-09,apple,watch,TAG_1761842293649-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS 40mm,13999.0,2026-10-09,apple,watch,TAG_1761842293649-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS 44mm,6999.0,2026-10-09,apple,watch,TAG_1761842301496-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE 3 GPS 44mm,13999.0,2026-10-09,apple,watch,TAG_1761842301496-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS + Cellular 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239089568-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS + Cellular 40 mm,25999.0,2026-10-09,apple,watch,TAG_1755239089568-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS + Cellular 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239089776-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS + Cellular 44 mm,25999.0,2026-10-09,apple,watch,TAG_1755239089776-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239089984-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS 40 mm,13999.0,2026-10-09,apple,watch,TAG_1755239089984-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239090192-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (2. Nesil) GPS 44 mm,13999.0,2026-10-09,apple,watch,TAG_1755239090192-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS + Cellular) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239088738-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS + Cellular) 40 mm,28699.0,2026-10-09,apple,watch,TAG_1755239088738-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS + Cellular) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239088945-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS + Cellular) 44 mm,28699.0,2026-10-09,apple,watch,TAG_1755239088945-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239089153-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS) 40 mm,16299.0,2026-10-09,apple,watch,TAG_1755239089153-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239089360-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch Nike SE (GPS) 44 mm,16299.0,2026-10-09,apple,watch,TAG_1755239089360-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS + Cellular) (Alüminyum) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239090400-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS + Cellular) (Alüminyum) 40 mm,28699.0,2026-10-09,apple,watch,TAG_1755239090400-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS + Cellular) (Alüminyum) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239090610-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS + Cellular) (Alüminyum) 44 mm,28699.0,2026-10-09,apple,watch,TAG_1755239090610-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS) (Alüminyum) 40 mm,6999.0,2026-10-09,apple,watch,TAG_1755239090819-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS) (Alüminyum) 40 mm,16299.0,2026-10-09,apple,watch,TAG_1755239090819-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS) (Alüminyum) 44 mm,6999.0,2026-10-09,apple,watch,TAG_1755239091026-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/watch/repair
+Apple Watch SE (GPS) (Alüminyum) 44 mm,16299.0,2026-10-09,apple,watch,TAG_1755239091026-diger-hasar,Diğer hasar,,https://support.apple.com/tr-tr/watch/repair
+AirPods Max 2,5569.0,2026-10-09,apple,airpods,TAG_1773729120143-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Max 1,5569.0,2026-10-09,apple,airpods,TAG_1749057564612-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 3,3189.0,2026-10-09,apple,airpods,TAG_1759476702251-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 3,6039.0,2026-10-09,apple,airpods,TAG_1759476702251-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 3,6039.0,2026-10-09,apple,airpods,TAG_1759476702251-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 3,6039.0,2026-10-09,apple,airpods,TAG_1759476702251-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 3,6609.0,2026-10-09,apple,airpods,TAG_1759476702251-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (USB-C),3189.0,2026-10-09,apple,airpods,TAG_1749057565437-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (USB-C),6039.0,2026-10-09,apple,airpods,TAG_1749057565437-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (USB-C),6039.0,2026-10-09,apple,airpods,TAG_1749057565437-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (USB-C),6039.0,2026-10-09,apple,airpods,TAG_1749057565437-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (USB-C),6609.0,2026-10-09,apple,airpods,TAG_1749057565437-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (Lightning),3189.0,2026-10-09,apple,airpods,TAG_1749057565230-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (Lightning),6039.0,2026-10-09,apple,airpods,TAG_1749057565230-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (Lightning),6039.0,2026-10-09,apple,airpods,TAG_1749057565230-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (Lightning),6039.0,2026-10-09,apple,airpods,TAG_1749057565230-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 2 (Lightning),6609.0,2026-10-09,apple,airpods,TAG_1749057565230-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (MagSafe),3189.0,2026-10-09,apple,airpods,TAG_1749057564818-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (MagSafe),6039.0,2026-10-09,apple,airpods,TAG_1749057564818-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (MagSafe),6039.0,2026-10-09,apple,airpods,TAG_1749057564818-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (MagSafe),6039.0,2026-10-09,apple,airpods,TAG_1749057564818-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (MagSafe),6609.0,2026-10-09,apple,airpods,TAG_1749057564818-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (Kablosuz),3189.0,2026-10-09,apple,airpods,TAG_1749057565024-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (Kablosuz),6039.0,2026-10-09,apple,airpods,TAG_1749057565024-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (Kablosuz),6039.0,2026-10-09,apple,airpods,TAG_1749057565024-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (Kablosuz),6039.0,2026-10-09,apple,airpods,TAG_1749057565024-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods Pro 1 (Kablosuz),6609.0,2026-10-09,apple,airpods,TAG_1749057565024-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5 (Kablosuz),3189.0,2026-10-09,apple,airpods,TAG_1788977470543-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5 (Kablosuz),4589.0,2026-10-09,apple,airpods,TAG_1788977470543-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5 (Kablosuz),4589.0,2026-10-09,apple,airpods,TAG_1788977470543-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5 (Kablosuz),4589.0,2026-10-09,apple,airpods,TAG_1788977470543-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5 (Kablosuz),5209.0,2026-10-09,apple,airpods,TAG_1788977470543-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5,3189.0,2026-10-09,apple,airpods,TAG_1788977487439-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5,4589.0,2026-10-09,apple,airpods,TAG_1788977487439-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5,4089.0,2026-10-09,apple,airpods,TAG_1788977487439-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5,4589.0,2026-10-09,apple,airpods,TAG_1788977487439-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 5,4589.0,2026-10-09,apple,airpods,TAG_1788977487439-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4 (ANC),3189.0,2026-10-09,apple,airpods,TAG_1749057564407-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4 (ANC),4589.0,2026-10-09,apple,airpods,TAG_1749057564407-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4 (ANC),4589.0,2026-10-09,apple,airpods,TAG_1749057564407-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4 (ANC),4589.0,2026-10-09,apple,airpods,TAG_1749057564407-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4 (ANC),5209.0,2026-10-09,apple,airpods,TAG_1749057564407-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4,3189.0,2026-10-09,apple,airpods,TAG_1749057564202-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4,4589.0,2026-10-09,apple,airpods,TAG_1749057564202-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4,4089.0,2026-10-09,apple,airpods,TAG_1749057564202-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4,4589.0,2026-10-09,apple,airpods,TAG_1749057564202-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 4,4589.0,2026-10-09,apple,airpods,TAG_1749057564202-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (MagSafe),3189.0,2026-10-09,apple,airpods,TAG_1749057563996-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (MagSafe),4589.0,2026-10-09,apple,airpods,TAG_1749057563996-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (MagSafe),4589.0,2026-10-09,apple,airpods,TAG_1749057563996-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (MagSafe),4589.0,2026-10-09,apple,airpods,TAG_1749057563996-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (MagSafe),5209.0,2026-10-09,apple,airpods,TAG_1749057563996-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (Lightning),3189.0,2026-10-09,apple,airpods,TAG_1749057563791-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (Lightning),4589.0,2026-10-09,apple,airpods,TAG_1749057563791-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (Lightning),4089.0,2026-10-09,apple,airpods,TAG_1749057563791-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (Lightning),4589.0,2026-10-09,apple,airpods,TAG_1749057563791-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 3 (Lightning),4589.0,2026-10-09,apple,airpods,TAG_1749057563791-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Kablosuz),3189.0,2026-10-09,apple,airpods,TAG_1749057563585-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Kablosuz),4589.0,2026-10-09,apple,airpods,TAG_1749057563585-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Kablosuz),4589.0,2026-10-09,apple,airpods,TAG_1749057563585-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Kablosuz),4589.0,2026-10-09,apple,airpods,TAG_1749057563585-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Kablosuz),5209.0,2026-10-09,apple,airpods,TAG_1749057563585-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Lightning),3189.0,2026-10-09,apple,airpods,TAG_1749057563380-pil-servisi,Pil servisi,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Lightning),4589.0,2026-10-09,apple,airpods,TAG_1749057563380-hasarli-airpod-sol-veya-sag,Hasarlı AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Lightning),4089.0,2026-10-09,apple,airpods,TAG_1749057563380-hasarli-kutu,Hasarlı kutu,,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Lightning),4589.0,2026-10-09,apple,airpods,TAG_1749057563380-kayip-airpod-sol-veya-sag,Kayıp AirPod (sol veya sağ),,https://support.apple.com/tr-tr/airpods/repair
+AirPods 2 (Lightning),4089.0,2026-10-09,apple,airpods,TAG_1749057563380-kayip-kutu,Kayıp kutu,,https://support.apple.com/tr-tr/airpods/repair
