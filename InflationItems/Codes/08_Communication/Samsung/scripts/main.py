@@ -56,6 +56,7 @@ from tqdm import tqdm
 import config
 from category_fetcher import fetch_categories
 from product_fetcher import fetch_products_for_category
+from sitemap_sweep import sweep
 
 # ── Inflation module (best-effort import) ────────────────────────────────────
 # Add the location of inflation.py to sys.path so we can call it after a
@@ -63,7 +64,7 @@ from product_fetcher import fetch_products_for_category
 _inflation_dir = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "..", "..", "..", "..", "..",
-    "Inflations", "Codes", "TechnologicalProducts", "Samsung",
+    "Inflations", "Codes", "08_Communication", "Samsung",
 )
 sys.path.append(os.path.abspath(_inflation_dir))
 try:
@@ -287,7 +288,9 @@ def run_scraper(args: argparse.Namespace) -> None:
             )
             futures[future] = cat
 
-        with tqdm(total=len(futures), unit="category", desc="Categories") as pbar:
+        # No progress bar under cron: carriage-return redraws would bloat the log.
+        with tqdm(total=len(futures), unit="category", desc="Categories",
+                  disable=not sys.stderr.isatty()) as pbar:
             for future in as_completed(futures):
                 cat = futures[future]
                 pbar.set_postfix_str(cat["name"])
@@ -315,6 +318,16 @@ def run_scraper(args: argparse.Namespace) -> None:
                     )
 
                 pbar.update(1)
+
+    # 5b. Full runs only: add priced products the category list does not cover.
+    if not args.category and not args.limit:
+        try:
+            known = set()
+            if os.path.exists(config.CSV_OUTPUT_FILE):
+                known = set(pd.read_csv(config.CSV_OUTPUT_FILE, encoding="utf-8-sig", usecols=["id"])["id"].str.upper())
+            _append_products(sweep(_make_session(), known))
+        except Exception as exc:
+            logger.error("Sitemap sweep failed (category data is kept): %s", exc)
 
     # 6. Final deduplication pass.
     logger.info("Running final deduplication...")

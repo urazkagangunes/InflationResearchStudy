@@ -4,7 +4,7 @@ D&R technology scraper.
 Scrapes D&R's technology-related catalog sections into the repo's standard
 daily CSV format:
 
-    InflationItems/Datas/TechnologicalProducts/DR/dr_YYYY-MM-DD.csv
+    InflationItems/Datas/08_Communication/DR/dr_YYYY-MM-DD.csv
 
 The scraper works directly from server-rendered category pages. It discovers
 approved top-level technology categories from
@@ -76,8 +76,9 @@ DEFAULT_HEADERS = {
 REQUEST_TIMEOUT = 30
 MAX_RETRIES = 4
 RETRY_BACKOFF = 2.0
-PAGE_DELAY = 0.25
-DEFAULT_WORKERS = 4
+PAGE_DELAY = 0.5
+# 1 worker: the cron server has 2 vCPU / ~1.5 GB free RAM and scrapers run one at a time.
+DEFAULT_WORKERS = 1
 
 CSV_COLUMNS = [
     "product_name",
@@ -113,7 +114,7 @@ def _project_root() -> Path:
 
 
 def _output_dir() -> Path:
-    return _project_root() / "InflationItems" / "Datas" / "TechnologicalProducts" / "DR"
+    return _project_root() / "InflationItems" / "Datas" / "08_Communication" / "DR"
 
 
 def _scrape_date_str() -> str:
@@ -212,7 +213,7 @@ def _build_page_url(category_url: str, page_number: int) -> str:
 
 def _extract_categories_from_index(session: requests.Session) -> list[Category]:
     html = _fetch_html(session, ELECTRONICS_INDEX_URL)
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
 
     discovered: dict[str, Category] = {}
 
@@ -395,7 +396,7 @@ def _scrape_category(category: Category, page_limit: int | None = None) -> list[
 
     first_page_url = _build_page_url(category.url, 1)
     first_page_html = _fetch_html(session, first_page_url)
-    first_page_soup = BeautifulSoup(first_page_html, "html.parser")
+    first_page_soup = BeautifulSoup(first_page_html, "lxml")
     total_pages = _total_pages(first_page_soup)
     if page_limit is not None:
         total_pages = min(total_pages, page_limit)
@@ -404,14 +405,18 @@ def _scrape_category(category: Category, page_limit: int | None = None) -> list[
         logging.warning("No product cards found for %s (%s)", category.name, category.url)
         return products
 
-    soups = [(1, first_page_soup)]
-    for page_number in range(2, total_pages + 1):
-        page_url = _build_page_url(category.url, page_number)
-        html = _fetch_html(session, page_url)
-        soups.append((page_number, BeautifulSoup(html, "html.parser")))
-        time.sleep(PAGE_DELAY)
-
-    for page_number, soup in soups:
+    # Parse each page as soon as it is fetched instead of keeping every
+    # page's soup in memory until the category is done (RAM on the server).
+    for page_number in range(1, total_pages + 1):
+        if page_number == 1:
+            soup = first_page_soup
+        else:
+            time.sleep(PAGE_DELAY)
+            try:
+                soup = BeautifulSoup(_fetch_html(session, _build_page_url(category.url, page_number)), "lxml")
+            except RuntimeError as exc:
+                logging.error("%s page %d skipped: %s", category.name, page_number, exc)
+                continue
         cards = soup.select(".prd.js-prd-item")
         page_products = 0
         for card in cards:
@@ -559,9 +564,13 @@ def main() -> None:
             try:
                 category_products = future.result()
             except Exception as exc:
+                # Log and keep the other categories instead of losing the whole day.
                 logging.error("Category %s failed: %s", category.name, exc)
-                raise
+                continue
             all_products.extend(category_products)
+
+    if not all_products:
+        raise SystemExit("No products collected.")
 
     deduped_products = _deduplicate(all_products)
     duplicates_removed = len(all_products) - len(deduped_products)

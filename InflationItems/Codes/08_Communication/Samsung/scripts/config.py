@@ -41,8 +41,8 @@ Paths
 All paths are resolved relative to this config file so the scraper works
 regardless of the working directory from which ``main.py`` is invoked.
 
-- CSV output   → ``InflationItems/Datas/TechnologicalProducts/Samsung/samsung_YYYY-MM-DD.csv``
-- Checkpoints  → ``InflationItems/Codes/TechnologicalProducts/Samsung/checkpoints/samsung_checkpoint_YYYY-MM-DD.json``
+- CSV output   → ``InflationItems/Datas/08_Communication/Samsung/samsung_YYYY-MM-DD.csv``
+- Checkpoints  → ``InflationItems/Codes/08_Communication/Samsung/checkpoints/samsung_checkpoint_YYYY-MM-DD.json``
 """
 
 # ── Base URLs ────────────────────────────────────────────────────────────────
@@ -86,8 +86,8 @@ MAX_RETRIES = 4
 # Retry backoff seed in seconds (actual wait = seed × attempt).
 RETRY_BACKOFF = 2
 
-# Number of parallel category workers.
-DEFAULT_WORKERS = 3
+# Number of parallel category workers (1 on the 2 vCPU / ~1.5 GB cron server).
+DEFAULT_WORKERS = 1
 
 # Jitter multiplier range applied to REQUEST_DELAY (uniform random).
 JITTER_MIN = 0.5
@@ -140,6 +140,9 @@ TOP_LEVEL_CATEGORIES = [
     {"id": "tvs",                 "type": "04010000",
      "name": "TVs",
      "landing_path": "/tr/tvs/all-tvs/"},
+    {"id": "lifestyle-tvs",       "type": "04020000",
+     "name": "Lifestyle TVs",
+     "landing_path": "/tr/lifestyle-tvs/all-lifestyle-tvs/"},
     {"id": "tv-accessories",      "type": "04030000",
      "name": "TV Accessories",
      "landing_path": "/tr/tv-accessories/all-tv-accessories/"},
@@ -185,23 +188,36 @@ TOP_LEVEL_CATEGORIES = [
      "landing_path": "/tr/microwave-ovens/all-microwave-ovens/"},
 ]
 
+# ── Sitemap sweep ────────────────────────────────────────────────────────────
+# After the category pass, every model code found in the consumer (b2c)
+# sitemaps but not yet scraped is looked up on the card-detail endpoint, and
+# the ones with a price are added.  This catches products in categories that
+# are missing from TOP_LEVEL_CATEGORIES (e.g. new Samsung categories) without
+# editing this file.  On 2026-09-28 it added 7 products (The Frame TVs,
+# Movingstyle screen); ~950 sitemap models were discontinued (no price).
+SITEMAP_INDEX_URL = f"{BASE_URL}/tr/b2c-sitemap.xml"
+CARD_DETAIL_URL = (
+    "https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris"
+)
+SWEEP_BATCH = 40
+
 # ── Output Settings ──────────────────────────────────────────────────────────
 import datetime as _dt
 from pathlib import Path as _Path
 
 # Resolve paths relative to this config file so the scraper works regardless
 # of the working directory from which main.py is invoked.
-_SCRIPTS_DIR  = _Path(__file__).resolve().parent                    # …/TechnologicalProducts/Samsung/scripts
-_SAMSUNG_DIR  = _SCRIPTS_DIR.parent                                  # …/TechnologicalProducts/Samsung
+_SCRIPTS_DIR  = _Path(__file__).resolve().parent                    # …/08_Communication/Samsung/scripts
+_SAMSUNG_DIR  = _SCRIPTS_DIR.parent                                  # …/08_Communication/Samsung
 _PROJECT_ROOT = _SAMSUNG_DIR.parent.parent.parent.parent              # …/InflationResearchStudy
 
-# CSV output → InflationItems/Datas/TechnologicalProducts/Samsung/
+# CSV output → InflationItems/Datas/08_Communication/Samsung/
 BASE_OUTPUT_DIR = str(
-    _PROJECT_ROOT / "InflationItems" / "Datas" / "TechnologicalProducts" / "Samsung"
+    _PROJECT_ROOT / "InflationItems" / "Datas" / "08_Communication" / "Samsung"
 )
 OUTPUT_DIR = BASE_OUTPUT_DIR
 
-# Checkpoints → InflationItems/Codes/TechnologicalProducts/Samsung/checkpoints/
+# Checkpoints → InflationItems/Codes/08_Communication/Samsung/checkpoints/
 CHECKPOINT_DIR = str(_SAMSUNG_DIR / "checkpoints")
 
 # Daily-dated file names so each run produces its own set and --resume picks

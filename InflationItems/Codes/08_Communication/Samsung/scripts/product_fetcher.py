@@ -206,9 +206,14 @@ def _parse_model(
         or (family.get("fmyMarketingName") or "").strip()
     )
 
+    # ``id`` is required: the page loop dedups on it and main._dedup_csv
+    # drops duplicates on the ``id`` column (upstream returned only
+    # name/price, which crashed with KeyError: 'sku').
     return {
+        "id":           model_code,
         "product_name": display_name,
         "price":        round(shown_price, 2),
+        "category":     category_name,
     }
 
 
@@ -358,7 +363,7 @@ def fetch_products_for_category(
                 record = _parse_model(family, model, cat_name)
                 if record is None:
                     continue
-                sku = record["sku"]
+                sku = record["id"]
                 if sku in seen_skus:
                     continue
                 seen_skus.add(sku)

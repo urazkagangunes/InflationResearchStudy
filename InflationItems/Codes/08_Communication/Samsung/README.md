@@ -83,7 +83,7 @@ from the `pfv2` endpoint (a cheap `num=1` request just to read back
 ## Project Structure
 
 ```
-InflationItems/Codes/TechnologicalProducts/Samsung/
+InflationItems/Codes/08_Communication/Samsung/
 ├── scripts/
 │   ├── main.py              # CLI entry point & orchestrator
 │   ├── category_fetcher.py  # Discovers top-level categories
@@ -94,7 +94,7 @@ InflationItems/Codes/TechnologicalProducts/Samsung/
 ├── requirements.txt
 └── README.md
 
-InflationItems/Datas/TechnologicalProducts/Samsung/      ← scraped CSV output
+InflationItems/Datas/08_Communication/Samsung/      ← scraped CSV output
 └── samsung_<DATE>.csv
 
 Inflations/Codes/TechnologicalProducts/Samsung/
@@ -174,7 +174,7 @@ python3 -m venv venv
 source venv/bin/activate  # macOS/Linux
 
 # Install dependencies
-pip install -r InflationItems/Codes/TechnologicalProducts/Samsung/requirements.txt
+pip install -r InflationItems/Codes/08_Communication/Samsung/requirements.txt
 ```
 
 ### Dependencies
@@ -191,7 +191,7 @@ All commands must be executed from the `scripts/` directory so that
 `import config`, `import category_fetcher`, etc. resolve correctly:
 
 ```bash
-cd InflationItems/Codes/TechnologicalProducts/Samsung/scripts
+cd InflationItems/Codes/08_Communication/Samsung/scripts
 ```
 
 ### Command Line Interface
@@ -258,8 +258,8 @@ python main.py --category watches -v
 
 | File Path                                                                                      | Description                  |
 | ---------------------------------------------------------------------------------------------- | ---------------------------- |
-| `InflationItems/Datas/TechnologicalProducts/Samsung/samsung_<DATE>.csv`                        | CSV dataset (UTF-8 with BOM) |
-| `InflationItems/Codes/TechnologicalProducts/Samsung/checkpoints/samsung_checkpoint_<DATE>.json` | Resume state tracking        |
+| `InflationItems/Datas/08_Communication/Samsung/samsung_<DATE>.csv`                        | CSV dataset (UTF-8 with BOM) |
+| `InflationItems/Codes/08_Communication/Samsung/checkpoints/samsung_checkpoint_<DATE>.json` | Resume state tracking        |
 
 File paths are automatically resolved relative to the script location,
 ensuring consistent operation regardless of which directory you run
@@ -286,8 +286,8 @@ Configuration parameters are centralised in `scripts/config.py`:
 
 All file paths are computed relative to `config.py`:
 
-- `OUTPUT_DIR`     → `InflationItems/Datas/TechnologicalProducts/Samsung/`
-- `CHECKPOINT_DIR` → `InflationItems/Codes/TechnologicalProducts/Samsung/checkpoints/`
+- `OUTPUT_DIR`     → `InflationItems/Datas/08_Communication/Samsung/`
+- `CHECKPOINT_DIR` → `InflationItems/Codes/08_Communication/Samsung/checkpoints/`
 
 Daily file naming uses `YYYY-MM-DD`, so re-running on the same day
 with `--resume` picks up exactly where the previous run stopped.

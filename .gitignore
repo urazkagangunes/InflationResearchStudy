@@ -99,3 +99,6 @@ NoDriverProfile*/
 # Sahibinden scraper checkpoint dosyalari
 checkpoint_*.json
 **/checkpoint_*.json
+
+# Beymen scraper session cookies (08_Communication)
+InflationItems/Codes/08_Communication/Beymen/.beymen_cookies.json

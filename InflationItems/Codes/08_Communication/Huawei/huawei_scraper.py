@@ -1,160 +1,181 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
-import pandas as pd
+"""
+Huawei Türkiye technology scraper (requests only, no browser).
+
+Coverage (checked 2026-09-28): the full e-commerce catalogue comes from
+``/.rest/service/ecommerce/v1/products/tr`` (~290 product ids, most of them
+discontinued). Prices come in batches from the endpoint the site itself calls
+(``itrinity-de.c.huawei.com/convert/queryMinPriceAndInv``); only ids with a
+price there are currently sold (~120).
+
+Names: the category pages (phones, laptops, ...) embed each shelf product as
+JSON (``marketingName`` + ``ecProductId``). Accessories and a few others have a
+price but appear on no listing page and their buy page is empty; for those the
+name is derived from the product URL slug and ``listed_on_site`` is False, so
+they can be filtered out in the analysis if only visibly listed products are
+wanted. ``offer`` items (extended warranty, test entries) are skipped.
+
+Price = "Başlangıç" (minimum unit price across colours/variants), the same
+value the site shows.
+
+Output: InflationItems/Datas/08_Communication/Huawei/huawei_YYYY-MM-DD.csv
+"""
+
+import csv
+import html
+import logging
+import re
+import sys
 import time
-import os
 from datetime import datetime
+from pathlib import Path
 
-# 1. Complete Category Map for Huawei Turkey
-CATEGORY_URLS = {
-    "Telefon": "https://consumer.huawei.com/tr/phones/",
-    "PC": "https://consumer.huawei.com/tr/laptops/",
-    "Tablet": "https://consumer.huawei.com/tr/tablets/",
-    "Akıllı Saat": "https://consumer.huawei.com/tr/wearables/",
-    "Ses": "https://consumer.huawei.com/tr/audio/",
-    "Router": "https://consumer.huawei.com/tr/routers/"
+import requests
+
+BASE = "https://consumer.huawei.com"
+CATALOG_API = f"{BASE}/.rest/service/ecommerce/v1/products/tr"
+PRICE_API = "https://itrinity-de.c.huawei.com/convert/queryMinPriceAndInv"
+LISTING_PAGES = {
+    "Telefon": f"{BASE}/tr/phones/",
+    "PC": f"{BASE}/tr/laptops/",
+    "Tablet": f"{BASE}/tr/tablets/",
+    "Akıllı Saat": f"{BASE}/tr/wearables/",
+    "Ses": f"{BASE}/tr/audio/",
+    "Router": f"{BASE}/tr/routers/",
 }
+# catalogue URL section -> category label (sections not listed keep their own name)
+SECTION_LABELS = {
+    "phones": "Telefon", "laptops": "PC", "desktops": "PC", "monitors": "Monitör",
+    "tablets": "Tablet", "wearables": "Akıllı Saat", "headphones": "Ses", "speakers": "Ses",
+    "audio": "Ses", "routers": "Router", "accessories": "Aksesuar",
+}
+SKIP_SECTIONS = {"offer"}
+
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+    "Referer": f"{BASE}/tr/",
+}
+REQUEST_TIMEOUT = 30
+MAX_RETRIES = 3
+PRICE_BATCH = 20
+FIELDS = ["Product ID", "Product Name", "Price", "Category", "listed_on_site", "Product URL"]
+
+# "marketingName":"HUAWEI nova 13 Pro","productId":"SPCG...",...,"ecProductId":"18090..."
+PRODUCT_RE = re.compile(r'"marketingName":"([^"]+)"[^{}]*?"ecProductId":"(\d+)"')
+
+REPO_ROOT = Path(__file__).resolve().parents[4]
+OUT_DIR = REPO_ROOT / "InflationItems" / "Datas" / "08_Communication" / "Huawei"
+
+log = logging.getLogger("huawei")
 
 
-def get_save_path():
-    """
-    Dynamically maps the path for the daily CSV export.
-    From: .../InflationItems/Codes/TechnologicalProducts/Huawei
-    To:   .../InflationItems/Datas/TechnologicalProducts/Huawei
-    """
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-
-    # Go up 3 levels to reach the main 'InflationItems' folder
-    level_1_up = os.path.dirname(current_dir)
-    level_2_up = os.path.dirname(level_1_up)
-    inflation_items_dir = os.path.dirname(level_2_up)
-
-    # Build the path down into the target Datas directory
-    target_dir = os.path.join(inflation_items_dir, "Datas", "TechnologicalProducts", "Huawei")
-
-    os.makedirs(target_dir, exist_ok=True)
-    today_date = datetime.now().strftime("%Y-%m-%d")
-
-    return os.path.join(target_dir, f"huawei_{today_date}.csv")
+def get(session, url, **kwargs):
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            r = session.get(url, timeout=REQUEST_TIMEOUT, **kwargs)
+            r.raise_for_status()
+            return r
+        except requests.RequestException as e:
+            log.warning("%s attempt %d/%d failed: %s", url, attempt, MAX_RETRIES, e)
+            time.sleep(3 * attempt)
+    return None
 
 
-def scrape_category_popup(driver, category_name, url):
-    """Navigates to a category, opens the popup menu, and scrapes the raw data."""
-    print(f"\n--- Navigating to {category_name} ---")
-    driver.get(url)
-
-    time.sleep(3)
-
-    try:
-        print("Looking for the 'Tümünü Görüntüle' or 'Tümü Göster' button...")
-        # Smart XPath to handle different naming conventions across Huawei's site
-        xpath = "(//*[contains(text(), 'Tümünü Görüntüle') or contains(text(), 'Tümünü görüntüle') or contains(text(), 'Tümü Göster') or contains(text(), 'Tümünü Göster')])[1]"
-
-        button = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, xpath))
-        )
-
-        # Scroll to the button and click it
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
+def listed_names(session):
+    """Product id -> (name, category) for everything shown on the listing pages."""
+    names = {}
+    for category, url in LISTING_PAGES.items():
+        r = get(session, url)
+        if r is None:
+            log.error("[%s] listing page could not be fetched", category)
+            continue
+        found = PRODUCT_RE.findall(html.unescape(r.text))
+        for name, pid in found:
+            names.setdefault(pid, (name.strip(), category))
+        log.info("[%s] %d products on listing page", category, len(set(p for _, p in found)))
         time.sleep(1)
-        driver.execute_script("arguments[0].click();", button)
+    return names
 
-        print("Button clicked! Waiting for popup to inject data...")
 
-        # Wait until at least one product card renders inside the popup
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "div.product-item"))
-        )
-        time.sleep(2)
+def fetch_prices(session, ids):
+    prices = {}
+    for i in range(0, len(ids), PRICE_BATCH):
+        params = [("productIds", pid) for pid in ids[i:i + PRICE_BATCH]] + [("siteCode", "TR"), ("loginFrom", "1")]
+        r = get(session, PRICE_API, params=params)
+        if r is None:
+            continue
+        try:
+            rows = (r.json().get("data") or {}).get("minPriceAndInvList") or []
+        except ValueError:
+            log.warning("price API returned non-JSON")
+            continue
+        for row in rows:
+            if row.get("minUnitPrice") is not None:
+                prices[str(row.get("productId"))] = float(row["minUnitPrice"])
+        time.sleep(0.5)
+    return prices
 
-        # Parse the live HTML
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        all_popups = soup.find_all('div', class_='popup-wrap')
 
-        discovered_data = []
-        total_seen_in_category = 0
+def slug_name(pdp_link):
+    slug = pdp_link.rstrip("/").removesuffix(".html").rsplit("/", 1)[-1]
+    return "HUAWEI " + slug.replace("-", " ")
 
-        for popup in all_popups:
-            product_cards = popup.find_all('div', class_='product-item')
-            total_seen_in_category += len(product_cards)
 
-            for card in product_cards:
-                try:
-                    # Extract Name
-                    name_tag = card.find('a', class_='product-title')
-                    prod_name = name_tag.text.strip() if name_tag else ""
+def main():
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
+    out_file = OUT_DIR / f"huawei_{datetime.now():%Y-%m-%d}.csv"
 
-                    # Extract Price
-                    price_div = card.find('div', class_='price-height')
-                    prod_price = price_div.text.strip() if price_div else ""
+    session = requests.Session()
+    session.headers.update(HEADERS)
 
-                    # Prevent duplicates if a product is listed multiple times in the menu
-                    if prod_name and not any(d['Product Name'] == prod_name for d in discovered_data):
-                        discovered_data.append({
-                            "Product Name": prod_name,
-                            "Price": prod_price,
-                            "Category": category_name
-                        })
-                except Exception as inner_e:
-                    continue
+    names = listed_names(session)
+    r = get(session, CATALOG_API)
+    catalog = {}
+    if r is not None:
+        try:
+            catalog = r.json()
+        except ValueError:
+            log.error("catalogue API returned non-JSON")
+    log.info("Catalogue: %d products, listing pages: %d", len(catalog), len(names))
 
-        total_collected = len(discovered_data)
-        print(f"-> Seen:      {total_seen_in_category} raw product cards in HTML.")
-        print(f"-> Collected: {total_collected} valid, unique products.")
+    ids = list(dict.fromkeys(list(catalog) + list(names)))
+    prices = fetch_prices(session, ids)
+    log.info("Priced (currently sold): %d", len(prices))
 
-        return discovered_data, total_seen_in_category
+    rows = []
+    for pid in ids:
+        if pid not in prices:
+            continue
+        link = (catalog.get(pid) or {}).get("pdpLink") or ""
+        section = link.split("/tr/")[-1].split("/")[0] if "/tr/" in link else ""
+        if section in SKIP_SECTIONS:
+            continue
+        if pid in names:
+            name, category = names[pid]
+            listed = True
+        elif link:
+            name, category, listed = slug_name(link), SECTION_LABELS.get(section, section), False
+        else:
+            continue  # priced id with neither a name nor a catalogue entry
+        url = BASE + link.replace("/content/huawei-cbg-site", "").replace(".html", "/") if link else ""
+        rows.append({"Product ID": pid, "Product Name": name, "Price": prices[pid], "Category": category,
+                     "listed_on_site": listed, "Product URL": url})
 
-    except Exception as e:
-        print(f"-> No button found or failed to load items for {category_name}.")
-        return [], 0
+    if not rows:
+        log.error("No data collected.")
+        sys.exit(1)
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    with out_file.open("w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDS)
+        writer.writeheader()
+        writer.writerows(rows)
+    log.info("Saved %d products (%d listed on site) to %s",
+             len(rows), sum(r["listed_on_site"] for r in rows), out_file)
 
 
 if __name__ == "__main__":
-    print("Starting Huawei Full-Catalog Selenium Scraper...")
-
-    # Configure Chrome options
-    options = webdriver.ChromeOptions()
-    options.add_argument('--start-maximized')
-    options.add_argument('--disable-notifications')
-    # Uncomment the next line to run in the background (no visible browser window)
-    # options.add_argument('--headless=new')
-
-    driver = webdriver.Chrome(options=options)
-
-    all_category_data = []
-    grand_total_seen = 0
-
-    try:
-        # 1. Loop through all specified categories
-        for category, url in CATEGORY_URLS.items():
-            data, seen_count = scrape_category_popup(driver, category, url)
-
-            all_category_data.extend(data)
-            grand_total_seen += seen_count
-
-        # 2. Process and Export Data
-        if all_category_data:
-            save_path = get_save_path()
-            df = pd.DataFrame(all_category_data, columns=["Product Name", "Price", "Category"])
-
-            # Print Final Summary Block
-            print(f"\n=========================================")
-            print(f"          FINAL SCRAPING SUMMARY         ")
-            print(f"=========================================")
-            print(f"Total HTML Cards Seen    : {grand_total_seen}")
-            print(f"Total Duplicates Skipped : {grand_total_seen - len(df)}")
-            print(f"Total Unique Items Saved : {len(df)}")
-            print(f"=========================================\n")
-
-            # Save to the dynamically calculated path
-            df.to_csv(save_path, index=False, encoding='utf-8-sig')
-            print(f"Data successfully saved to:\n{save_path}")
-        else:
-            print("\nPipeline finished, but no data was collected.")
-
-    finally:
-        # Ensure the browser instance is always closed
-        driver.quit()
+    main()
