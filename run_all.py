@@ -133,10 +133,8 @@ STORE_MAP = [
      REPO_ROOT / "Inflations/Datas/TechnologicalProducts/Koçtaş/koctas_inflation_summary.csv", None),
     ("Stradivarius",          REPO_ROOT / f"InflationItems/Datas/ClothingStores/Stradivarius/stradivarius_{TODAY_DASH}.csv",
      REPO_ROOT / "Inflations/Datas/ClothingStores/Stradivarius/stradivarius_inflation_summary.csv", None),
-     ("Kitapyurdu",
-     REPO_ROOT / f"InflationItems/Datas/09_Recreation/Kitapyurdu/kitapyurdu_{TODAY_DASH}.csv",
-     REPO_ROOT / "Inflations/Datas/09_Recreation/Kitapyurdu/kitapyurdu_inflation_summary.csv",
-     None),
+   
+    
 ]
 
 
