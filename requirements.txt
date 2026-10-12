@@ -1,0 +1,36 @@
+# ── Core / HTTP ──────────────────────────────────────────────────────────────
+requests>=2.32.5
+certifi>=2026.1.4
+charset-normalizer>=3.4.4
+idna>=3.11
+urllib3>=2.6.3
+aiohttp
+
+# ── Scraping & Parsing ──────────────────────────────────────────────────────
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+curl_cffi>=0.7.0
+soupsieve>=2.8.3
+
+# ── Browser Automation ──────────────────────────────────────────────────────
+selenium>=4.20.0
+seleniumbase
+undetected-chromedriver>=3.5.5
+playwright>=1.40.0
+camoufox>=0.4.0
+
+# ── Data & Analysis ─────────────────────────────────────────────────────────
+pandas>=2.0.0
+openpyxl>=3.1.0
+tqdm>=4.65.0
+matplotlib>=3.7.0
+
+# ── Utilities ────────────────────────────────────────────────────────────────
+python-dotenv>=1.2.1
+packaging>=26.0
+setuptools
+typing_extensions>=4.15.0
+wheel>=0.46.3
+
+# ── Jupyter (Hapeloglu analysis) ────────────────────────────────────────────
+jupyter>=1.0.0
