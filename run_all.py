@@ -26,6 +26,7 @@ SCRAPERS = [
     REPO_ROOT / "InflationItems/Codes/ConstructionSuppliesMarkets/Hausmart/hausmart_scraper.py",
     REPO_ROOT / "InflationItems/Codes/TechnologicalProducts/Koçtaş/koctas_scraper.py",
     REPO_ROOT / "InflationItems/Codes/ClothingStores/Stradivarius/StradivariusScraper.py",
+    REPO_ROOT / "InflationItems/Codes/09_Recreation/Kitapyurdu/kitapyurdu_scraper.py",
 ]
 
 # ── Inflation scriptleri (sırayla çalışır) ───────────────────────────────────
