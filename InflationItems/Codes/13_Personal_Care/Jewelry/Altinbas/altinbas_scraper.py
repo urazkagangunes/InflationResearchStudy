@@ -42,9 +42,36 @@ HEADERS = {
 
 import time
 
+try:
+    from curl_cffi import requests as curl_requests
+except ImportError:
+    curl_requests = None
+
+try:
+    import requests as std_requests
+except ImportError:
+    std_requests = None
+
 CATEGORY_URLS = [
     f"https://www.altinbas.com/altin?sayfa={p}" for p in range(1, 6)
 ]
+
+
+def fetch_html(url: str, timeout: int = 15) -> str:
+    """Fetches URL HTML using curl_cffi with Chrome impersonation, falling back to requests/urllib."""
+    if curl_requests is not None:
+        resp = curl_requests.get(url, headers=HEADERS, impersonate="chrome120", timeout=timeout)
+        resp.raise_for_status()
+        return resp.text
+
+    if std_requests is not None:
+        resp = std_requests.get(url, headers=HEADERS, timeout=timeout)
+        resp.raise_for_status()
+        return resp.text
+
+    req = urllib.request.Request(url, headers=HEADERS)
+    with urllib.request.urlopen(req, timeout=timeout) as response:
+        return response.read().decode("utf-8", errors="ignore")
 
 
 def scrape_altinbas_products() -> list[tuple[str, float]]:
@@ -56,9 +83,7 @@ def scrape_altinbas_products() -> list[tuple[str, float]]:
         for attempt in range(1, 4):
             logger.info("Fetching Altınbaş page (attempt %d/3): %s", attempt, url)
             try:
-                req = urllib.request.Request(url, headers=HEADERS)
-                with urllib.request.urlopen(req, timeout=15) as response:
-                    html = response.read().decode("utf-8", errors="ignore")
+                html = fetch_html(url, timeout=15)
 
                 # Parse products from data-googletag attributes
                 matches = re.findall(
@@ -83,7 +108,7 @@ def scrape_altinbas_products() -> list[tuple[str, float]]:
                 logger.warning("Failed to fetch %s (attempt %d): %s", url, attempt, exc)
                 time.sleep(3 * attempt)
 
-        time.sleep(3.0)  # Generous 3-second delay between catalog pages to avoid rate limits
+        time.sleep(2.0)  # Gentle 2-second delay between catalog pages
 
     logger.info("Extracted %d unique gold jewelry items from Altınbaş", len(results))
     return results
