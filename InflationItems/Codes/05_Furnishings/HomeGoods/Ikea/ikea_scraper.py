@@ -100,6 +100,14 @@ def fetch_range(session, low, high):
     while len(products) < total:
         page += 1
         batch = search(session, low, high, page)["products"]
+        # On 14 Oct the API answered a page mid-range with nothing for a while,
+        # which ended the range early; wait and ask again before giving up.
+        for attempt in range(1, 4):
+            if batch:
+                break
+            print(f"  {low}-{high} TL: page {page} empty, retry {attempt}/3")
+            time.sleep(30)
+            batch = search(session, low, high, page)["products"]
         if not batch:
             break
         products += batch
