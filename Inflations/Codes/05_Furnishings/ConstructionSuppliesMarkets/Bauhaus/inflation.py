@@ -64,7 +64,10 @@ def _load_csv(date_str):
     try:
         df = pd.read_csv(fpath, encoding="utf-8-sig")
         df['price'] = pd.to_numeric(df['price'], errors='coerce')
-        return df
+        # Variants share a name (sizes, colours); merging them row by row paired every
+        # variant with every other and multiplied the rows, so average them per name
+        # as turkey_inflation.py does.
+        return df.groupby('product_name', as_index=False)['price'].mean()
     except Exception as e:
         logger.error(f"Failed to read {fpath}: {e}")
         return None
