@@ -1,0 +1,2 @@
+beautifulsoup4>=4.12,<5
+tzdata>=2024.1

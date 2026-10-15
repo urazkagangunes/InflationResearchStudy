@@ -1,0 +1,87 @@
+{
+  "run_id": "2026-10-15_213245_903598",
+  "complete": true,
+  "alcohol_observation_rows": 333,
+  "sources": {
+    "whisky": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 42,
+      "csv": "whisky/whisky_observations_2026-10-15_213247_392417.csv",
+      "report": "whisky/whisky_observations_2026-10-15_213247_392417.json",
+      "included_in_alcohol_observations": true
+    },
+    "raki": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 66,
+      "csv": "raki/raki_observations_2026-10-15_213249_115584.csv",
+      "report": "raki/raki_observations_2026-10-15_213249_115584.json",
+      "included_in_alcohol_observations": true
+    },
+    "votka": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 34,
+      "csv": "votka/votka_observations_2026-10-15_213250_136950.csv",
+      "report": "votka/votka_observations_2026-10-15_213250_136950.json",
+      "included_in_alcohol_observations": true
+    },
+    "bira": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 27,
+      "csv": "bira/bira_observations_2026-10-15_213251_488615.csv",
+      "report": "bira/bira_observations_2026-10-15_213251_488615.json",
+      "included_in_alcohol_observations": true
+    },
+    "sarap": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 16,
+      "csv": "sarap/sarap_observations_2026-10-15_213252_572545.csv",
+      "report": "sarap/sarap_observations_2026-10-15_213252_572545.json",
+      "included_in_alcohol_observations": true
+    },
+    "cin": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 28,
+      "csv": "cin/cin_observations_2026-10-15_213253_658285.csv",
+      "report": "cin/cin_observations_2026-10-15_213253_658285.json",
+      "included_in_alcohol_observations": true
+    },
+    "tekila": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 21,
+      "csv": "tekila/tekila_observations_2026-10-15_213254_924715.csv",
+      "report": "tekila/tekila_observations_2026-10-15_213254_924715.json",
+      "included_in_alcohol_observations": true
+    },
+    "likor": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 99,
+      "csv": "likor/likor_observations_2026-10-15_213256_066099.csv",
+      "report": "likor/likor_observations_2026-10-15_213256_066099.json",
+      "included_in_alcohol_observations": true
+    },
+    "birgun": {
+      "status": "ok",
+      "exit_code": 0,
+      "rows": 14,
+      "csv": "birgun/cigarette_news_observations_2026-10-15_213257_025100.csv",
+      "report": "birgun/cigarette_news_observations_2026-10-15_213257_025100.json",
+      "included_in_alcohol_observations": false,
+      "ready_for_index": 0
+    },
+    "secondary_audit": {
+      "status": "ok",
+      "exit_code": 0,
+      "report": "secondary_audit/secondary_audit_2026-10-15_213257_669231.json"
+    }
+  },
+  "note": "Source observations only. No independent current store verification, no group 02 index integration. Cigarette news and secondary audits excluded from combined alcohol CSV.",
+  "combined_csv": "combined_alcohol_observations.csv"
+}
