@@ -3,7 +3,7 @@
 A web-based price index for Türkiye. Every day the project collects prices from Turkish online retailers and rental listings, stores them as dated CSV files, and turns them into inflation figures weighted by TÜİK's consumer price basket. The aim is an independent, high-frequency view of inflation and the cost of living that can be compared with the official numbers.
 
 The research project started in February 2026 and is ongoing, with prices collected daily. Its methodology and findings are published in the IEEE conference paper:
-- 📄 **Paper:** [*A CPI-Weighted Web-Based Price Index for Monitoring Inflation and Cost of Living in Türkiye*](asyu2026/A_CPI_Weighted_Web_Based_Price_Index_Paper.pdf) (ASYU 2026)
+- 📄 **Paper:** [*A CPI-Weighted Web-Based Price Index for Monitoring Inflation and Cost of Living in Türkiye*](asyu2026/cpi_weighted_inflation.pdf) (ASYU 2026)
 - 📊 **Presentation:** [Conference Presentation Slides](asyu2026/A_CPI_Weighted_Web_Based_Price_Index_Presentation.pdf)
 
 ## What is collected
