@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-15",
+  "stores": 9,
+  "rows": 581,
+  "offline_tests": 6,
+  "actual_repo_reader": "PASS: _load_sector, _load_store_csv, _find_date_csv; all prices preserved",
+  "live_after_adaptation": {
+    "Toyota": 23
+  },
+  "shared_repository_modified": false,
+  "server_execution_tested": false
+}
