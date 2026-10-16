@@ -1,0 +1,21 @@
+{
+  "source": "Euromaster",
+  "date": "2026-10-16",
+  "rows": 90,
+  "tuik_group": "07",
+  "note": "Alt madde kodu ve agirlik atanmaz; kapsami README ile kontrol edin.",
+  "missing": [
+    {
+      "service": "LASTİK MENÜ 2 FİYATI (LASTİK DEĞİŞİMİ + SUPAP + BALANS + ROT AYARI)",
+      "group": "4X4 FİYATLARI",
+      "reason": "Resmi tabloda fiyat bos"
+    }
+  ],
+  "groups": [
+    "STANDART BİNEK GRUBU FİYATLARI (16” DAHİL)",
+    "YÜKSEK PERFORMANS BİNEK GRUBU FİYATLARI (17” ve ÜZERİ)",
+    "KAMYONET BAKIM FİYATLARI",
+    "4X4 FİYATLARI",
+    "PERİYODİK SERVİSLER İŞÇİLİK FİYATLARI FİYATLARI (*İŞÇİLİK, **İŞÇİLİK + MALZEME)"
+  ]
+}

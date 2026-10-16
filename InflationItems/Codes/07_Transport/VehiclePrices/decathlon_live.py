@@ -40,8 +40,16 @@ def parse_html(html, stamp, require_records=True):
         records.append(dict(product_name=name, price=price, campaign_price='', model_year='',
                             collected_at=stamp, price_type='live_page_current',
                             price_label='Canli urun listesinde gorunen fiyat', source_url=url))
-    if (require_records and not records) or len({r['product_name'] for r in records}) != len(records):
-        raise ValueError('Bos/tekrarlanan urun adi; birlestirmeden once kontrol edilmeli.')
+    # Marketplace products can share a title; the collector appends the URL's
+    # product code before publishing. Reject repeated identities, not titles.
+    keys = []
+    for row in records:
+        match = re.search(r'/R-p-([^/?#]+)', row['source_url'])
+        if not match:
+            raise ValueError(f"Urun kodu okunamadi: {row['product_name']}")
+        keys.append((row['product_name'], match[1]))
+    if (require_records and not records) or len(set(keys)) != len(keys):
+        raise ValueError('Bos/tekrarlanan urun kimligi; birlestirmeden once kontrol edilmeli.')
     next_link = soup.select_one('link[rel="next"]')
     return sorted(records, key=lambda r: r['product_name']), excluded, next_link.get('href') if next_link else None
 
