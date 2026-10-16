@@ -1,16 +1,16 @@
 #!/bin/bash
-# run_cosmetics.sh — Runs all cosmetics scrapers sequentially
-# Cron: 0 3 * * * /root/InflationResearchStudy/run_cosmetics.sh >> /root/InflationResearchStudy/logs/cosmetics/cron.log 2>&1
+# run_group13.sh — Runs all TÜİK Group 13 (Personal Care, Cosmetics & Services) scrapers sequentially
+# Cron: 0 3 * * * /home/onurkaandemirtas/InflationResearchStudy/run_group13.sh >> /home/onurkaandemirtas/InflationResearchStudy/logs/group13/cron.log 2>&1
 
 BASE="$(cd "$(dirname "$0")" && pwd)"
 COSMETICS_DIR="$BASE/InflationItems/Codes/13_Personal_Care/Cosmetics"
 DATE=$(date +%Y-%m-%d)
-LOG_DIR="$BASE/logs/cosmetics"
+LOG_DIR="$BASE/logs/group13"
 mkdir -p "$LOG_DIR"
 
 echo ""
 echo "========================================"
-echo "  Cosmetics Scraping Run: $DATE"
+echo "  TÜİK Group 13 Scraping Run: $DATE"
 echo "========================================"
 
 # Python environment — activate venv if present
@@ -50,7 +50,7 @@ run_scraper() {
 }
 
 # =============================================
-# SCRAPERS
+# COSMETICS SCRAPERS (14 Retailers)
 # =============================================
 
 run_scraper "Avon" \
@@ -151,22 +151,17 @@ else
 fi
 
 # =============================================
-# DATA RETENTION CLEANUP (Keep max 2 days on server)
+# DATA RETENTION CLEANUP
 # =============================================
-echo ""
-echo "--- Data Retention Cleanup (Purging files older than 2 days) ---"
-DATAS_COSMETICS="$BASE/InflationItems/Datas/13_Personal_Care/Cosmetics"
+# Data purge disabled: CSV data files are retained permanently on server.
+# DATAS_COSMETICS="$BASE/InflationItems/Datas/13_Personal_Care/Cosmetics"
+# if [ -d "$DATAS_COSMETICS" ]; then
+#     find "$DATAS_COSMETICS" -type f -name "*.csv" -mtime +2 -exec rm -f {} +
+# fi
 
-# Remove CSV data files older than 2 days (48 hours)
-if [ -d "$DATAS_COSMETICS" ]; then
-    find "$DATAS_COSMETICS" -type f -name "*.csv" -mtime +2 -exec rm -f {} +
-    echo "[Cleanup] Purged CSV files older than 2 days from server."
-fi
-
-# Remove log files older than 2 days (48 hours)
+# Remove old execution log files (keep 7 days of logs)
 if [ -d "$LOG_DIR" ]; then
-    find "$LOG_DIR" -type f -name "*.log" -mtime +2 -exec rm -f {} +
-    echo "[Cleanup] Purged log files older than 2 days from server."
+    find "$LOG_DIR" -type f -name "*.log" -mtime +7 -exec rm -f {} +
 fi
 
 echo ""
