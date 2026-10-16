@@ -1,119 +1,119 @@
-product_name,price,volume,category
-Chivas Regal 12 35 cl,1150.0,35 cl,Viski
-Chivas Regal 12 50 cl,1625.0,50 cl,Viski
-Chivas Regal 12 70 cl,2095.0,70 cl,Viski
-Chivas Regal 12 100 cl,2875.0,100 cl,Viski
-Jack Daniel's Old No.7 35 cl,1110.0,35 cl,Viski
-Jack Daniel's Old No.7 50 cl,1560.0,50 cl,Viski
-Jack Daniel's Old No.7 70 cl,2050.0,70 cl,Viski
-Jack Daniel's Old No.7 100 cl,2800.0,100 cl,Viski
-Johnnie Walker Red Label 35 cl,750.0,35 cl,Viski
-Johnnie Walker Red Label 50 cl,1025.0,50 cl,Viski
-Johnnie Walker Red Label 70 cl,1350.0,70 cl,Viski
-Johnnie Walker Red Label 100 cl,1850.0,100 cl,Viski
-Johnnie Walker Black Label 12 YO 35 cl,975.0,35 cl,Viski
-Johnnie Walker Black Label 12 YO 70 cl,1775.0,70 cl,Viski
-Ballantine's Finest 35 cl,850.0,35 cl,Viski
-Ballantine's Finest 50 cl,1175.0,50 cl,Viski
-Ballantine's Finest 70 cl,1550.0,70 cl,Viski
-Ballantine's Finest 100 cl,2095.0,100 cl,Viski
-Jameson Irish Whiskey 35 cl,925.0,35 cl,Viski
-Jameson Irish Whiskey 50 cl,1295.0,50 cl,Viski
-Jameson Irish Whiskey 70 cl,1750.0,70 cl,Viski
-Jameson Irish Whiskey 100 cl,2350.0,100 cl,Viski
-Yeni Rakı 1937 35 cl,675.0,35 cl,Rakı
-Yeni Rakı 1937 50 cl,935.0,50 cl,Rakı
-Yeni Rakı 1937 70 cl,1195.0,70 cl,Rakı
-Yeni Rakı 1937 100 cl,1550.0,100 cl,Rakı
-Yeni Rakı Yeni Seri 35 cl,750.0,35 cl,Rakı
-Yeni Rakı Yeni Seri 50 cl,1025.0,50 cl,Rakı
-Yeni Rakı Yeni Seri 70 cl,1325.0,70 cl,Rakı
-Yeni Rakı Yeni Seri 100 cl,1725.0,100 cl,Rakı
-Tekirdağ Rakısı Klasik 35 cl,715.0,35 cl,Rakı
-Tekirdağ Rakısı Klasik 50 cl,985.0,50 cl,Rakı
-Tekirdağ Rakısı Klasik 70 cl,1275.0,70 cl,Rakı
-Tekirdağ Rakısı Klasik 100 cl,1675.0,100 cl,Rakı
-Tekirdağ Rakısı Altın Seri 35 cl,850.0,35 cl,Rakı
-Tekirdağ Rakısı Altın Seri 50 cl,1175.0,50 cl,Rakı
-Tekirdağ Rakısı Altın Seri 70 cl,1495.0,70 cl,Rakı
-Tekirdağ Rakısı Altın Seri 100 cl,1875.0,100 cl,Rakı
-Beylerbeyi Mavi 35 cl,725.0,35 cl,Rakı
-Beylerbeyi Mavi 50 cl,985.0,50 cl,Rakı
-Beylerbeyi Mavi 70 cl,1295.0,70 cl,Rakı
-Beylerbeyi Mavi 100 cl,1669.0,100 cl,Rakı
-Beylerbeyi Göbek 35 cl,945.0,35 cl,Rakı
-Beylerbeyi Göbek 70 cl,1695.0,70 cl,Rakı
-Beylerbeyi Göbek 100 cl,2175.0,100 cl,Rakı
-Absolut Original 35 cl,675.0,35 cl,Votka
-Absolut Original 70 cl,1325.0,70 cl,Votka
-Absolut Original 100 cl,1800.0,100 cl,Votka
-Smirnoff Red 35 cl,650.0,35 cl,Votka
-Smirnoff Red 70 cl,1175.0,70 cl,Votka
-Smirnoff Red 100 cl,1625.0,100 cl,Votka
-İstanblue Klasik 35 cl,525.0,35 cl,Votka
-İstanblue Klasik 70 cl,950.0,70 cl,Votka
-İstanblue Klasik 100 cl,1325.0,100 cl,Votka
-Gilbey's Klasik 35 cl,575.0,35 cl,Votka
-Gilbey's Klasik 70 cl,1025.0,70 cl,Votka
-Gilbey's Klasik 100 cl,1425.0,100 cl,Votka
-Bazooka Klasik 35 cl,475.0,35 cl,Votka
-Bazooka Klasik 70 cl,850.0,70 cl,Votka
-Bazooka Klasik 100 cl,1250.0,100 cl,Votka
-Efes Pilsen Kutu 50 cl,125.0,50 cl,Bira
-Efes Pilsen ŞişeDepozito ayrıca uygulanabilir 50 cl,123.0,50 cl,Bira
-Efes Özel Seri / Green 50 cl,125.0,50 cl,Bira
-Efes Serçe 30 cl,85.0,30 cl,Bira
-Tuborg Gold Kutu 50 cl,110.0,50 cl,Bira
-Tuborg Gold ŞişeDepozitolu liste 50 cl,107.0,50 cl,Bira
-Tuborg Amber 50 cl,110.0,50 cl,Bira
-Tuborg Filtresiz 50 cl,110.0,50 cl,Bira
-Tuborg Special Kırmızı 50 cl,140.0,50 cl,Bira
-Carlsberg Kutu 50 cl,110.0,50 cl,Bira
-Bomonti Filtresiz Şişe 50 cl,130.0,50 cl,Bira
-Bremen Kutu / Şişe 50 cl,95.0,50 cl,Bira
-Corona Şişe 35.5 cl,165.0,35.5 cl,Bira
-Kavaklıdere Yakut Kırmızı 75 cl,600.0,75 cl,Şarap
-Kavaklıdere Çankaya Beyaz 75 cl,600.0,75 cl,Şarap
-Kavaklıdere Lâl Roze 75 cl,600.0,75 cl,Şarap
-Kavaklıdere Ancyra 75 cl,750.0,75 cl,Şarap
-Doluca Kırmızı / Beyaz / Roze 75 cl,475.0,75 cl,Şarap
-Doluca Villa Doluca 75 cl,500.0,75 cl,Şarap
-Doluca DLC Serisi 75 cl,750.0,75 cl,Şarap
-Buzbağ Rezerv Kırmızı Sek 75 cl,759.9,75 cl,Şarap
-Olmeca Silver 35 cl,750.0,35 cl,Tekila
-Olmeca Silver 50 cl,1065.0,50 cl,Tekila
-Olmeca Silver 70 cl,1395.0,70 cl,Tekila
-Olmeca Silver 100 cl,1925.0,100 cl,Tekila
-Olmeca Gold 35 cl,815.0,35 cl,Tekila
-Olmeca Gold 70 cl,1500.0,70 cl,Tekila
-Sierra Blanco 35 cl,725.0,35 cl,Tekila
-Sierra Blanco 50 cl,1025.0,50 cl,Tekila
-Sierra Blanco 70 cl,1350.0,70 cl,Tekila
-Sierra Blanco 100 cl,1850.0,100 cl,Tekila
-Sierra Reposado 35 cl,785.0,35 cl,Tekila
-Sierra Reposado 70 cl,1450.0,70 cl,Tekila
-Sierra Reposado 100 cl,1975.0,100 cl,Tekila
-Gilbey's London Dry Gin 70 cl,1050.0,70 cl,Cin
-Gordon's London Dry Gin 70 cl,1225.0,70 cl,Cin
-Gordon's Premium Pink 70 cl,1225.0,70 cl,Cin
-Beefeater London Dry Gin 70 cl,1425.0,70 cl,Cin
-Beefeater Pink 70 cl,1425.0,70 cl,Cin
-Tanqueray London Dry 70 cl,1650.0,70 cl,Cin
-Bombay Sapphire Premium Dry Gin 70 cl,1800.0,70 cl,Cin
-Hendrick's Gin 70 cl,3039.9,70 cl,Cin
-Baileys Original / Krema Likörü 70 cl,1025.0,70 cl,Likör
-Baileys Çikolata Likörü 50 cl,1025.0,50 cl,Likör
-Jägermeister Herb Likör 35 cl,955.0,35 cl,Likör
-Jägermeister Herb Likör 70 cl,1699.9,70 cl,Likör
-Jägermeister Herb Likör 100 cl,2350.0,100 cl,Likör
-Kahlua Likör 70 cl,975.0,70 cl,Likör
-Malibu Likör 70 cl,1005.0,70 cl,Likör
-Aperol Likör 70 cl,1405.9,70 cl,Likör
-Campari Likör 70 cl,1639.0,70 cl,Likör
-Captain Morgan Gold 70 cl,1100.0,70 cl,Rom
-Captain Morgan White 70 cl,1100.0,70 cl,Rom
-Captain Morgan Gold / White 100 cl,1850.0,100 cl,Rom
-Bacardi Carta Blanca 70 cl,1375.0,70 cl,Rom
-Havana Club Añejo 3 Años 70 cl,1575.0,70 cl,Rom
-Havana Club Añejo 7 Años 70 cl,2100.0,70 cl,Rom
-Malibu Rom / Coconut 70 cl,850.0,70 cl,Rom
+product_name,price,category_number,sub_category_number
+Chivas Regal 12 35 cl,1150.0,2,211006
+Chivas Regal 12 50 cl,1625.0,2,211006
+Chivas Regal 12 70 cl,2095.0,2,211006
+Chivas Regal 12 100 cl,2875.0,2,211006
+Jack Daniel's Old No.7 35 cl,1110.0,2,211006
+Jack Daniel's Old No.7 50 cl,1560.0,2,211006
+Jack Daniel's Old No.7 70 cl,2050.0,2,211006
+Jack Daniel's Old No.7 100 cl,2800.0,2,211006
+Johnnie Walker Red Label 35 cl,750.0,2,211006
+Johnnie Walker Red Label 50 cl,1025.0,2,211006
+Johnnie Walker Red Label 70 cl,1350.0,2,211006
+Johnnie Walker Red Label 100 cl,1850.0,2,211006
+Johnnie Walker Black Label 12 YO 35 cl,975.0,2,211006
+Johnnie Walker Black Label 12 YO 70 cl,1775.0,2,211006
+Ballantine's Finest 35 cl,850.0,2,211006
+Ballantine's Finest 50 cl,1175.0,2,211006
+Ballantine's Finest 70 cl,1550.0,2,211006
+Ballantine's Finest 100 cl,2095.0,2,211006
+Jameson Irish Whiskey 35 cl,925.0,2,211006
+Jameson Irish Whiskey 50 cl,1295.0,2,211006
+Jameson Irish Whiskey 70 cl,1750.0,2,211006
+Jameson Irish Whiskey 100 cl,2350.0,2,211006
+Yeni Rakı 1937 35 cl,675.0,2,211001
+Yeni Rakı 1937 50 cl,935.0,2,211001
+Yeni Rakı 1937 70 cl,1195.0,2,211001
+Yeni Rakı 1937 100 cl,1550.0,2,211001
+Yeni Rakı Yeni Seri 35 cl,750.0,2,211001
+Yeni Rakı Yeni Seri 50 cl,1025.0,2,211001
+Yeni Rakı Yeni Seri 70 cl,1325.0,2,211001
+Yeni Rakı Yeni Seri 100 cl,1725.0,2,211001
+Tekirdağ Rakısı Klasik 35 cl,715.0,2,211001
+Tekirdağ Rakısı Klasik 50 cl,985.0,2,211001
+Tekirdağ Rakısı Klasik 70 cl,1275.0,2,211001
+Tekirdağ Rakısı Klasik 100 cl,1675.0,2,211001
+Tekirdağ Rakısı Altın Seri 35 cl,850.0,2,211001
+Tekirdağ Rakısı Altın Seri 50 cl,1175.0,2,211001
+Tekirdağ Rakısı Altın Seri 70 cl,1495.0,2,211001
+Tekirdağ Rakısı Altın Seri 100 cl,1875.0,2,211001
+Beylerbeyi Mavi 35 cl,725.0,2,211001
+Beylerbeyi Mavi 50 cl,985.0,2,211001
+Beylerbeyi Mavi 70 cl,1295.0,2,211001
+Beylerbeyi Mavi 100 cl,1669.0,2,211001
+Beylerbeyi Göbek 35 cl,945.0,2,211001
+Beylerbeyi Göbek 70 cl,1695.0,2,211001
+Beylerbeyi Göbek 100 cl,2175.0,2,211001
+Absolut Original 35 cl,675.0,2,211002
+Absolut Original 70 cl,1325.0,2,211002
+Absolut Original 100 cl,1800.0,2,211002
+Smirnoff Red 35 cl,650.0,2,211002
+Smirnoff Red 70 cl,1175.0,2,211002
+Smirnoff Red 100 cl,1625.0,2,211002
+İstanblue Klasik 35 cl,525.0,2,211002
+İstanblue Klasik 70 cl,950.0,2,211002
+İstanblue Klasik 100 cl,1325.0,2,211002
+Gilbey's Klasik 35 cl,575.0,2,211002
+Gilbey's Klasik 70 cl,1025.0,2,211002
+Gilbey's Klasik 100 cl,1425.0,2,211002
+Bazooka Klasik 35 cl,475.0,2,211002
+Bazooka Klasik 70 cl,850.0,2,211002
+Bazooka Klasik 100 cl,1250.0,2,211002
+Efes Pilsen Kutu 50 cl,125.0,2,213001
+Efes Pilsen ŞişeDepozito ayrıca uygulanabilir 50 cl,123.0,2,213001
+Efes Özel Seri / Green 50 cl,125.0,2,213001
+Efes Serçe 30 cl,85.0,2,213001
+Tuborg Gold Kutu 50 cl,110.0,2,213001
+Tuborg Gold ŞişeDepozitolu liste 50 cl,107.0,2,213001
+Tuborg Amber 50 cl,110.0,2,213001
+Tuborg Filtresiz 50 cl,110.0,2,213001
+Tuborg Special Kırmızı 50 cl,140.0,2,213001
+Carlsberg Kutu 50 cl,110.0,2,213001
+Bomonti Filtresiz Şişe 50 cl,130.0,2,213001
+Bremen Kutu / Şişe 50 cl,95.0,2,213001
+Corona Şişe 35.5 cl,165.0,2,213001
+Kavaklıdere Yakut Kırmızı 75 cl,600.0,2,212101
+Kavaklıdere Çankaya Beyaz 75 cl,600.0,2,212101
+Kavaklıdere Lâl Roze 75 cl,600.0,2,212101
+Kavaklıdere Ancyra 75 cl,750.0,2,212101
+Doluca Kırmızı / Beyaz / Roze 75 cl,475.0,2,212101
+Doluca Villa Doluca 75 cl,500.0,2,212101
+Doluca DLC Serisi 75 cl,750.0,2,212101
+Buzbağ Rezerv Kırmızı Sek 75 cl,759.9,2,212101
+Olmeca Silver 35 cl,750.0,2,0
+Olmeca Silver 50 cl,1065.0,2,0
+Olmeca Silver 70 cl,1395.0,2,0
+Olmeca Silver 100 cl,1925.0,2,0
+Olmeca Gold 35 cl,815.0,2,0
+Olmeca Gold 70 cl,1500.0,2,0
+Sierra Blanco 35 cl,725.0,2,0
+Sierra Blanco 50 cl,1025.0,2,0
+Sierra Blanco 70 cl,1350.0,2,0
+Sierra Blanco 100 cl,1850.0,2,0
+Sierra Reposado 35 cl,785.0,2,0
+Sierra Reposado 70 cl,1450.0,2,0
+Sierra Reposado 100 cl,1975.0,2,0
+Gilbey's London Dry Gin 70 cl,1050.0,2,0
+Gordon's London Dry Gin 70 cl,1225.0,2,0
+Gordon's Premium Pink 70 cl,1225.0,2,0
+Beefeater London Dry Gin 70 cl,1425.0,2,0
+Beefeater Pink 70 cl,1425.0,2,0
+Tanqueray London Dry 70 cl,1650.0,2,0
+Bombay Sapphire Premium Dry Gin 70 cl,1800.0,2,0
+Hendrick's Gin 70 cl,3039.9,2,0
+Baileys Original / Krema Likörü 70 cl,1025.0,2,0
+Baileys Çikolata Likörü 50 cl,1025.0,2,0
+Jägermeister Herb Likör 35 cl,955.0,2,0
+Jägermeister Herb Likör 70 cl,1699.9,2,0
+Jägermeister Herb Likör 100 cl,2350.0,2,0
+Kahlua Likör 70 cl,975.0,2,0
+Malibu Likör 70 cl,1005.0,2,0
+Aperol Likör 70 cl,1405.9,2,0
+Campari Likör 70 cl,1639.0,2,0
+Captain Morgan Gold 70 cl,1100.0,2,0
+Captain Morgan White 70 cl,1100.0,2,0
+Captain Morgan Gold / White 100 cl,1850.0,2,0
+Bacardi Carta Blanca 70 cl,1375.0,2,0
+Havana Club Añejo 3 Años 70 cl,1575.0,2,0
+Havana Club Añejo 7 Años 70 cl,2100.0,2,0
+Malibu Rom / Coconut 70 cl,850.0,2,0

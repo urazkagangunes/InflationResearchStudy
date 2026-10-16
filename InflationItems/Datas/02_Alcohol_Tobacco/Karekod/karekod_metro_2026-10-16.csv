@@ -1,81 +1,81 @@
-product_name,price,volume,category
-Efes Pilsen Kutu,125.0,,Bira
-Efes Pilsen Şişe,123.0,,Bira
-Efes Serçe,95.0,,Bira
-Efes Malt Kutu,125.0,,Bira
-Efes Malt Şişe,123.0,,Bira
-Efes Mini Malt,80.0,,Bira
-Efes Xtra,160.0,,Bira
-Efes Shot,100.0,,Bira
-Bremen,95.0,,Bira
-Bremen Yüksek Alkollü,135.0,,Bira
-Efes Green,125.0,,Bira
-Efes Glutensiz,165.0,,Bira
-Bomonti Filtresiz,135.0,,Bira
-Miller Küçük,125.0,,Bira
-Miller Büyük,135.0,,Bira
-Bud,140.0,,Bira
-Beck’s,135.0,,Bira
-Stella Artois,135.0,,Bira
-Corona,170.0,,Bira
-Amsterdam,200.0,,Bira
-Erdinger,200.0,,Bira
-Hoegaarden,200.0,,Bira
-Leffe,200.0,,Bira
-Duvel,260.0,,Bira
-Johnnie Walker Red Label 70 cl,1550.0,70 cl,Viski
-Johnnie Walker Black Label 70 cl,1995.0,70 cl,Viski
-Johnnie Walker Double Black 70 cl,2095.0,70 cl,Viski
-Ballantine’s Finest 70 cl,1550.0,70 cl,Viski
-Jameson 70 cl,1750.0,70 cl,Viski
-Chivas Regal 12 70 cl,2095.0,70 cl,Viski
-J&B Rare 70 cl,1365.0,70 cl,Viski
-Bell’s 70 cl,1195.0,70 cl,Viski
-Dimple Golden Selection 70 cl,1625.0,70 cl,Viski
-Bulleit Bourbon 70 cl,1800.0,70 cl,Viski
-Cardhu 12 YO 70 cl,3250.0,70 cl,Viski
-Talisker 10 YO 70 cl,3575.0,70 cl,Viski
-Lagavulin 16 YO 70 cl,8600.0,70 cl,Viski
-Bazooka 70 cl,975.0,70 cl,Votka
-İstanblue 70 cl,1045.0,70 cl,Votka
-Wyborowa 70 cl,1150.0,70 cl,Votka
-Gilbey’s 70 cl,1185.0,70 cl,Votka
-Smirnoff 70 cl,1365.0,70 cl,Votka
-Absolut Blue 70 cl,1550.0,70 cl,Votka
-Ketel One 70 cl,2600.0,70 cl,Votka
-Cîroc 70 cl,2950.0,70 cl,Votka
-Beluga Noble 70 cl,3650.0,70 cl,Votka
-Grey Goose 70 cl,3990.0,70 cl,Votka
-6th Sense London Dry 70 cl,1050.0,70 cl,Cin
-Stirling London Dry 70 cl,1195.0,70 cl,Cin
-Gilbey’s Gin 70 cl,1225.0,70 cl,Cin
-Wyborowa Gin 70 cl,1225.0,70 cl,Cin
-Gordon’s Dry Gin 70 cl,1450.0,70 cl,Cin
-Beefeater Gin 70 cl,1675.0,70 cl,Cin
-Tanqueray London Dry 70 cl,1850.0,70 cl,Cin
-Bombay Sapphire 70 cl,1990.0,70 cl,Cin
-Malfy Originale 70 cl,2500.0,70 cl,Cin
-Tanqueray No. Ten 70 cl,2600.0,70 cl,Cin
-Yeni Rakı 1937 35 cl,775.0,35 cl,Rakı
-Yeni Rakı 1937 50 cl,1075.0,50 cl,Rakı
-Yeni Rakı 1937 70 cl,1375.0,70 cl,Rakı
-Yeni Rakı 1937 100 cl,1785.0,100 cl,Rakı
-Yeni Rakı Yeni Seri 70 cl,1525.0,70 cl,Rakı
-Yeni Rakı Âlâ 70 cl,1975.0,70 cl,Rakı
-Yeni Rakı Rezerv 70 cl,2600.0,70 cl,Rakı
-Tekirdağ Rakısı 70 cl,1475.0,70 cl,Rakı
-Tekirdağ Altın Seri 70 cl,1770.0,70 cl,Rakı
-Tekirdağ Göbek 70 cl,1895.0,70 cl,Rakı
-İzmir Rakısı 70 cl,1145.0,70 cl,Rakı
-Efe Klasik 70 cl,1195.0,70 cl,Rakı
-Efe Göbek 70 cl,1750.0,70 cl,Rakı
-Beylerbeyi Mavi 70 cl,1359.0,70 cl,Rakı
-Beylerbeyi Göbek 70 cl,1695.0,70 cl,Rakı
-Altınbaş Rakı 70 cl,2125.0,70 cl,Rakı
-Olmeca Silver 35 cl,875.0,35 cl,Tekila
-Olmeca Silver 50 cl,1225.0,50 cl,Tekila
-Olmeca Silver 70 cl,1595.0,70 cl,Tekila
-Olmeca Gold 70 cl,1700.0,70 cl,Tekila
-Olmeca Silver 100 cl,2225.0,100 cl,Tekila
-Don Julio Blanco 70 cl,2975.0,70 cl,Tekila
-Patrón Silver 70 cl,3350.0,70 cl,Tekila
+product_name,price,category_number,sub_category_number
+Efes Pilsen Kutu,125.0,2,213001
+Efes Pilsen Şişe,123.0,2,213001
+Efes Serçe,95.0,2,213001
+Efes Malt Kutu,125.0,2,213001
+Efes Malt Şişe,123.0,2,213001
+Efes Mini Malt,80.0,2,213001
+Efes Xtra,160.0,2,213001
+Efes Shot,100.0,2,213001
+Bremen,95.0,2,213001
+Bremen Yüksek Alkollü,135.0,2,213001
+Efes Green,125.0,2,213001
+Efes Glutensiz,165.0,2,213001
+Bomonti Filtresiz,135.0,2,213001
+Miller Küçük,125.0,2,213001
+Miller Büyük,135.0,2,213001
+Bud,140.0,2,213001
+Beck’s,135.0,2,213001
+Stella Artois,135.0,2,213001
+Corona,170.0,2,213001
+Amsterdam,200.0,2,213001
+Erdinger,200.0,2,213001
+Hoegaarden,200.0,2,213001
+Leffe,200.0,2,213001
+Duvel,260.0,2,213001
+Johnnie Walker Red Label 70 cl,1550.0,2,211006
+Johnnie Walker Black Label 70 cl,1995.0,2,211006
+Johnnie Walker Double Black 70 cl,2095.0,2,211006
+Ballantine’s Finest 70 cl,1550.0,2,211006
+Jameson 70 cl,1750.0,2,211006
+Chivas Regal 12 70 cl,2095.0,2,211006
+J&B Rare 70 cl,1365.0,2,211006
+Bell’s 70 cl,1195.0,2,211006
+Dimple Golden Selection 70 cl,1625.0,2,211006
+Bulleit Bourbon 70 cl,1800.0,2,211006
+Cardhu 12 YO 70 cl,3250.0,2,211006
+Talisker 10 YO 70 cl,3575.0,2,211006
+Lagavulin 16 YO 70 cl,8600.0,2,211006
+Bazooka 70 cl,975.0,2,211002
+İstanblue 70 cl,1045.0,2,211002
+Wyborowa 70 cl,1150.0,2,211002
+Gilbey’s 70 cl,1185.0,2,211002
+Smirnoff 70 cl,1365.0,2,211002
+Absolut Blue 70 cl,1550.0,2,211002
+Ketel One 70 cl,2600.0,2,211002
+Cîroc 70 cl,2950.0,2,211002
+Beluga Noble 70 cl,3650.0,2,211002
+Grey Goose 70 cl,3990.0,2,211002
+6th Sense London Dry 70 cl,1050.0,2,0
+Stirling London Dry 70 cl,1195.0,2,0
+Gilbey’s Gin 70 cl,1225.0,2,0
+Wyborowa Gin 70 cl,1225.0,2,0
+Gordon’s Dry Gin 70 cl,1450.0,2,0
+Beefeater Gin 70 cl,1675.0,2,0
+Tanqueray London Dry 70 cl,1850.0,2,0
+Bombay Sapphire 70 cl,1990.0,2,0
+Malfy Originale 70 cl,2500.0,2,0
+Tanqueray No. Ten 70 cl,2600.0,2,0
+Yeni Rakı 1937 35 cl,775.0,2,211001
+Yeni Rakı 1937 50 cl,1075.0,2,211001
+Yeni Rakı 1937 70 cl,1375.0,2,211001
+Yeni Rakı 1937 100 cl,1785.0,2,211001
+Yeni Rakı Yeni Seri 70 cl,1525.0,2,211001
+Yeni Rakı Âlâ 70 cl,1975.0,2,211001
+Yeni Rakı Rezerv 70 cl,2600.0,2,211001
+Tekirdağ Rakısı 70 cl,1475.0,2,211001
+Tekirdağ Altın Seri 70 cl,1770.0,2,211001
+Tekirdağ Göbek 70 cl,1895.0,2,211001
+İzmir Rakısı 70 cl,1145.0,2,211001
+Efe Klasik 70 cl,1195.0,2,211001
+Efe Göbek 70 cl,1750.0,2,211001
+Beylerbeyi Mavi 70 cl,1359.0,2,211001
+Beylerbeyi Göbek 70 cl,1695.0,2,211001
+Altınbaş Rakı 70 cl,2125.0,2,211001
+Olmeca Silver 35 cl,875.0,2,0
+Olmeca Silver 50 cl,1225.0,2,0
+Olmeca Silver 70 cl,1595.0,2,0
+Olmeca Gold 70 cl,1700.0,2,0
+Olmeca Silver 100 cl,2225.0,2,0
+Don Julio Blanco 70 cl,2975.0,2,0
+Patrón Silver 70 cl,3350.0,2,0
