@@ -1,0 +1,258 @@
+{
+  "source": "https://alkolfiyatlari.co/bira-fiyatlari/",
+  "collected_at": "2026-10-16T11:24:43.574710+03:00",
+  "source_published_at": "2026-09-26T11:50:41+03:00",
+  "accepted": 27,
+  "review": [
+    {
+      "table": 0,
+      "product": "Efes Serçe",
+      "raw_cells": [
+        "Efes Serçe",
+        "Küçük şişe",
+        "85 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Mini Malt",
+      "raw_cells": [
+        "Efes Mini Malt",
+        "Küçük şişe",
+        "80 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Kutu",
+      "raw_cells": [
+        "Efes Kutu",
+        "Kutu",
+        "125 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Şişe",
+      "raw_cells": [
+        "Efes Şişe",
+        "Şişe + depozito",
+        "123 TL + 2 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Malt Kutu",
+      "raw_cells": [
+        "Efes Malt Kutu",
+        "Kutu",
+        "125 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Malt Şişe",
+      "raw_cells": [
+        "Efes Malt Şişe",
+        "Şişe + depozito",
+        "123 TL + 2 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Shot",
+      "raw_cells": [
+        "Efes Shot",
+        "Küçük kutu",
+        "100 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Xtra",
+      "raw_cells": [
+        "Efes Xtra",
+        "Kutu",
+        "160 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Green",
+      "raw_cells": [
+        "Efes Green",
+        "Kutu",
+        "125 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Efes Glutensiz",
+      "raw_cells": [
+        "Efes Glutensiz",
+        "Kutu",
+        "160 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Bremen",
+      "raw_cells": [
+        "Bremen",
+        "Şişe / Kutu",
+        "95 TL"
+      ],
+      "reason": "Birden cok varyant veya ambalaj."
+    },
+    {
+      "table": 0,
+      "product": "Bremen Yüksek Alkollü",
+      "raw_cells": [
+        "Bremen Yüksek Alkollü",
+        "Kutu",
+        "135 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 0,
+      "product": "Bomonti Filtresiz",
+      "raw_cells": [
+        "Bomonti Filtresiz",
+        "Şişe",
+        "130 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 2,
+      "product": "Miller (Küçük / Lime)",
+      "raw_cells": [
+        "Miller (Küçük / Lime)",
+        "Şişe",
+        "120 TL"
+      ],
+      "reason": "Birden cok varyant veya ambalaj."
+    },
+    {
+      "table": 2,
+      "product": "Miller Büyük",
+      "raw_cells": [
+        "Miller Büyük",
+        "Şişe",
+        "130 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 2,
+      "product": "Belfast",
+      "raw_cells": [
+        "Belfast",
+        "Şişe",
+        "130 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 2,
+      "product": "Beck's",
+      "raw_cells": [
+        "Beck's",
+        "Şişe",
+        "135 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 2,
+      "product": "Stella Artois",
+      "raw_cells": [
+        "Stella Artois",
+        "Şişe",
+        "135 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 2,
+      "product": "Bud",
+      "raw_cells": [
+        "Bud",
+        "Şişe / Kutu",
+        "140 TL"
+      ],
+      "reason": "Birden cok varyant veya ambalaj."
+    },
+    {
+      "table": 2,
+      "product": "Corona",
+      "raw_cells": [
+        "Corona",
+        "Şişe",
+        "165 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    },
+    {
+      "table": 2,
+      "product": "Amsterdam",
+      "raw_cells": [
+        "Amsterdam",
+        "Şişe / Kutu",
+        "195 TL"
+      ],
+      "reason": "Birden cok varyant veya ambalaj."
+    },
+    {
+      "table": 2,
+      "product": "Erdinger / Hoegaarden / Leffe",
+      "raw_cells": [
+        "Erdinger / Hoegaarden / Leffe",
+        "Şişe",
+        "200 TL"
+      ],
+      "reason": "Birden cok varyant veya ambalaj."
+    },
+    {
+      "table": 2,
+      "product": "Grimbergen (Blonde / Double Ambrée)",
+      "raw_cells": [
+        "Grimbergen (Blonde / Double Ambrée)",
+        "33 cl şişe",
+        "200 TL"
+      ],
+      "reason": "Birden cok varyant veya ambalaj."
+    },
+    {
+      "table": 2,
+      "product": "Duvel",
+      "raw_cells": [
+        "Duvel",
+        "Şişe",
+        "260 TL"
+      ],
+      "reason": "Tek acik hacim yok."
+    }
+  ],
+  "skipped_tables": [
+    {
+      "table": 3,
+      "reason": "Karsilastirma tekrari; litre fiyatlari alinmadi.",
+      "rows": 6
+    }
+  ],
+  "duplicates_collapsed": 2,
+  "sha256": "2ac557037bca0a8cd6aad9e796472e2d837c2dc90f3361beb08b0d36770e5af4",
+  "note": "Listed product prices only. Deposit amount/basis and current store validity not independently verified; old prices and litre-price columns not collected."
+}

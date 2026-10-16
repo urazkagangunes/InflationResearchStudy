@@ -1,0 +1,196 @@
+{
+  "date": "2026-10-16",
+  "transport": {
+    "Toyota": 23,
+    "Renault": 23,
+    "Hyundai": 35,
+    "Honda": 44,
+    "Mondial": 48,
+    "Decathlon": 90,
+    "Salcano": 194,
+    "Lastikcim": 37,
+    "Euromaster": 90
+  },
+  "alcohol": {
+    "whisky": 42,
+    "raki": 66,
+    "votka": 34,
+    "bira": 27,
+    "sarap": 16,
+    "cin": 28,
+    "tekila": 21,
+    "likor": 99
+  },
+  "files": [
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Toyota/toyota_2026-10-16.csv",
+      "sha256": "3674b76bca7c3ef48627289d67e7c9d32f9f5aa45c970ee2900936bccbbeb5bc"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Toyota/toyota_2026-10-16.json",
+      "sha256": "7f0be994f23380419a4eb81ea694dd56fc91560628dbec8c16e59d3554a1a6c8"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Renault/renault_2026-10-16.csv",
+      "sha256": "6f637998337899a05cfe16cb46c37614ed5691c8c8a3d2b825e79a325e3146c9"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Renault/renault_2026-10-16.json",
+      "sha256": "4674208226fbab5b1956754f489569a4372fa0e7629c40c7479e40b73cc32e7b"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Hyundai/hyundai_2026-10-16.csv",
+      "sha256": "e3a55ece852f14e1df70178ee0019fecd53cfcd5069440a1a3b151b45386c344"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Hyundai/hyundai_2026-10-16.json",
+      "sha256": "84d004d2f4dac2b81c1a72b9478a540851e7b2d640fe1f4a8de8b2ef41ca89c2"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Honda/honda_2026-10-16.csv",
+      "sha256": "2ec910daa71e1d8bd8170843969849b9ce45be88412c90405d9657c142f6a59f"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Honda/honda_2026-10-16.json",
+      "sha256": "72e1ab4d4b037106c4d771bf4158665b840f279eff24ed30d3116bcb0a689b47"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Mondial/mondial_2026-10-16.csv",
+      "sha256": "56b4f46723dfc60a7213d2428d36b1cedfa37905900937d8136b96063151f511"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Mondial/mondial_2026-10-16.json",
+      "sha256": "052b7d5793808707a1c0fa3c21b9a488d7a8cd9ce9e4951e27a5e1c47ed98e8f"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Decathlon/decathlon_2026-10-16.csv",
+      "sha256": "1d87456d3ef615a5b030c1313d205cb2c11ba7bb5e088596005bd60896935c25"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Decathlon/decathlon_2026-10-16.json",
+      "sha256": "89b821db9a10815ec6fbe64cca09edfcff8b0da5cbd133717e688eb642c6efd2"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Salcano/salcano_2026-10-16.csv",
+      "sha256": "6087b8448933a1aac40fc04eadc00bd0c244f3ed9aa5d6c7fd7a1e883c454527"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Salcano/salcano_2026-10-16.json",
+      "sha256": "29ae79302de61daa62a27013bbf812505994eaa751ec4eabcc15633322f8a088"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Lastikcim/lastikcim_2026-10-16.csv",
+      "sha256": "c724cc8a10bf28481bfb0135d3ce7c19f63c93e08e3f24e3faec57dc0cb322af"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Lastikcim/lastikcim_2026-10-16.json",
+      "sha256": "574119433e18ee06d51b9411dd088420a19d8e3561c7dc3352f31f608bb825f1"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Euromaster/euromaster_2026-10-16.csv",
+      "sha256": "e6a95659be8421dd8f822e9f1e895df3258c4f7515747544fd26f6796de6585d"
+    },
+    {
+      "path": "InflationItems/Datas/07_Transport/motor_bicyle_car/Euromaster/euromaster_2026-10-16.json",
+      "sha256": "4bcce4aa3b5c9bc0de9b97c0a918c0a8709c07d6d2c6c70cc55ac26db7d7c8e7"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/combined_alcohol_observations.csv",
+      "sha256": "6bed4f6ee70bea83fe9ce73cbbe4d133e309d5e3664d04012c1ede7c4a8c7665"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/run_summary.json",
+      "sha256": "b974970301a3212e5552b73a93c9dc51667ce5dcc528bce659700eebadb0e12c"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/bira/bira_observations_2026-10-16_112443_574710.csv",
+      "sha256": "fdedcc0ebd52bef698c7fa2a4180c486ddcbfe52409151a86934b67affb90d39"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/bira/bira_observations_2026-10-16_112443_574710.json",
+      "sha256": "83844c96acc3fdd6f305faddf187710e37c117787d157a081a2df05a78ad453f"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/birgun/cigarette_news_observations_2026-10-16_112450_172128.csv",
+      "sha256": "4c14eddc536dd62d39f059169dde8c7e79c82961a2839614aac56ccbb96d9b6b"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/birgun/cigarette_news_observations_2026-10-16_112450_172128.json",
+      "sha256": "4466c6dca9107345663d90232fbde057801eaae10ad33bf26e680e13dcf121f5"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/cin/cin_observations_2026-10-16_112446_614712.csv",
+      "sha256": "551431b32da1627a8811d667d47c9484010b59780d5a0580a1e35f97c1d7dade"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/cin/cin_observations_2026-10-16_112446_614712.json",
+      "sha256": "c86b7cdde238165d03bfd75210eaa6f0df728ddf90cee5a387e056889b581a65"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/likor/likor_observations_2026-10-16_112449_000696.csv",
+      "sha256": "0d582a523af37176d2dfb9e9386414f104c21fc6e9114a5fff7b9abe7af2e42e"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/likor/likor_observations_2026-10-16_112449_000696.json",
+      "sha256": "66259d1b228b9de81ab87b31aaaaf262d91840b9e6aa945c22d059497f2f3bca"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/raki/raki_observations_2026-10-16_112441_413475.csv",
+      "sha256": "df0cb7f337add93ef95be3d9523a2d195ae5919565a8450d7cf16563d99e1e3d"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/raki/raki_observations_2026-10-16_112441_413475.json",
+      "sha256": "f1ea909ec606e294395c1ecf128962f1b6d784d1c7d3b11e7584f8b164af9993"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/sarap/sarap_observations_2026-10-16_112445_437035.csv",
+      "sha256": "3f5ec9e9f3c099b3a24d902506ea9ddc10dfa4966cc940316bcbf46ac745b4d3"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/sarap/sarap_observations_2026-10-16_112445_437035.json",
+      "sha256": "0b742aff4e33acae1c05ab83e0c50e21ae1a5abe679c1f24640f959912e96e82"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/secondary_audit/secondary_audit_2026-10-16_112450_936474.json",
+      "sha256": "706637a79928d6dadf305816d33016f64598c042a5c16aef97b65b8f5e832da4"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/tekila/tekila_observations_2026-10-16_112447_619342.csv",
+      "sha256": "2517d673ab056803fe929fc9014b9016af772bd20e5b92db3aebd64caa3588d0"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/tekila/tekila_observations_2026-10-16_112447_619342.json",
+      "sha256": "198b4cedea20ffc8dc08fe8bc06539f6301de84620c1ad8073b1eecc832db177"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/votka/votka_observations_2026-10-16_112442_504596.csv",
+      "sha256": "96d41cb4efadb31119eed1085dad7583d436043327d47933ac912f016517bc8d"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/votka/votka_observations_2026-10-16_112442_504596.json",
+      "sha256": "f865967e25b8982041f68f5cfbf2e3ad6acaa89187eb3d492ac4ee58777be71a"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/whisky/whisky_observations_2026-10-16_112440_177532.csv",
+      "sha256": "8327f1a2ddf4e17ed94ae0a50cb485e216f1aac269740d9f43ad073ddaff9727"
+    },
+    {
+      "path": "reports/runs/2026-10-16_112438_929953/whisky/whisky_observations_2026-10-16_112440_177532.json",
+      "sha256": "66306e4ce77e4a7ca5cb34f07e07843c4823fa507af6008e114dbaea43e13259"
+    }
+  ],
+  "notes": [
+    "Alcohol values remain source observations, not independently verified current store prices.",
+    "BirGun historical news observations and secondary audits are separate from alcohol observations.",
+    "Initial Decathlon duplicate-title error resolved by comparing product codes before publishing.",
+    "No inflation formulas, group 02 registration, category weights or schedules changed."
+  ],
+  "checks": {
+    "vehicle_tests": 6,
+    "decathlon_regression_tests": 2,
+    "alcohol_tests": 22
+  },
+  "transport_total": 584,
+  "alcohol_total": 333,
+  "historical_tobacco_rows": 14
+}

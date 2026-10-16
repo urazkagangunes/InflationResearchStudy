@@ -1,0 +1,17 @@
+{
+  "source": "https://alkolfiyatlari.co/tekila-fiyatlari/",
+  "collected_at": "2026-10-16T11:24:47.619342+03:00",
+  "source_published_at": "2026-10-13T11:30:00+03:00",
+  "accepted": 21,
+  "review": [],
+  "duplicates_collapsed": 10,
+  "skipped_tables": [
+    {
+      "table": 4,
+      "rows": 7,
+      "reason": "Bar/kokteyl veya yurtdisi fiyat karsilastirmasi."
+    }
+  ],
+  "sha256": "185594b7195c4cf5976dac533e8bc7088656109778b7a350ba6156f726ad9656",
+  "note": "Source observations only; unknown series, grouped variants and conflicts excluded. Current store prices not independently verified."
+}
