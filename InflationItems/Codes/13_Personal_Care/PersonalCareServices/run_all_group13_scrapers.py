@@ -43,7 +43,8 @@ PROJECT_ROOT = next((p for p in BASE_DIR.parents if (p / ".git").exists()), BASE
 SERVICES_SCRAPERS = [
     # 1. Jewellery & Watches (1321)
     ("Gold & Jewellery Market (1321101)", PROJECT_ROOT / "InflationItems/Codes/13_Personal_Care/Jewelry/Gold/gold_scraper.py"),
-    ("Altınbaş Retail Jewellery (1321101)", PROJECT_ROOT / "InflationItems/Codes/13_Personal_Care/Jewelry/Altinbas/altinbas_scraper.py"),
+    # Altınbaş is paused from nightly cron due to early-morning Cloudflare blocks; scraped on-demand during daytime
+    # ("Altınbaş Retail Jewellery (1321101)", PROJECT_ROOT / "InflationItems/Codes/13_Personal_Care/Jewelry/Altinbas/altinbas_scraper.py"),
     ("Watches - Saat & Saat (1321105)", PROJECT_ROOT / "InflationItems/Codes/13_Personal_Care/Jewelry/SaatVeSaat/saatvesaat_scraper.py"),
 
     # 2. Hairdresser & Barber Services (1313)
