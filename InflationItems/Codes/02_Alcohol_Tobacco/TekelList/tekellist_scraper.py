@@ -7,6 +7,8 @@ Cikti: InflationItems/Datas/02_Alcohol_Tobacco/TekelList/tekellist_YYYY-MM-DD.cs
 Kokteyl tarifleri ve bar/restoran fiyatlari alinmaz. Hacim ml cinsindedir;
 ambalaj turleri can, bottle, keg olarak yazilir. Kaynakta olmayan bilgiler
 bos kalir. Fiyat paket toplamidir; ayrica belirtilen depozito fiyata eklenmez.
+CSV Karekod Migros ile ayni 12 sutunu icerir; hacim/ambalaj ayri alanlardir.
+Ana kategori 02; eslesmeyen alt kategori 0. Her gun ayri CSV yazilir.
 Sarap cesitleri ayri urunlerdir: iki cesit ve iki fiyat sirayla eslestirilir,
 tek fiyat varsa her ceside ayni fiyat yazilir. Cesit/fiyat sayisi uyusmazsa
 veya guncelligi belirlenemeyen fiyat celiskisi varsa price bos birakilir.
@@ -35,12 +37,21 @@ BASE_URL = "https://tekellist.com.tr/"
 OUTPUT_DIR = Path(__file__).resolve().parents[3] / "Datas/02_Alcohol_Tobacco/TekelList"
 TIMEZONE = ZoneInfo("Europe/Istanbul")
 FIELDS = (
-    "product_name", "price", "brand", "category", "volume_ml",
-    "packaging_type", "package_count", "source_site", "source_url", "collected_at",
+    "product_name", "price", "category_number", "sub_category_number",
+    "volume_ml", "packaging_type", "package_count", "deposit_status", "category",
+    "source_url", "collected_at", "price_date",
 )
+SUBCATEGORIES = {
+    "Rakı": "0211001", "Votka": "0211002", "Viski": "0211006",
+    "Şarap": "0212101", "Bira": "0213001", "Sigara": "0230101",
+}
 CATEGORIES = {
     "bira": "Bira", "sarap": "Şarap", "viski": "Viski", "votka": "Votka",
     "cin": "Cin", "tekila": "Tekila", "raki": "Rakı",
+}
+OPTIONAL_CATEGORIES = {
+    "sigara": "Sigara", "rom": "Rom", "likor": "Likör", "mezcal": "Mezcal",
+    "konyak": "Konyak", "vermut": "Vermut", "sampanya": "Şampanya / Köpüklü Şarap",
 }
 REQUIRED_SECTIONS = {
     "bira": "efes tuborg carlsberg ithal paket ucuz fici",
@@ -120,7 +131,7 @@ def parse_prices(text):
     return [f"{price:.2f}" for price in prices]
 
 
-def product_attributes(name, category):
+def product_attributes(name, category, raw_price=""):
     volumes = {Decimal(m[1].replace(",", ".")) * {"ml": 1, "cl": 10, "lt": 1000, "l": 1000}[m[2].lower()]
                for m in VOLUME_RE.finditer(name)}
     volume = format(next(iter(volumes)).normalize(), "f") if len(volumes) == 1 else ""
@@ -134,11 +145,19 @@ def product_attributes(name, category):
         packaging = "can"
     elif re.search(r"\bşişe\b", folded):
         packaging = "bottle"
+    elif re.search(r"\btek yön\b", folded):
+        packaging = "one_way"
     pack = PACK_RE.search(folded)
     count = int(pack[1]) if pack else ""
     if count != "" and count <= 0:
         raise ValueError(f"Gecersiz paket adedi: {name}")
-    return {"volume_ml": volume, "packaging_type": packaging, "package_count": count}
+    deposit = ""
+    if re.search(r"\bdepozitosuz\b|\btek yön\b", folded):
+        deposit = "non_returnable"
+    elif re.search(r"\bdepozitolu\b", folded) or "depozito" in key(raw_price):
+        deposit = "returnable"
+    return {"volume_ml": volume, "packaging_type": packaging, "package_count": count,
+            "deposit_status": deposit}
 
 
 def find_brand(name, category, section_id):
@@ -199,7 +218,8 @@ def discover_categories(html):
             continue
         if slug in {"kokteyl", "index"} or SERVICE_RE.search(link.get_text(" ", strip=True)):
             continue
-        pages[slug] = (CATEGORIES.get(slug, normalize(link.get_text(" ", strip=True))), url)
+        category = CATEGORIES.get(slug, OPTIONAL_CATEGORIES.get(slug, normalize(link.get_text(" ", strip=True))))
+        pages[slug] = (category, url)
     if missing := CATEGORIES.keys() - pages.keys():
         raise ValueError(f"Ana menude beklenen kategoriler eksik: {sorted(missing)}")
     return pages
@@ -251,7 +271,7 @@ def parse_page(html, slug, category, url, collected_at):
                 rows.append({
                     "product_name": full_name, "price": price,
                     "brand": find_brand(variant, category, section_id), "category": category,
-                    **product_attributes(full_name, category), "source_site": "TekelList",
+                    **product_attributes(full_name, category, raw_price), "source_site": "TekelList",
                     "source_url": f"{url.split('#')[0]}#{section_id}", "collected_at": collected_at,
                     "_updated_at": updated_date(note), "_raw_price": normalize(raw_price),
                 })
@@ -314,6 +334,21 @@ def scrape(session, collected_at):
     return rows
 
 
+def csv_row(row):
+    """Dogal urun adini ve kaynak ozelliklerini ortak 12 sutuna yansit."""
+    name = re.sub(r"\s+\|\s+(?:\d+(?:[.,]\d+)?\s*ml|(?:packaging_type|package_count)=).*$",
+                  "", row["product_name"])
+    attributes = product_attributes(name, row["category"], row.get("_raw_price", ""))
+    return {
+        "product_name": name, "price": row["price"],
+        "category_number": "02", "sub_category_number": SUBCATEGORIES.get(row["category"], "0"),
+        **{field: row.get(field, value) for field, value in attributes.items()},
+        "category": row["category"], "source_url": row.get("source_url", ""),
+        "collected_at": row.get("collected_at", ""),
+        "price_date": row.get("price_date", row.get("_updated_at", "")),
+    }
+
+
 def save_csv(rows, output_dir, date):
     """Cekim tamamlandiktan sonra yaz; yazma hatasinda onceki CSV'yi koru."""
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -323,9 +358,9 @@ def save_csv(rows, output_dir, date):
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8-sig", newline="",
                                          dir=output_dir, suffix=".tmp", delete=False) as handle:
             temporary = Path(handle.name)
-            writer = csv.DictWriter(handle, fieldnames=FIELDS)
+            writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")
             writer.writeheader()
-            writer.writerows({field: row[field] for field in FIELDS} for row in rows)
+            writer.writerows(csv_row(row) for row in rows)
         temporary.replace(path)
     finally:
         if temporary is not None:

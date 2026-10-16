@@ -3,8 +3,9 @@
 The page lists retail prices in tables: beer, raki, wine, vodka, gin, rum and
 whisky, one table per heading.
 
-Output: aydinhavadisleri_YYYY-MM-DD.csv with product_name, price, volume,
-category. Inside the repo it goes to the data folder that mirrors this code
+Output: aydinhavadisleri_YYYY-MM-DD.csv with product_name, price,
+category_number, sub_category_number (COICOP). Categories without a COICOP
+code get 0. Inside the repo it goes to the data folder that mirrors this code
 folder (InflationItems/Datas/02_Alcohol_Tobacco/AydinHavadisleri); run
 anywhere else, it goes to the current folder.
 """
@@ -14,13 +15,27 @@ import os
 import re
 import sys
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
 
 URL = "https://aydinhavadisleri.com/alkol-fiyatlari/"
-FIELDS = ["product_name", "price", "volume", "category"]
+FIELDS = ["product_name", "price", "category_number", "sub_category_number"]
+
+CATEGORY_NUMBER = "02"  # Alkollü içecekler ve tütün
+# (words in the category heading, COICOP code). The whisky sub-tables are
+# headed by brand name only (e.g. "Chivas Regal Fiyatları"), so the brands
+# are listed too.
+SUB_CATEGORIES = [
+    (("rakı", "raki"), "0211001"),
+    (("votka",), "0211002"),
+    (("viski", "whisky", "johnnie walker", "chivas", "jack daniel",
+      "ballantine", "jameson"), "0211006"),
+    (("şarap", "sarap"), "0212101"),
+    (("bira",), "0213001"),
+]
+# Brand only appears in the table heading for these tables
+BRAND_PREFIXES = {"johnnie walker": "Johnnie Walker", "jack daniel": "Jack Daniel’s"}
 
 
 def out_dir():
@@ -41,6 +56,18 @@ def parse_price(text):
     return round(sum(values) / len(values), 2) if values else None
 
 
+def to_coicop(rows):
+    out, unmapped = [], {}
+    for product_name, price, volume, category in rows:
+        code = next((c for keys, c in SUB_CATEGORIES
+                     if any(k in category.lower() for k in keys)), None)
+        if code is None:
+            code = "0"  # no COICOP code for this category yet
+            unmapped[category] = unmapped.get(category, 0) + 1
+        out.append((product_name, price, CATEGORY_NUMBER, code))
+    return out, unmapped
+
+
 def scrape():
     response = requests.get(URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
     response.raise_for_status()
@@ -51,7 +78,7 @@ def scrape():
         heading = table.find_previous(["h2", "h3"])
         category = heading.get_text(strip=True) if heading else ""
         if "lik Alkol" in category:
-            continue
+            continue  # the 35'lik / 50'lik summaries repeat the same products
 
         trs = table.find_all("tr")
         if len(trs) < 2:
@@ -63,6 +90,9 @@ def scrape():
             if len(cells) < 2:
                 continue
             name = cells[0]
+            for key, brand in BRAND_PREFIXES.items():
+                if key in category.lower() and key not in name.lower():
+                    name = f"{brand} {name}"
             # Three table shapes: product | volume | price, product | price with
             # the volume in the header, and product | one column per volume
             if len(cells) == 3 and header[1].lower().startswith("hacim"):
@@ -90,11 +120,15 @@ def main():
         product_name = " ".join(f"{name} {volume}".split())
         rows.append((product_name, price, volume, category))
 
+    rows, unmapped = to_coicop(rows)
+    for category, count in unmapped.items():
+        print(f"No COICOP code for '{category}', {count} rows written with 0")
+
     if not rows:
         print("No prices found; CSV not written.")
         sys.exit(1)
 
-    date = datetime.now(ZoneInfo("Europe/Istanbul")).strftime("%Y-%m-%d")
+    date = datetime.now().strftime("%Y-%m-%d")
     folder = out_dir()
     os.makedirs(folder, exist_ok=True)
     path = os.path.join(folder, f"aydinhavadisleri_{date}.csv")

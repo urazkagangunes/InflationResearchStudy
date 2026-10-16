@@ -4,8 +4,9 @@ One table per category (beer, whisky, vodka, gin, raki, tequila). The quick
 summary table at the top repeats products from the category tables, so it
 is skipped.
 
-Output: karekod_metro_YYYY-MM-DD.csv with product_name, price, volume,
-category. Inside the repo it goes to the data folder that mirrors this code
+Output: karekod_metro_YYYY-MM-DD.csv with product_name, price,
+category_number, sub_category_number (COICOP). Categories without a COICOP
+code get 0. Inside the repo it goes to the data folder that mirrors this code
 folder (InflationItems/Datas/02_Alcohol_Tobacco/KarekodMetro); run anywhere
 else, it goes to the current folder.
 """
@@ -20,7 +21,17 @@ import requests
 from bs4 import BeautifulSoup
 
 URL = "https://www.karekod.org/blog/metro-alkol-fiyatlari/"
-FIELDS = ["product_name", "price", "volume", "category"]
+FIELDS = ["product_name", "price", "category_number", "sub_category_number"]
+
+CATEGORY_NUMBER = "02"  # Alkollü içecekler ve tütün
+# (words in the category name, COICOP code)
+SUB_CATEGORIES = [
+    (("rakı", "raki"), "0211001"),
+    (("votka",), "0211002"),
+    (("viski", "whisky"), "0211006"),
+    (("şarap", "sarap"), "0212101"),
+    (("bira",), "0213001"),
+]
 
 
 def out_dir():
@@ -46,6 +57,18 @@ def find_col(header, key):
         if key in h.lower():
             return i
     return None
+
+
+def to_coicop(rows):
+    out, unmapped = [], {}
+    for product_name, price, volume, category in rows:
+        code = next((c for keys, c in SUB_CATEGORIES
+                     if any(k in category.lower() for k in keys)), None)
+        if code is None:
+            code = "0"  # no COICOP code for this category yet
+            unmapped[category] = unmapped.get(category, 0) + 1
+        out.append((product_name, price, CATEGORY_NUMBER, code))
+    return out, unmapped
 
 
 def scrape():
@@ -86,6 +109,10 @@ def main():
         # The same product comes in several volumes, so the volume is part of the name
         product_name = " ".join(f"{name} {volume}".split())
         rows.append((product_name, price, volume, category))
+
+    rows, unmapped = to_coicop(rows)
+    for category, count in unmapped.items():
+        print(f"No COICOP code for '{category}', {count} rows written with 0")
 
     if not rows:
         print("No prices found; CSV not written.")
