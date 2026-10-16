@@ -1,0 +1,59 @@
+{
+  "collected_at": "2026-10-15T21:32:57.669231+03:00",
+  "sources": {
+    "wowturkey": {
+      "post_dates": [
+        "2026-02-09T18:05:34+0300",
+        "2026-08-04T07:47:34+0300"
+      ],
+      "table_rows": 20,
+      "bullet_rows": 39,
+      "tested_internal_conflicts": [
+        {
+          "product": "Camel Slender",
+          "main_label": "CAMEL Slender / Deep Blue",
+          "main_price": "107.00",
+          "comparison_price": "100.00"
+        },
+        {
+          "product": "Camel Deep Blue",
+          "main_label": "CAMEL Slender / Deep Blue",
+          "main_price": "107.00",
+          "comparison_price": "102.00"
+        },
+        {
+          "product": "Camel Black & White",
+          "main_label": "CAMEL Black & White",
+          "main_price": "108.00",
+          "comparison_price": "103.00"
+        },
+        {
+          "product": "Camel Yellow & Brown",
+          "main_label": "CAMEL Yellow & Brown",
+          "main_price": "110.00",
+          "comparison_price": "105.00"
+        }
+      ],
+      "scope": "First post only; replies excluded.",
+      "decision": "review_only",
+      "ready_for_index": 0,
+      "reason": "Quantity/effective-date evidence requires review; tested conflicts are listed separately.",
+      "source_url": "https://www.wowturkey.com/konu/guncel-zamli-sigara-fiyatlari-agustos-2026.13949/",
+      "sha256": "c6a66ca62056fdfaff5e2eaefa47935070e6c93b1d7aa0f3def303c6b81c5b7c"
+    },
+    "enucuz": {
+      "title": "En Ucuz Bira Fiyatları 2024-2025",
+      "visible_updated": "8 Ekim 2026",
+      "metadata_published": "2024-10-11T11:24:08+03:00",
+      "metadata_modified": "2026-01-31T23:57:24+03:00",
+      "unique_rows": 20,
+      "duplicates_collapsed": 20,
+      "body_mentions_2024": true,
+      "decision": "review_only",
+      "ready_for_index": 0,
+      "reason": "Title/body year and visible/metadata update dates require reconciliation; current validity unverified.",
+      "source_url": "https://enucuzfiyatlari.com/en-ucuz-bira/",
+      "sha256": "798deae0e3c4b33c2c22562d494994cc33283e067e5fd67c263f17245c0eb339"
+    }
+  }
+}

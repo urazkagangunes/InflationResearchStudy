@@ -1,0 +1,38 @@
+{
+  "source": "https://alkolfiyatlari.co/viski-fiyatlari/",
+  "collected_at": "2026-10-15T21:32:47.392417+03:00",
+  "source_published_at": "2026-10-15T00:00:00+03:00",
+  "source_last_checked_at": "2026-10-13",
+  "effective_from": null,
+  "accepted": 42,
+  "rejected": [
+    {
+      "product": "Johnnie Walker Red Label",
+      "raw_price": "3.100 TL",
+      "reason": "Belirsiz hacim: 150/175 cl",
+      "table": "sizes"
+    },
+    {
+      "product": "Ballantine's Finest",
+      "raw_price": "3.100 TL",
+      "reason": "Belirsiz hacim: 150/175 cl",
+      "table": "sizes"
+    },
+    {
+      "product": "Jack Daniel's Old No.7",
+      "raw_price": "4.860 TL",
+      "reason": "Belirsiz hacim: 150/175 cl",
+      "table": "sizes"
+    },
+    {
+      "product": "Chivas Regal 12",
+      "raw_price": "5.000 TL",
+      "reason": "Belirsiz hacim: 150/175 cl",
+      "table": "sizes"
+    }
+  ],
+  "duplicates_collapsed": 8,
+  "scope": "Summary, explicit 35/50/70/100 cl and premium 70 cl tables; ambiguous sizes and prose excluded",
+  "sha256": "0f490b8a275f9adb8544822e20996deae5286c05ef9143b9b59c17597bffb522",
+  "note": "Source observations only; no independent store-price or effective-date verification."
+}

@@ -1,0 +1,14 @@
+{
+  "source": "https://www.birgun.net/haber/bir-sigara-grubuna-daha-zam-geldi-727813",
+  "collected_at": "2026-10-15T21:32:57.025100+03:00",
+  "source_published_at": "2026-08-06T10:43:00+03:00",
+  "source_modified_at": "2026-08-06T10:46:58+03:00",
+  "effective_from": "2026-08-06",
+  "effective_until": null,
+  "observations": 14,
+  "ready_for_index": 0,
+  "grouped_rows": 6,
+  "missing_quantity": 14,
+  "sha256": "f082b5c192830a0e8ae50d136fc90851712598390edd78faf611e5ce406291c0",
+  "note": "Historical announcement, not proof of current prices. Pack size/grams not assumed; grouped variants not expanded."
+}
