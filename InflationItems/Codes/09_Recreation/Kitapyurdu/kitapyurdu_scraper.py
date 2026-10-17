@@ -42,6 +42,15 @@ CATEGORIES = {
     "other_books": 342
 }
 
+CATEGORY_NUMBER = "09"
+
+SUB_CATEGORY_NUMBERS = {
+    "children_books": "0971901",
+    "textbooks": "0971103",
+    "test_books": "0971102",
+    "other_books": "0971902"
+}
+
 MAX_PAGES = 5
 
 HEADERS = {
@@ -256,7 +265,8 @@ def save_to_csv(data, date_str):
         writer.writerow([
             "product_name",
             "price",
-            "book_category"
+            "category_number",
+            "sub_category_number"
         ])
 
         for name, price, category in sorted(
@@ -267,7 +277,8 @@ def save_to_csv(data, date_str):
             writer.writerow([
                 name,
                 f"{price:.2f}",
-                category
+                CATEGORY_NUMBER,
+                SUB_CATEGORY_NUMBERS[category]
             ])
 
     logger.info(
