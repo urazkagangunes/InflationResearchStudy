@@ -7,7 +7,9 @@ from pathlib import Path
 import re
 import tempfile
 
-FIELDS = ['product_name', 'price', 'campaign_price', 'model_year', 'collected_at', 'price_type', 'price_label', 'source_url']
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from price_csv import FIELDS, classify
 
 def repo_root():
     return Path(__file__).resolve().parents[4]
@@ -66,14 +68,7 @@ def publish(root, source, day, rows, replace=False):
             with os.fdopen(fd, 'w', encoding='utf-8-sig', newline='') as stream:
                 writer = csv.DictWriter(stream, fieldnames=FIELDS)
                 writer.writeheader()
-                writer.writerows(rows)
-            if existing:
-                archive = target.parent / 'archive' / datetime.now().strftime('%Y%m%d_%H%M%S_%f')
-                archive.mkdir(parents=True)
-                for i, old in enumerate(existing):
-                    # Keep a copy until the new canonical file is committed.
-                    import shutil
-                    shutil.copy2(old, archive / f'{i}_{old.name}')
+                writer.writerows({'product_name': row['product_name'], 'price': row['price'], 'category_number': 7, 'sub_category_number': classify(row, source, 7)} for row in rows)
             os.replace(tmp, target)
             for old in existing:
                 if old != target:

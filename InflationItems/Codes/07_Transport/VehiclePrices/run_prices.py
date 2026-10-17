@@ -17,7 +17,7 @@ def main(argv=None):
     parser.add_argument('--sources', nargs='+', choices=SOURCES, default=list(SOURCES))
     parser.add_argument('--list-sources', action='store_true')
     parser.add_argument('--non-interactive', action='store_true', help='Decathlon ve Salcano atlanir.')
-    parser.add_argument('--replace-day', action='store_true', help='Eski gunluk CSV arsivlenerek yenilenir.')
+    parser.add_argument('--replace-day', action='store_true', help='Ayni gunun CSV dosyasini yenile.')
     parser.add_argument('--headed', action='store_true', help='Diger kaynaklarda da tarayiciyi goster.')
     parser.add_argument('--data-root', type=Path, default=repo_root() / 'InflationItems/Datas/07_Transport/motor_bicyle_car')
     args = parser.parse_args(argv)
@@ -47,15 +47,7 @@ def main(argv=None):
                 result = module.collect(**kwargs)
                 rows = result[0]
                 day = rows[0]['collected_at'][:10] if rows else today
-                report = {'source': name, 'date': day, 'rows': len(rows), 'tuik_group': '07',
-                          'note': 'Alt madde kodu ve agirlik atanmaz; kapsami README ile kontrol edin.'}
-                if name == 'Lastikcim':
-                    report.update(unavailable=result[2], sample_size=result[3])
-                if name == 'Euromaster':
-                    report.update(missing=result[1], groups=result[2])
                 output = publish(args.data_root, name, day, rows, replace=args.replace_day)
-                report_path = output.with_suffix('.json')
-                report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
                 print(f'{name}: {len(rows)} fiyat -> {output}')
         except Exception as exc:
             failed = True
