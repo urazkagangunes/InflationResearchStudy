@@ -385,6 +385,7 @@ def fetch_products_for_category(category_dict, session=None, limit_pages=0,
             products.append({
                 "product_name": title,
                 "price": price_val,
+                "category": name,
             })
             new_products_found = True
             

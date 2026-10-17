@@ -108,7 +108,7 @@ TOP_LEVEL_CATEGORIES = [
 ]
 
 # Columns of the daily CSV.
-OUTPUT_COLUMNS = ["product_name", "price"]
+OUTPUT_COLUMNS = ["product_name", "price", "category_number", "sub_category_number"]
 
 # Sub-category listings come from this sitemap (listed in robots.txt).  On
 # 2026-09-28 they added 495 goods missing from the top-level listings.

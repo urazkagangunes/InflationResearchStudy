@@ -6,9 +6,14 @@ import argparse
 import csv
 import json
 import logging
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 import requests
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 try:
     from . import config
@@ -365,6 +370,9 @@ def main() -> None:
         len(product_rows) - len(in_scope),
         len(in_scope),
     )
+    for row in in_scope.values():
+        category = " > ".join(p for p in (row.get("Category Path", ""), row.get("Source Category", "")) if p)
+        row["category_number"], row["sub_category_number"] = coicop.codes(row["product_name"], category, "Karaca")
     _write_snapshot(in_scope, config.CSV_OUTPUT_FILE, config.OUTPUT_FIELDNAMES)
     config.PARTIAL_FILE.unlink(missing_ok=True)
     logger.info("CSV written: %s", config.CSV_OUTPUT_FILE)

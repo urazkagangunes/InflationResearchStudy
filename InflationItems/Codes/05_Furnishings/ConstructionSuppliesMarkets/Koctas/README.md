@@ -23,8 +23,8 @@ kapalı, izleyiciler engelli ve Chrome belirli sayfa sayısında bir yeniden ba�
 çalıştırma 2 vCPU / 1.9 GB sunucuda ~16 dk, ~620 MB).
 
 Koçtaş kategoriyi sayısal `/c/<id>` ile yönlendirir. Her sayfanın dataLayer liste adı beklenen adla
-karşılaştırılır ve `site_category` kolonuna yazılır; Koçtaş bir kimliği başka kategoriye
-taşırsa veride görünür. Kategori listesi `koctas_scraper.py` içindeki `CATEGORIES`.
+karşılaştırılır; Koçtaş bir kimliği başka kategoriye taşırsa logda uyarı çıkar. Kategori adı
+TÜFE madde kodunun bulunmasında kullanılır (`InflationItems/Codes/05_Furnishings/coicop`). Kategori listesi `koctas_scraper.py` içindeki `CATEGORIES`.
 
 ## Çalıştırma
 
@@ -39,4 +39,4 @@ Chrome sürümü otomatik bulunur; gerekirse `CHROME_VERSION_MAIN` ile sabitleni
 
 `InflationItems/Datas/05_Furnishings/ConstructionSuppliesMarkets/Koctas/koctas_YYYY-MM-DD.csv`
 
-`product_id, product_name, price, brand, category, site_category`
+`product_name, price, category_number, sub_category_number`

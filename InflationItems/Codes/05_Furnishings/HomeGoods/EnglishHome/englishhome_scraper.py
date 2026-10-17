@@ -39,6 +39,9 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 import requests
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 # ── Konfigürasyon ─────────────────────────────────────────────────────────────
 
 BASE_URL = "https://www.englishhome.com"
@@ -255,6 +258,7 @@ def scrape_category(category: dict) -> list[dict]:
                 "product_name": name,
                 "price":        price,
                 "product_id":   product_id,
+                "category":     cat_name,
             })
 
         if page % 10 == 0 or page == total_pages:
@@ -355,7 +359,6 @@ def main():
     logger.info(f"  Kategori: {len(CATEGORIES)} | Worker: {DEFAULT_WORKERS}")
     logger.info("=" * 55)
 
-    fieldnames = ["product_name", "price"]
     all_products = []
     global_seen = set()
     failed = []
@@ -365,33 +368,38 @@ def main():
             executor.submit(scrape_category, cat): cat
             for cat in CATEGORIES
         }
+        results = {}
         for future in as_completed(future_to_cat):
             cat = future_to_cat[future]
             try:
-                cat_products = future.result()
-
-                new_count = 0
-                for p in cat_products:
-                    key = p["product_id"]
-                    if key not in global_seen:
-                        global_seen.add(key)
-                        all_products.append(p)
-                        new_count += 1
-
-                logger.info(
-                    f"  [{cat['name']}] merge edildi → +{new_count} ürün "
-                    f"(genel toplam: {len(all_products)})"
-                )
-
-                if new_count < len(cat_products):
-                    logger.info(
-                        f"  Cross-category dedup: {len(cat_products) - new_count} "
-                        f"duplicate atlandı"
-                    )
-
+                results[cat["name"]] = future.result()
             except Exception as exc:
                 logger.error(f"  [{cat['name']}] Hata: {exc}")
                 failed.append(cat["name"])
+
+    # Merging in CATEGORIES order, not thread order, keeps the category (and
+    # so the basket code) of a product listed twice the same every day.
+    for cat in CATEGORIES:
+        if cat["name"] in results:
+            cat_products = results[cat["name"]]
+            new_count = 0
+            for p in cat_products:
+                key = p["product_id"]
+                if key not in global_seen:
+                    global_seen.add(key)
+                    all_products.append(p)
+                    new_count += 1
+
+            logger.info(
+                f"  [{cat['name']}] merge edildi → +{new_count} ürün "
+                f"(genel toplam: {len(all_products)})"
+            )
+
+            if new_count < len(cat_products):
+                logger.info(
+                    f"  Cross-category dedup: {len(cat_products) - new_count} "
+                    f"duplicate atlandı"
+                )
 
     # The runner counts any CSV with 2+ lines as success, so a partial scrape
     # must not leave one behind.
@@ -409,9 +417,10 @@ def main():
     all_products = _apply_plausibility_filter(all_products)
 
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
-        writer.writeheader()
-        writer.writerows(all_products)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(p["product_name"], p["price"], p["category"], "EnglishHome")
+                         for p in all_products)
 
     logger.info("=" * 55)
     logger.info(f"  TAMAMLANDI — {len(all_products)} ürün → '{csv_path}'")

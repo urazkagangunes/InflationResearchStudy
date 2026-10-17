@@ -6,6 +6,10 @@ import sys
 import json
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # -----------------------------------------------------------------------------
 # CONFIG
@@ -430,6 +434,9 @@ def main():
         "product_name": df["name"],
         "price": df["discounted_price"].fillna(df["price"]),
     })
+    codes = [coicop.codes(name, category, "MadameCoco") for name, category in zip(df["name"], df["category"])]
+    out["category_number"] = [c[0] for c in codes]
+    out["sub_category_number"] = [c[1] for c in codes]
     out.to_csv(OUTPUT_FILE, index=False, encoding="utf-8-sig")
 
     elapsed = time.time() - t0

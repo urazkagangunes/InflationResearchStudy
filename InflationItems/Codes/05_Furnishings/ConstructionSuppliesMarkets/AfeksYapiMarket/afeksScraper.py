@@ -7,7 +7,8 @@ with ?sayfa=N until a page brings no new product (past the last page the site
 serves the last page again).
 
 Output: InflationItems/Datas/05_Furnishings/ConstructionSuppliesMarkets/
-        AfeksYapiMarket/afeks_YYYY-MM-DD.csv  (product_name, price, category)
+        AfeksYapiMarket/afeks_YYYY-MM-DD.csv
+        (product_name, price, category_number, sub_category_number)
 
 Usage:
     python afeksScraper.py
@@ -19,9 +20,13 @@ import random
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://www.afeksyapimarket.com"
 CATEGORIES = [
@@ -126,8 +131,8 @@ def main():
     path = os.path.join(DATA_DIR, f"afeks_{datetime.now():%Y-%m-%d}.csv")
     with open(path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        writer.writerow(["product_name", "price", "category"])
-        writer.writerows(rows)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(name, price, category, "AfeksYapiMarket") for name, price, category in rows)
     print(f"Saved {len(rows)} products -> {path}")
 
 

@@ -9,6 +9,10 @@ import random
 import re
 import json
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://www.bellona.com.tr"
 HEADERS = {
@@ -199,7 +203,8 @@ class DataExtractor:
                         extracted_items.append({
                             "sku": sku,
                             "title": title,
-                            "price": price
+                            "price": price,
+                            "category": page_data["category"],
                         })
                         continue 
                 except (json.JSONDecodeError, ValueError, TypeError):
@@ -217,7 +222,8 @@ class DataExtractor:
             extracted_items.append({
                 "sku": sku,
                 "title": title,
-                "price": numeric_price  
+                "price": numeric_price,
+                "category": page_data["category"],
             })
             
         return extracted_items
@@ -246,8 +252,8 @@ class Storage:
 
         with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
             w = csv.writer(f)
-            w.writerow(["product_name", "price"])
-            w.writerows([row["title"], row["price"]] for row in rows)
+            w.writerow(coicop.FIELDS)
+            w.writerows(coicop.row(row["title"], row["price"], row["category"], "Bellona") for row in rows)
 
         print(f"Saved {len(rows)} unique items to {out_path}")
         return out_path

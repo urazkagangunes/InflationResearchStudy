@@ -65,7 +65,7 @@ MAIN_CATEGORY_PRIORITY = {
 EXCLUDED_TOP_CATEGORIES = {"Gıda"}
 
 # The daily CSV; the partial snapshot keeps CSV_FIELDNAMES for --resume.
-OUTPUT_FIELDNAMES = ["product_name", "price"]
+OUTPUT_FIELDNAMES = ["product_name", "price", "category_number", "sub_category_number"]
 
 CSV_FIELDNAMES = [
     "product_name",

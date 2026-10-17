@@ -4,9 +4,13 @@ import re
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://www.istikbal.com.tr"
 HEADERS = {
@@ -135,7 +139,7 @@ def scrape_istikbal():
             if not re.search(r"[1-9]", price):
                 skipped += 1
                 continue
-            all_products.append([name, price])
+            all_products.append(coicop.row(name, price, category["name"], "Istikbal"))
             kept += 1
         print(f"  -> Kept {kept}, skipped {skipped} without a price, "
               f"{len(listed) - kept - skipped} already in an earlier category.")
@@ -159,7 +163,7 @@ def save_to_csv(data):
 
     with open(file_path, mode='w', newline='', encoding='utf-8-sig') as file:
         writer = csv.writer(file)
-        writer.writerow(['product_name', 'price'])
+        writer.writerow(coicop.FIELDS)
         writer.writerows(data)
 
     print(f"\nData successfully saved to: {file_path}")

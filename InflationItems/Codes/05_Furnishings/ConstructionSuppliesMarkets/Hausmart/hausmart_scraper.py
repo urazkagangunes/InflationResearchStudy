@@ -18,6 +18,7 @@ import csv
 import logging
 import random
 import re
+import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
@@ -39,6 +40,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # CONFIGURATION
@@ -210,6 +214,7 @@ def parse_products(html: str, category_name: str, date_str: str) -> list[dict]:
             "canonical":    canonical,
             "product_name": title,
             "price":        price,
+            "category":     category_name,
         })
 
     return products
@@ -357,11 +362,10 @@ def main():
         key=lambda p: p["product_name"],
     )
 
-    fieldnames = ["product_name", "price"]
     with open(csv_path, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
-        writer.writeheader()
-        writer.writerows(final)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(p["product_name"], p["price"], p["category"], "Hausmart") for p in final)
 
     logger.info(f"✓ Tamamlandı: {csv_path} → {len(final)} ürün kaydedildi.")
 

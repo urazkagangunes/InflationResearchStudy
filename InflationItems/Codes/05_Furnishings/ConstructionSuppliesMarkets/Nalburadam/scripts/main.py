@@ -11,10 +11,14 @@ import argparse
 from datetime import datetime
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 import config
 import category_fetcher
 import product_fetcher
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -32,11 +36,10 @@ def parse_args():
 def save_csv(products, out_path):
     if not products:
         return
-    fieldnames = ["product_name", "price", "id", "sku", "brand", "category", "regular_price", "discount_rate", "unit", "status"]
     with open(out_path, 'w', encoding='utf-8-sig', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(products)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(p["product_name"], p["price"], p.get("category", ""), "Nalburadam") for p in products)
     logger.info(f"Saved {len(products)} products to {out_path}")
 
 def load_checkpoint(cp_path):
@@ -130,6 +133,9 @@ def main():
         
         save_checkpoint(checkpoint_file, completed_ids)
 
+    # Sorted first so a product listed in two categories keeps the same one
+    # (and the same basket code) whatever order the threads finished in.
+    all_products.sort(key=lambda p: p.get("category", ""))
     unique_products = {p["id"]: p for p in all_products}.values()
     
     if not os.path.exists(config.OUTPUT_DIR):

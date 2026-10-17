@@ -15,6 +15,9 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 BASE_URL = "https://www.mediamarkt.com.tr"
 # Pages of one category disagree on its count (dryers: 79 or 80) and some
 # products show on two pages and others on none; the sort parameter that
@@ -157,8 +160,8 @@ def get_csv_path():
 def write_csv(rows, csv_path):
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["product_name", "price"])
-        writer.writerows(rows)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(name, price, category, "MediaMarkt") for name, price, category in rows)
 
 
 def main():
@@ -194,12 +197,13 @@ def main():
         found_sum += min(len(unique), total)
         total_sum += total
         for product_id, item in unique.items():
+            item["category"] = slug
             products.setdefault(product_id, item)
     coverage = found_sum / total_sum if total_sum else 0
 
     own = [p for p in products.values() if not p["marketplace"] and not p["bundle"]
            and not NOT_BATTERY_RE.search(p["product_name"])]
-    rows = [(p["product_name"], f"{p['price']:.2f}")
+    rows = [(p["product_name"], f"{p['price']:.2f}", p["category"])
             for p in own if p["price"] and p["product_name"]]
     print(f"Products: {len(products)}, MediaMarkt's own: {len(own)}, "
           f"written: {len(rows)}, coverage: {coverage:.1%}, "

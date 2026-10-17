@@ -5,7 +5,11 @@ import time
 import random
 import shutil
 from datetime import datetime
+from pathlib import Path
 from bs4 import BeautifulSoup
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -73,9 +77,9 @@ def save_batch(batch, file_path):
 
 def write_csv(file_path):
     with open(file_path, mode='w', newline='', encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f, fieldnames=["product_name", "price", "kategori"])
-        writer.writeheader()
-        writer.writerows(all_rows)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(r["product_name"], r["price"], r["kategori"], "Ereyon") for r in all_rows)
 
 
 def scroll_until_stable(driver):

@@ -1,0 +1,429 @@
+code,group,subclass,name
+0111121,01,01111,Rice
+0111192,01,01111,Bulgur (cracked wheat)
+0111211,01,01112,Wheat flour
+0111311,01,01113,Bread
+0111392,01,01113,Other bakery and patisserie products
+0111393,01,01113,Biscuits
+0111394,01,01113,Crackers
+0111396,01,01113,Wafer
+0111398,01,01113,Baklava
+0111399,01,01113,"Simit, poğaça etc. (offered in bakeries, supermarkets, etc.)"
+0111401,01,01114,Breakfast cereal
+0111501,01,01115,Pasta (dried)
+0111502,01,01115,Vermicelli and soup pasta
+0112214,01,01122,Beef (veal) meat
+0112230,01,01122,Lamb meat
+0112246,01,01122,Chicken meat
+0112311,01,01123,Fermented sausage (sucuk)
+0112312,01,01123,Beef salami
+0112392,01,01123,Poultry salami
+0112401,01,01124,Offal (organ meats)
+0112511,01,01125,Sausage
+0112590,01,01125,Prepared poultry dishes
+0112593,01,01125,Prepared meat dishes
+0113121,01,01131,Salmon (imported)
+0113151,01,01131,Bonito (domestic)
+0113191,01,01131,Other fishes
+0113315,01,01133,Canned fish
+0114111,01,01141,Whole milk (fresh and uht)
+0114201,01,01142,Semi-skimmed milk (uht)
+0114331,01,01143,"Cream, clotted cream and similar dairy products"
+0114501,01,01145,White brined cheese (feta-type)
+0114502,01,01145,Kashar cheese (semi-hard yellow)
+0114503,01,01145,Tulum cheese
+0114504,01,01145,Spreadable cheeses
+0114505,01,01145,Local cheeses
+0114601,01,01146,Yoghurt
+0114605,01,01146,Ayran (yoghurt-based drink)
+0114701,01,01147,Ready-to-eat milk desserts
+0114703,01,01147,Flavoured milk drinks
+0114811,01,01148,Eggs
+0115112,01,01151,Sunflower oil
+0115131,01,01151,Olive oil
+0115211,01,01152,Butter
+0115301,01,01153,Margarine
+0116121,01,01161,Bananas
+0116221,01,01162,Lemon
+0116231,01,01162,Orange
+0116241,01,01162,Mandarin (tangerine)
+0116311,01,01163,Apple
+0116321,01,01163,"Pears, quinces"
+0116351,01,01163,Peach
+0116451,01,01164,Strawberries
+0116511,01,01165,Grapes (fresh)
+0116521,01,01165,Kiwi fruit
+0116531,01,01165,Melon
+0116541,01,01165,Watermelon
+0116591,01,01165,Pomegranate
+0116711,01,01167,Raisins (dried grapes)
+0116791,01,01167,Dried dates
+0116793,01,01167,Dried apricots
+0116811,01,01168,Almond kernels
+0116843,01,01168,Hazelnut kernels
+0116854,01,01168,Pistachios
+0116862,01,01168,Walnut kernels
+0116886,01,01168,Peanuts
+0116891,01,01168,Pumpkin seeds
+0116897,01,01168,Roasted chickpeas (leblebi)
+0116898,01,01168,Sunflower seeds
+0117123,01,01171,Cabbage
+0117131,01,01171,Cauliflower
+0117141,01,01171,Leaf lettuce (curly)
+0117151,01,01171,Spinach
+0117211,01,01172,Long green pepper (çarliston)
+0117215,01,01172,Other peppers
+0117222,01,01172,Cucumber
+0117234,01,01172,Eggplant (aubergine)
+0117241,01,01172,Tomatoes
+0117253,01,01172,Zucchini (courgette)
+0117312,01,01173,Fresh green beans
+0117410,01,01174,Carrots
+0117416,01,01174,Radish
+0117421,01,01174,Dried garlic (bulb)
+0117431,01,01174,Onions (dry)
+0117445,01,01174,Leek
+0117452,01,01174,Cultivated mushrooms
+0117476,01,01174,Table olives
+0117511,01,01175,Potatoes
+0117611,01,01176,Dried beans
+0117632,01,01176,Chickpeas
+0117643,01,01176,Lentils
+0117923,01,01179,Canned vegetables
+0117992,01,01179,Pickles
+0117995,01,01179,Tomato paste
+0117998,01,01179,Chips (crisps)
+0118121,01,01181,Granulated sugar
+0118122,01,01181,Sugar cubes
+0118313,01,01183,Honey
+0118391,01,01183,Jam
+0118397,01,01183,Molasses (grape molasses)
+0118401,01,01184,Hazelnut paste
+0118408,01,01184,Tahini (sesame paste)
+0118512,01,01185,Chocolate
+0118593,01,01185,Chocolate spread
+0118601,01,01186,Ice cream
+0118916,01,01189,Halva (tahini halva)
+0118991,01,01189,Turkish delight
+0118994,01,01189,Chewing gum
+0118995,01,01189,Wrapped candy
+0119145,01,01191,Frozen and ready pizzas
+0119161,01,01191,Instant soups
+0119192,01,01191,Ready meals (su böreği)
+0119195,01,01191,Other ready meals
+0119212,01,01192,Infant formula (powdered mix)
+0119311,01,01193,Salt
+0119393,01,01193,Vinegar
+0119396,01,01193,Ketchup
+0119397,01,01193,Mayonnaise
+0119401,01,01194,Fresh herbs
+0119402,01,01194,Spices
+0119902,01,01199,Raising agents
+0119904,01,01199,Instant dessert powders
+0121001,01,01210,Fruit juice
+0122011,01,01220,Coffee
+0122012,01,01220,Instant coffee
+0123021,01,01230,Tea
+0123034,01,01230,Iced tea
+0125001,01,01250,Bottled water
+0125002,01,01250,Mineral water and soda
+0126002,01,01260,Soft drinks
+0126003,01,01260,Cola drinks
+0211001,02,02110,Raki
+0211002,02,02110,Vodka
+0211006,02,02110,Whisky
+0212101,02,02121,Wine
+0213001,02,02130,Beer
+0230101,02,02301,Cigarettes
+0312104,03,03121,Men’s overcoat
+0312105,03,03121,Men’s jacket
+0312108,03,03121,Men’s suit
+0312109,03,03121,Men’s blazer and jacket
+0312110,03,03121,Men’s trousers
+0312112,03,03121,Men’s sweater
+0312115,03,03121,Men’s shirt
+0312116,03,03121,Men’s sweatshirt
+0312117,03,03121,Men’s t-shirt
+0312120,03,03121,Men’s sweatpants
+0312122,03,03121,Men’s pyjamas
+0312126,03,03121,Men’s underwear
+0312131,03,03121,Men’s socks
+0312143,03,03121,Boys’ jacket
+0312152,03,03121,Boys’ trousers
+0312158,03,03121,Boys’ sweatshirt
+0312159,03,03121,Boys’ t-shirt
+0312164,03,03121,Boys’ sweatpants
+0312165,03,03121,Boys’ pyjamas
+0312168,03,03121,Boys’ underwear
+0312172,03,03121,Boys’ socks
+0312204,03,03122,Women’s overcoat
+0312205,03,03122,Women’s jacket
+0312213,03,03122,Women’s dress
+0312214,03,03122,Women’s blazer and jacket
+0312215,03,03122,Women’s skirt
+0312216,03,03122,Women’s trousers
+0312217,03,03122,Women’s cardigan
+0312219,03,03122,Women’s sweater
+0312222,03,03122,Women’s shirt
+0312223,03,03122,Women’s sweatshirt
+0312224,03,03122,Women’s t-shirt
+0312230,03,03122,Women’s sweatpants
+0312235,03,03122,Women’s pyjamas
+0312238,03,03122,Women’s underwear
+0312243,03,03122,Women’s socks
+0312252,03,03122,Girls’ jacket
+0312262,03,03122,Girls’ trousers
+0312269,03,03122,Girls’ sweatshirt
+0312270,03,03122,Girls’ t-shirt
+0312273,03,03122,Girls’ leggings
+0312275,03,03122,Girls’ sweatpants
+0312276,03,03122,Girls’ pyjamas
+0312284,03,03122,Girls’ socks
+0312304,03,03123,Baby overall
+0312309,03,03123,Baby pyjamas
+0312310,03,03123,Baby underwear
+0312316,03,03123,Baby dress
+0312401,03,03124,School uniform
+0313108,03,03131,Men's belt
+0313110,03,03131,Women's scarf
+0314101,03,03141,Dry cleaning fee
+0314205,03,03142,Clothing repair fee
+0321101,03,03211,Men’s shoes
+0321102,03,03211,Men’s boots
+0321104,03,03211,Men’s sneakers
+0321201,03,03212,Women’s shoes
+0321202,03,03212,Women’s boots
+0321204,03,03212,Women’s sneakers
+0321206,03,03212,Women’s slippers
+0321302,03,03213,Children’s boots
+0321304,03,03213,Children’s sneakers
+0411001,04,04110,Actual rentals paid by tenants
+0431101,04,04311,Paint and coating materials
+0431102,04,04311,Floor and wall covering materials
+0431106,04,04311,PVC door and window materials
+0431108,04,04311,Plumbing materials
+0431109,04,04311,Other materials for maintenance and repair of household
+0432015,04,04320,Labour fee for maintenance and repair of household
+0441101,04,04411,Water supply (municipal)
+0451001,04,04510,Electricity
+0452101,04,04521,Natural gas (pipeline)
+0452102,04,04521,Natural gas connection fee
+0452201,04,04522,LPG cylinders
+0454101,04,04541,Coal
+0454201,04,04542,Firewood
+0511102,05,05111,Kitchen table
+0511105,05,05111,Kitchen chair
+0511108,05,05111,Bedroom set
+0511111,05,05111,Bed
+0511114,05,05111,Bed base
+0511115,05,05111,Youth room set
+0511116,05,05111,Living room set
+0511117,05,05111,Dining room set
+0511401,05,05114,Carpet (rug)
+0521101,05,05211,Curtains
+0521102,05,05211,Roller blinds
+0521103,05,05211,Sheer curtains
+0521201,05,05212,Bedspread
+0521204,05,05212,Duvet
+0521206,05,05212,Blanket
+0521207,05,05212,Pique set
+0521208,05,05212,Duvet cover set
+0521209,05,05212,Pillow
+0521307,05,05213,Towel
+0521904,05,05219,Bath mat
+0521905,05,05219,Other home textiles
+0531101,05,05311,Refrigerator
+0531103,05,05311,Deep freezer
+0531106,05,05311,Dishwasher
+0531108,05,05311,Ovens and cookers
+0531201,05,05312,Washing machine
+0531202,05,05312,Dryer
+0531301,05,05313,Air conditioner
+0531303,05,05313,Stove heater
+0531306,05,05313,Combi boiler
+0531401,05,05314,Vacuum cleaner
+0532101,05,05321,Food processors and blenders
+0532102,05,05321,Small electric appliances
+0532201,05,05322,Electric tea maker
+0532901,05,05329,Iron
+0533001,05,05330,Repair of household appliances
+0540102,05,05401,Glass household utensils
+0540104,05,05401,Porcelain household utensils
+0540201,05,05402,Steel cutlery set
+0540301,05,05403,Steel kitchenware
+0540314,05,05403,Non-stick kitchenware
+0540316,05,05403,Thermos
+0552201,05,05522,Battery
+0552203,05,05522,Light bulb
+0561101,05,05611,Laundry cleaning and care products
+0561102,05,05611,Dishwashing cleaning and care products
+0561103,05,05611,Floor hygiene cleaning and care products
+0561106,05,05611,Cleaning cloths
+0561198,05,05611,Surface cleaning towel and wipes
+0561902,05,05619,"Storage and preservation materials (cling film, aluminum foil etc.)"
+0561903,05,05619,"Paper tableware (paper towel, napkin etc.)"
+0561915,05,05619,Other non-durable household goods
+0562901,05,05629,Household maintenance and repair services
+0562902,05,05629,Maid and cleaners' fee
+0611101,06,06111,Medicines
+0611102,06,06111,Medicine copayment
+0613101,06,06131,Prescription eyeglass lenses and frames
+0613102,06,06131,Contact lenses
+0613318,06,06133,Assistive products for daily life
+0622902,06,06229,Dental filling fee
+0622906,06,06229,Dental implant fee
+0622907,06,06229,Dental root canal treatment fee
+0622908,06,06229,Dental crown and prosthesis fee
+0623101,06,06231,Doctor consultation fee
+0623102,06,06231,Patient share for doctor consultation
+0623103,06,06231,Physical therapy fee
+0631002,06,06310,Surgery fee
+0631003,06,06310,Normal delivery fee
+0631004,06,06310,Caesarean delivery fee
+0641001,06,06410,X-ray fee
+0641002,06,06410,Ultrasound fee
+0641005,06,06410,MRI (magnetic resonance imaging) fee
+0641008,06,06410,Laboratory test fee
+0711104,07,07111,Petrol (gasoline) car
+0711107,07,07111,Hybrid car
+0711109,07,07111,Electric car
+0712001,07,07120,Motorcycle
+0713001,07,07130,Bicycle
+0721101,07,07211,Vehicle tyres
+0721201,07,07212,Vehicle spare parts and equipment
+0721302,07,07213,Vehicle accessories
+0722101,07,07221,Diesel fuel
+0722201,07,07222,Petrol (gasoline)
+0722301,07,07223,LPG (for cars)
+0722398,07,07223,Electric vehicle charging fee
+0722401,07,07224,Motor oils
+0723001,07,07230,Installation of vehicle parts and accessories
+0723002,07,07230,Repair and maintenance service of vehicles
+0724201,07,07242,Motorway toll
+0724202,07,07242,Bridge toll
+0724302,07,07243,Driving course fee
+0724304,07,07243,Vehicle inspection and emission fee
+0724401,07,07244,Car rental fee
+0731102,07,07311,Intercity train fare
+0731201,07,07312,Metro fare
+0731203,07,07312,Tram fare
+0732101,07,07321,Urban bus fare
+0732104,07,07321,Intercity bus fare
+0732106,07,07321,Shared taxi and minibus fare
+0732201,07,07322,Taxi fare
+0732301,07,07323,School transport fee
+0733101,07,07331,Domestic flight fare
+0733201,07,07332,International flight fare
+0734001,07,07340,Ferry fare
+0741201,07,07412,Cargo delivery cost
+0749101,07,07491,Moving fee
+0749201,07,07492,Delivery fee for goods
+0812002,08,08120,Mobile phone
+0813101,08,08131,Computer
+0813209,08,08132,Computer peripherals
+0814001,08,08140,Audio-video equipment
+0814007,08,08140,Television
+0819103,08,08191,Other communication devices
+0819201,08,08192,Info-communication accessories
+0832001,08,08320,Mobile phone service fee
+0833001,08,08330,Internet service fee
+0835001,08,08350,Repair and maintenance of information and communication equipment
+0839201,08,08392,Digital content platform subscription
+0921104,09,09211,"Electronic games (game consoles, etc.)"
+0921204,09,09212,Other toys
+0921207,09,09212,Ride-on wheeled toys
+0922102,09,09221,Home fitness equipment
+0922103,09,09221,Sports equipment
+0922107,09,09221,Special clothing and accessories for sporting activities
+0932201,09,09322,Pet food
+0932204,09,09322,Other pet products
+0945001,09,09450,Veterinary services
+0946103,09,09461,Recreation and hobby services
+0946201,09,09462,"Payments for sports facilities (membership, rental, etc.)"
+0946203,09,09462,Sports training fee
+0947001,09,09470,Games of chance
+0961001,09,09610,Cinema ticket
+0961002,09,09610,Theatre ticket
+0969006,09,09690,"Event hall rental for wedding, engagement, and other events"
+0971102,09,09711,Test books
+0971103,09,09711,Textbooks
+0971901,09,09719,Children's books
+0971902,09,09719,Other books
+0974001,09,09740,School notebooks
+0974003,09,09740,Pens and pencils
+0974004,09,09740,Paintings for paints
+0974005,09,09740,Writing and drawing paper
+0974009,09,09740,Other stationery items
+0980002,09,09800,Domestic weekend package tours
+0980003,09,09800,Other domestic package tours
+0980006,09,09800,Package tours abroad
+0980008,09,09800,Umrah package fee (Presidency of Religious Affairs of Türkiye)
+0980009,09,09800,Umrah package fee (agency)
+1010101,10,10101,Preschool fee
+1010201,10,10102,Private primary school fee
+1020001,10,10200,Private lower secondary school fee
+1020002,10,10200,Private upper secondary school fee
+1040001,10,10400,Private university fee
+1040002,10,10400,Student contribution fee for open education (second degree program)
+1111130,11,11111,Soups (full-service restaurants)
+1111131,11,11111,Hot meals (full-service restaurants)
+1111132,11,11111,Kebabs (full-service restaurants)
+1111133,11,11111,Pide (full-service restaurants)
+1111135,11,11111,Sandwiches (full-service restaurants)
+1111144,11,11111,Desserts (full-service restaurants)
+1111148,11,11111,Breakfast (full-service restaurants)
+1111152,11,11111,Hot beverages (full-service restaurants)
+1111153,11,11111,Cold beverages (full-service restaurants)
+1111155,11,11111,Ayran (full-service restaurants)
+1111156,11,11111,Alcoholic beverages (full-service restaurants)
+1111207,11,11112,Çiğ köfte (limited-service restaurants)
+1111231,11,11112,Pizza (limited-service restaurants)
+1111237,11,11112,Hamburger (limited-service restaurants)
+1112108,11,11121,Toast (canteens)
+1112113,11,11121,Simit (canteens)
+1112120,11,11121,Tea (canteens)
+1120101,11,11201,Hotel accommodation fee
+1120301,11,11203,Private dormitory fee (university)
+1120398,11,11203,Public dormitory fee (university)
+1212098,12,12120,Health insurance
+1213001,12,12130,Home insurance (fire and hazards)
+1213002,12,12130,Compulsory earthquake insurance
+1214101,12,12141,Motor vehicle insurance
+1222001,12,12220,Other banking service fees
+1222002,12,12220,Credit card annual fee
+1229101,12,12291,Money transfer fee
+1311101,13,13111,Electric shaver
+1311103,13,13111,Electric hair care devices
+1311104,13,13111,Other personal care appliances
+1312001,13,13120,Razor blade
+1312002,13,13120,Toothbrush
+1312016,13,13120,Toothpaste
+1312017,13,13120,Hand soap
+1312018,13,13120,Bath soap
+1312019,13,13120,Perfume
+1312020,13,13120,Deodorant
+1312021,13,13120,Cologne
+1312022,13,13120,Other personal care products
+1312023,13,13120,Cosmetics
+1312024,13,13120,Sunscreen
+1312025,13,13120,Hair care products
+1312026,13,13120,Toilet paper
+1312027,13,13120,Other paper products
+1312030,13,13120,Sanitary pads
+1313101,13,13131,Men’s barber service
+1313102,13,13131,Women’s hairdresser service
+1313202,13,13132,Personal care services (for woman)
+1321101,13,13211,Jewellery (gold)
+1321105,13,13211,Wristwatch
+1329101,13,13291,Travel goods
+1329104,13,13291,Women’s handbag
+1329106,13,13291,School bag
+1329111,13,13291,Sunglasses
+1329114,13,13291,Baby stroller
+1329129,13,13291,Baby diapers
+1330101,13,13301,Daycare and nursery services
+1390208,13,13902,Hajj package fee (Presidency of Religious Affairs of Türkiye)
+1390901,13,13909,Notary fee
+1390902,13,13909,Vehicle inspection and expertise fee
+1390903,13,13909,Legal services
+1390906,13,13909,Other miscellaneous services

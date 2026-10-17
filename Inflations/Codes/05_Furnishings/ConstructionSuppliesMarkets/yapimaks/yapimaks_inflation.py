@@ -40,7 +40,7 @@ def load_data(date_str, category_map):
     if not os.path.exists(fpath):
         return None
 
-    df = pd.read_csv(fpath)
+    df = pd.read_csv(fpath, encoding='utf-8-sig')
 
     # Handle both column name patterns safely
     price_col = 'product-price' if 'product-price' in df.columns else 'price'
@@ -51,14 +51,23 @@ def load_data(date_str, category_map):
     raw = raw.where(~turkish, raw.str.replace('.', '', regex=False).str.replace(',', '.', regex=False))
     df['price'] = pd.to_numeric(raw, errors='coerce')
 
-    df['category'] = df['url'].map(category_map).fillna("Bilinmeyen")
-    df['tuik_code'] = df['category'].apply(get_tuik_class)
+    if 'sub_category_number' in df.columns:
+        # Since October 2026 the scraper writes the TÜİK basket code itself and
+        # no longer the url or product_id; products are matched by name.
+        code = df['sub_category_number'].astype(str)
+        df['category'] = code.where(code == "0", code.str.zfill(7))
+        group = df['category_number'].astype(str).str.zfill(2)
+        df['tuik_code'] = group.where(group != "00", "05")
+    else:
+        df['category'] = df['url'].map(category_map).fillna("Bilinmeyen")
+        df['tuik_code'] = df['category'].apply(get_tuik_class)
+    df = df.drop_duplicates(subset=['product_name'])
 
-    return df[['product_id', 'price', 'category', 'tuik_code']]
+    return df[['product_name', 'price', 'category', 'tuik_code']]
 
 
 def calculate_metrics(df_now, df_old, suffix):
-    merged = df_now.merge(df_old[['product_id', 'price']], on='product_id', how='inner', suffixes=('', '_old'))
+    merged = df_now.merge(df_old[['product_name', 'price']], on='product_name', how='inner', suffixes=('', '_old'))
 
     # Ürün bazlı yüzde değişim
     merged[f'change_{suffix}'] = ((merged['price'] - merged['price_old']) / merged['price_old']) * 100
@@ -101,7 +110,7 @@ def run_inflation_report(target_date_str):
             merged, basket, groups = calculate_metrics(df_target, df_old, f"{days}d")
 
             # Detaylı dosyaya ekle
-            detailed_df = detailed_df.merge(merged[['product_id', f'change_{days}d']], on='product_id', how='left')
+            detailed_df = detailed_df.merge(merged[['product_name', f'change_{days}d']], on='product_name', how='left')
 
             # Özet dosyaya ekle
             summary[f'genel_{days}d'] = round(basket, 2)

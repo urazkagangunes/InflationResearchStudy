@@ -14,6 +14,9 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 BASE_URL = "https://armut.com"
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -109,8 +112,8 @@ def get_csv_path():
 def write_csv(rows, csv_path):
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["product_name", "price"])
-        writer.writerows(rows)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(name, price, service, "Armut") for name, price, service in rows)
 
 
 def main():
@@ -144,7 +147,7 @@ def main():
             # carries the series across month changes.
             name = f"{service_name} | {city_name} | aylık ortalama teklif"
             price = Decimal(str(month["avgPrice"])).quantize(Decimal("0.01"))
-            rows.append((name, f"{price:.2f}"))
+            rows.append((name, f"{price:.2f}", service_name))
             print(f"  {name}: {price} ({month['month'][:7]}, "
                   f"{month.get('quoteCount')} quotes)")
 

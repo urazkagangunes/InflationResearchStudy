@@ -47,6 +47,7 @@ import os
 import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 import pandas as pd
 import requests
@@ -55,6 +56,9 @@ from tqdm import tqdm
 import config
 from category_fetcher import fetch_categories
 from product_fetcher import fetch_products_for_category
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # ── Inflation module (best-effort import) ────────────────────────────────────
 # Add the location of inflation.py to sys.path so we can call it after a
@@ -185,8 +189,15 @@ def _dedup_csv() -> int:
     df = pd.read_csv(config.PARTIAL_FILE, encoding="utf-8-sig")
     before = len(df)
     if "id" in df.columns:
+        # Threads finish in any order; sorting first keeps the same category
+        # (and so the same basket code) for a product listed twice.
+        df.sort_values(["id", "category"], kind="stable", inplace=True)
         df.drop_duplicates(subset=["id"], inplace=True)
     df.reset_index(drop=True, inplace=True)
+    codes = [coicop.codes(name, category, "Vivense")
+             for name, category in zip(df["product_name"], df["category"].fillna(""))]
+    df["category_number"] = [c[0] for c in codes]
+    df["sub_category_number"] = [c[1] for c in codes]
     os.makedirs(config.OUTPUT_DIR, exist_ok=True)
     df[config.OUTPUT_COLUMNS].to_csv(
         config.CSV_OUTPUT_FILE, index=False, encoding="utf-8-sig",

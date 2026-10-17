@@ -11,6 +11,9 @@ import urllib.request
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 
 class LCWHomeScraper:
     START_URL = "https://www.lcw.com/marka/lcw-home-b-307"
@@ -122,6 +125,12 @@ class LCWHomeScraper:
         description = item.get("ProductDescription") or ""
         return " ".join(f"{brand} {description}".split())
 
+    @staticmethod
+    def site_category(item):
+        crumbs = item.get("BreadCrump") or {}
+        levels = [crumbs[k] for k in sorted(crumbs) if isinstance(crumbs[k], str) and crumbs[k]]
+        return " > ".join(levels) or item.get("Category") or ""
+
     def add_products(self, items):
         new_count = 0
 
@@ -136,7 +145,7 @@ class LCWHomeScraper:
             if product_id in self.products:
                 continue
 
-            self.products[product_id] = (name, price)
+            self.products[product_id] = (name, price, self.site_category(item))
             new_count += 1
 
         return new_count
@@ -174,10 +183,10 @@ class LCWHomeScraper:
 
         with open(self.OUTPUT_FILE, "w", encoding="utf-8", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["product_name", "price"])
+            writer.writerow(coicop.FIELDS)
 
-            for name, price in self.products.values():
-                writer.writerow([name, f"{price:.2f}"])
+            for name, price, category in self.products.values():
+                writer.writerow(coicop.row(name, f"{price:.2f}", category, "LCW Home"))
 
     def run(self):
         self.collect()

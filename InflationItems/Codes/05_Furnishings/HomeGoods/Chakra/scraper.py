@@ -4,8 +4,12 @@ import random
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
 import requests
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://www.chakra.com.tr"
 
@@ -33,7 +37,6 @@ HEADERS = {
     "X-Requested-With": "XMLHttpRequest",
 }
 
-FIELDS = ["product_name", "price"]
 MAX_ATTEMPTS = 5
 MIN_COVERAGE = 0.98
 
@@ -111,10 +114,7 @@ def scrape_category(session, category, seen_ids):
             if product_id in seen_ids:
                 continue
             seen_ids.add(product_id)
-            rows.append({
-                "product_name": product["name"].strip(),
-                "price": price,
-            })
+            rows.append(coicop.row(product["name"].strip(), price, category, "Chakra"))
 
         page += 1
         if page <= num_pages:
@@ -161,8 +161,8 @@ def main():
     date_str = datetime.now().strftime("%Y-%m-%d")
     filepath = os.path.join(output_dir, f"chakra_all_categories_{date_str}.csv")
     with open(filepath, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDS)
-        writer.writeheader()
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
         writer.writerows(all_rows)
 
     print(f"Saved {len(all_rows)} unique products to {filepath}")

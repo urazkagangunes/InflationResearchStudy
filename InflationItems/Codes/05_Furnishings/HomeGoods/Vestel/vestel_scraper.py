@@ -14,6 +14,9 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 BASE_URL = "https://www.vestel.com.tr"
 # HTML fragment behind the listing's infinite scroll; one large page returns
 # a whole category, so no browser is needed.
@@ -151,8 +154,8 @@ def get_csv_path():
 def write_csv(rows, csv_path):
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["product_name", "price"])
-        writer.writerows(rows)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(name, price, category, "Vestel") for name, price, category in rows)
 
 
 def main():
@@ -184,10 +187,11 @@ def main():
         if total and len(unique) / total < MIN_COVERAGE:
             short.append(slug)
         for product_id, card in unique.items():
+            card["category"] = slug
             products.setdefault(product_id, card)
 
     no_price = [p for p in products.values() if p["price"] is None or not p["product_name"]]
-    rows = [(p["product_name"], f"{p['price']:.2f}")
+    rows = [(p["product_name"], f"{p['price']:.2f}", p["category"])
             for p in products.values() if p["price"] is not None and p["product_name"]]
     print(f"Products: {len(products)}, written: {len(rows)}, "
           f"without name or price: {len(no_price)}, "

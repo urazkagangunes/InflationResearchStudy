@@ -23,9 +23,13 @@ import re
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://yapimaks.com"
 SEARCH_URL = f"{BASE_URL}/arama"
@@ -42,7 +46,6 @@ DELAY_RANGE = (1.5, 2.5)
 ATTEMPTS = 4
 MAX_PAGES = 400
 MIN_COVERAGE = 0.98
-FIELDS = ["product_name", "price", "product_id", "url"]
 
 # The data folder mirrors this code folder (InflationItems/Codes/... ->
 # InflationItems/Datas/...), so the path holds in any category layout.
@@ -140,9 +143,10 @@ def main():
     path = os.path.join(DATA_DIR, f"{datetime.now():%Y-%m-%d}.csv")
     rows = sorted(found.values(), key=lambda r: int(r["product_id"]))
     with open(path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDS)
-        writer.writeheader()
-        writer.writerows(rows)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        # The search listing carries no category; the code comes from the name.
+        writer.writerows(coicop.row(r["product_name"], r["price"], "", "yapimaks") for r in rows)
     print(f"Saved {len(rows)} products -> {path}")
 
 

@@ -35,6 +35,9 @@ import time
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 # The data folder mirrors this code folder (InflationItems/Codes/... ->
 # InflationItems/Datas/...), like the other Group 05 scrapers.
 _PARTS = Path(__file__).resolve().parent.parts
@@ -61,8 +64,6 @@ BLOCKED_URLS = [
     "*googletagmanager.com*", "*sgtm.koctas.com.tr*", "*doubleclick.net*", "*facebook.net*",
     "*.jpg*", "*.jpeg*", "*.png*", "*.webp*", "*.gif*", "*.woff*", "*.woff2*", "*.mp4*",
 ]
-
-FIELDS = ["product_id", "product_name", "price", "brand", "category", "site_category"]
 
 READ_DATALAYER_JS = """
 var dl = window.dataLayer || [];
@@ -292,9 +293,10 @@ def main():
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     with out_file.open("w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDS)
-        writer.writeheader()
-        writer.writerows(deduped)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(r["product_name"], r["price"], f'{r["category"]} > {r["site_category"]}', "Koctas")
+                         for r in deduped)
     log.info("Saved %d products to %s", len(deduped), out_file)
 
 

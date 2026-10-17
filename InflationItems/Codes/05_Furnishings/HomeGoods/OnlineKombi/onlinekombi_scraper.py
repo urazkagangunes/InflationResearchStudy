@@ -14,6 +14,9 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 BASE_URL = "https://onlinekombi.com"
 # The combi boiler listing, TÜİK 2026 basket item 531306 (COICOP 05). The
 # store sells several brands itself; Bauhaus, the first choice, blocks
@@ -106,8 +109,9 @@ def get_csv_path():
 def write_csv(rows, csv_path):
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["product_name", "price"])
-        writer.writerows(rows)
+        writer.writerow(coicop.FIELDS)
+        # Every product comes from the site's /kombi/ listing.
+        writer.writerows(coicop.row(name, price, "kombi", "OnlineKombi") for name, price in rows)
 
 
 def main():

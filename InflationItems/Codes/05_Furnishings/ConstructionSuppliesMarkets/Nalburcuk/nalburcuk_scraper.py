@@ -1,14 +1,19 @@
 import csv
 import os
 import re
+import sys
 import time
 import threading
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, List, Optional
 
 import requests
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -270,17 +275,9 @@ def main() -> None:
 
     with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        # The central inflation script reads only product_name and price columns.
-        writer.writerow(["ID", "SKU", "product_name", "Category", "price", "URL"])
-        for row_id, row in enumerate(final_rows, 1):
-            writer.writerow([
-                row_id,
-                row.get("sku", ""),
-                row.get("name", ""),
-                row.get("category", ""),
-                row.get("price", ""),
-                row.get("url", ""),
-            ])
+        writer.writerow(coicop.FIELDS)
+        for row in final_rows:
+            writer.writerow(coicop.row(row.get("name", ""), row.get("price", ""), row.get("category", ""), "Nalburcuk"))
 
     print(f"\nSaved {len(final_rows)} rows -> {out_path}")
 

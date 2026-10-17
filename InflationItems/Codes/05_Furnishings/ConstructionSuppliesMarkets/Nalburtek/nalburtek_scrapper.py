@@ -1,11 +1,16 @@
 import os
 import csv
+import sys
 import time
 import random
 import re
 from datetime import datetime
+from pathlib import Path
 from bs4 import BeautifulSoup
 import undetected_chromedriver as uc
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # User provided categories; goz-koruyucular and silikon-mastik-kopuk-cesitleri
 # were dropped, the site answers 404 for both (11 Oct 2026).
@@ -108,7 +113,6 @@ def scrape_category(driver, category_url):
                 if len(stok_elem) > 1:
                     stok_kodu = stok_elem[1].split("\n")[0].strip()
 
-                # The central inflation script reads only product_name and price columns.
                 all_products.append({
                     "product_name": name,
                     "Brand": brand,
@@ -146,12 +150,10 @@ def save_to_csv(data):
     today_str = datetime.now().strftime("%Y-%m-%d")
     file_path = os.path.join(DATA_BASE_DIR, f"Nalburtek_Products_{today_str}.csv")
     
-    fieldnames = ["product_name", "Brand", "price", "RegularPrice", "StockCode", "URL", "CategoryURL"]
-    
     with open(file_path, mode="w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(data)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(p["product_name"], p["price"], p["CategoryURL"], "Nalburtek") for p in data)
         
     print(f"\n✓ Saved {len(data)} products to {file_path}")
 

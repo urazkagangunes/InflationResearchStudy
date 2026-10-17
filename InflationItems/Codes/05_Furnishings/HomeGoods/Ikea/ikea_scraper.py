@@ -5,11 +5,15 @@ import sys
 import time
 from collections import Counter
 from datetime import datetime
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # The category pages on www.ikea.com.tr fill their product grid from this API.
 # www's robots.txt disallows only /_ws/ and /arama/ and sets no Crawl-delay;
@@ -35,7 +39,6 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _PARTS = SCRIPT_DIR.split(os.sep)
 _ROOT = _PARTS.index("InflationItems")
 OUT_DIR = os.sep.join(_PARTS[:_ROOT + 1] + ["Datas"] + _PARTS[_ROOT + 2:])
-FIELDS = ["product_name", "price"]
 
 # Gift cards and services ("montaj hizmeti") are not goods; none were listed
 # in September 2026. The listing marks food itself (isFood).
@@ -132,6 +135,14 @@ def product_name(product):
     return " ".join(name.split())
 
 
+def site_category(product):
+    # First navigation entry, e.g. "Mobilyalar > Oturma Odası Mobilyaları > Sehpalar".
+    for nav in product.get("navigations") or []:
+        crumbs = [c.get("name") or "" for c in nav.get("breadcrumb") or []]
+        return " > ".join(crumbs or [nav.get("name") or ""])
+    return ""
+
+
 def get_csv_path():
     os.makedirs(OUT_DIR, exist_ok=True)
     date = datetime.now(ZoneInfo("Europe/Istanbul")).strftime("%Y-%m-%d")
@@ -141,8 +152,8 @@ def get_csv_path():
 def write_csv(rows, csv_path):
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(FIELDS)
-        writer.writerows(rows)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(name, price, category, "Ikea") for name, price, category in rows)
 
 
 def main():
@@ -176,7 +187,7 @@ def main():
         if reason:
             excluded[reason] += 1
         else:
-            rows.append((product_name(product), float(product["price"])))
+            rows.append((product_name(product), float(product["price"]), site_category(product)))
 
     coverage = len(products) / site_total if site_total else 0
     print(f"Site total: {site_total}, collected: {len(products)} "

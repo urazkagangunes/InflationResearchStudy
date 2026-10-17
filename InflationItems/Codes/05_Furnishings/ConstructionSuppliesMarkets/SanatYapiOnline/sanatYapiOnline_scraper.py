@@ -1,10 +1,15 @@
 import os
+import sys
 import time
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # ==========================================
 # 1. DIRECTORY SETUP
@@ -318,9 +323,10 @@ def main():
         print("      pip install playwright && playwright install chromium")
         return
 
-    # The central inflation script reads only product_name and price columns.
-    df = pd.DataFrame(all_products)[["Name", "Current Price", "Category", "Original Price"]]
-    df = df.rename(columns={"Name": "product_name", "Current Price": "price"})
+    df = pd.DataFrame(
+        [coicop.row(p["Name"], p["Current Price"], p["Category"], "SanatYapiOnline") for p in all_products],
+        columns=coicop.FIELDS,
+    )
     df.to_csv(OUTPUT_FILE, index=False, encoding="utf-8-sig")
     print(f"✅ Saved {len(all_products)} products → {OUTPUT_FILE}")
 

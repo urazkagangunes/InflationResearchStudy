@@ -8,13 +8,18 @@ Created on Sat Mar 14 22:48:30 2026
 # -*- coding: utf-8 -*-
 import os
 import re
+import sys
 import time
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://www.hancivata.com/"
 HEADERS = {
@@ -285,7 +290,11 @@ def main():
                 
                 # CSV'ye ekleme modunda (append - 'a') yazdır
                 # Dosya yoksa header ekle, varsa ekleme
-                df.to_csv(file_name, mode='a', index=False, header=not os.path.exists(file_name), encoding="utf-8-sig")
+                out = pd.DataFrame(
+                    [coicop.row(r["product_name"], r["price"], r["kategori"], "HanCivata") for r in df.to_dict("records")],
+                    columns=coicop.FIELDS,
+                )
+                out.to_csv(file_name, mode='a', index=False, header=not os.path.exists(file_name), encoding="utf-8-sig")
 
             # Kontrol dosyasını güncelle
             kontrol_data = [{

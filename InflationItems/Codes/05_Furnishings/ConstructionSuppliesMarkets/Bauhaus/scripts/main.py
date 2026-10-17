@@ -102,6 +102,10 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import config, category_fetcher, product_fetcher
+from pathlib import Path
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # Add the location of inflation.py to sys.path. Inflations/Codes mirrors
 # InflationItems/Codes, so the path holds in any category layout.
@@ -147,11 +151,11 @@ def save_csv(products, out_path):
     """
     if not products:
         return
-    fieldnames = ["product_name", "price"]
     with open(out_path, 'w', encoding='utf-8-sig', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(products)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(p["product_name"], p["price"], p.get("category", ""), "Bauhaus")
+                         for p in products)
     logger.info(f"✅ Saved {len(products)} products")
 
 def load_checkpoint(cp_path):
@@ -447,6 +451,9 @@ def main():
     before_count = len(all_products)
     # Products carry only product_name and price since the May column change;
     # the old "id" key no longer exists.
+    # Sorted first so a product listed in two categories keeps the same one
+    # (and the same basket code) whatever order the threads finished in.
+    all_products.sort(key=lambda p: p.get("category", ""))
     unique_products = list({(p["product_name"], p["price"]): p for p in all_products}.values())
     after_count = len(unique_products)
     

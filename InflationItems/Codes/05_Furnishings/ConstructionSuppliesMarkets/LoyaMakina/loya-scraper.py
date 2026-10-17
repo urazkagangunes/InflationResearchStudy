@@ -8,7 +8,8 @@ div[data-toggle="product"], the selling price is span[data-toggle="price-sell-va
 and ?pg=N pages the list. Past the last page no new product appears.
 
 Output: InflationItems/Datas/05_Furnishings/ConstructionSuppliesMarkets/
-        LoyaMakina/loya_urunler_YYYY-MM-DD.csv  (product_name, price, kategori, link)
+        LoyaMakina/loya_urunler_YYYY-MM-DD.csv
+        (product_name, price, category_number, sub_category_number)
 
 Usage:
     python loya-scraper.py
@@ -20,9 +21,13 @@ import random
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://www.loyamakina.com"
 # Top-level categories; together they hold every product. The menu's other
@@ -140,10 +145,10 @@ def main():
     os.makedirs(VERI_KLASORU, exist_ok=True)
     dosya = os.path.join(VERI_KLASORU, f"loya_urunler_{datetime.now():%Y-%m-%d}.csv")
     with open(dosya, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=["product_name", "price", "kategori", "link"],
-                                extrasaction="ignore")
-        writer.writeheader()
-        writer.writerows(tum_urunler.values())
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(u["product_name"], u["price"], u["kategori"], "LoyaMakina")
+                         for u in tum_urunler.values())
     print(f"Kaydedildi: {len(tum_urunler)} ürün -> {dosya}")
 
 

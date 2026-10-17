@@ -3,8 +3,13 @@ from bs4 import BeautifulSoup
 import csv
 import time
 import os
+import sys
 from datetime import datetime
+from pathlib import Path
 import random  # Added for the randomized sleep timer
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 # --- Path & Timestamp Configuration  ---
 # 1. Get the directory where this script is located
@@ -62,7 +67,7 @@ session.headers.update(headers)
 
 with open(csv_file_path, 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['product_name', 'price', 'category'])
+    writer.writerow(coicop.FIELDS)
 
     for category in categories:
         offset = 0
@@ -137,7 +142,7 @@ with open(csv_file_path, 'w', newline='', encoding='utf-8') as file:
                             pass
 
                 if clean_price > 0:
-                    writer.writerow([name, clean_price, category])
+                    writer.writerow(coicop.row(name, clean_price, category, "TasciYapiMarket"))
 
             offset += 15
 

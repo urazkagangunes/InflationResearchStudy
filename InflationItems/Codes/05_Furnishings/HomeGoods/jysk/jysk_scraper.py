@@ -7,11 +7,15 @@ import sys
 import time
 from datetime import datetime
 from decimal import Decimal
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://jysk.com.tr"
 # Search API behind the site's filtered listings (outlet, campaigns); it
@@ -30,7 +34,6 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _PARTS = SCRIPT_DIR.split(os.sep)
 _ROOT = _PARTS.index("InflationItems")
 OUT_DIR = os.sep.join(_PARTS[:_ROOT + 1] + ["Datas"] + _PARTS[_ROOT + 2:])
-FIELDS = ["product_name", "price"]
 
 PRICE_RE = re.compile(r"(\d[\d.]*),(\d{2})")
 
@@ -124,9 +127,9 @@ def get_csv_path():
 
 def write_csv(rows, csv_path):
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDS, extrasaction="ignore")
-        writer.writeheader()
-        writer.writerows(rows)
+        writer = csv.writer(f)
+        writer.writerow(coicop.FIELDS)
+        writer.writerows(coicop.row(r["product_name"], r["price"], r["category"], "jysk") for r in rows)
 
 
 def main():

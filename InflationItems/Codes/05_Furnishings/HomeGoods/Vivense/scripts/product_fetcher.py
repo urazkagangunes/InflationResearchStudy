@@ -343,6 +343,7 @@ def _parse_card(card, category_name: str) -> Optional[dict]:
         "url":           product_url,
         "id":            sku,
         "regular_price": round(regular_price, 2),
+        "category":      " > ".join(p for p in (category_name, sub_category) if p),
     }
 
 

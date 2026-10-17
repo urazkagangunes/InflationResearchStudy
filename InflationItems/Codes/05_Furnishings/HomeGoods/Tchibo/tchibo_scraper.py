@@ -14,6 +14,9 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
+
 BASE_URL = "https://www.tchibo.com.tr"
 # JSON endpoint behind the category page's "Daha fazla yükle" button.
 API_URL = f"{BASE_URL}/service/categoryfrontend/api/categories/products"
@@ -94,8 +97,9 @@ def get_csv_path():
 def write_csv(rows, csv_path):
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["product_name", "price"])
-        writer.writerows(rows)
+        writer.writerow(coicop.FIELDS)
+        # The listing API returns no category; the whole section is one.
+        writer.writerows(coicop.row(name, price, CATEGORY_PATH, "Tchibo") for name, price in rows)
 
 
 def main():

@@ -7,6 +7,11 @@ import csv
 import os
 import random
 import re
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 BASE_URL = "https://www.filtasyapi.com/"
 HEADERS = {
@@ -127,7 +132,7 @@ class DataExtractor:
             numeric_price = self.clean_price(raw_price)
             
             extracted_items.append({
-                # "category": page_data["category"],
+                "category": page_data["category"],
                 "product_name": title_el.get_text(strip=True) if title_el else "N/A",
                 "price": numeric_price  
             })
@@ -153,11 +158,9 @@ class Storage:
         out_path = os.path.join(path, filename)
 
         with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
-            fieldnames = ["product_name", "price"]
-            w = csv.DictWriter(f, fieldnames=fieldnames)
-            
-            w.writeheader()
-            w.writerows(rows)
+            w = csv.writer(f)
+            w.writerow(coicop.FIELDS)
+            w.writerows(coicop.row(r["product_name"], r["price"], r["category"], "FiltasYapi") for r in rows)
 
         print(f"saved {len(rows)} products in {out_path}")
         return out_path

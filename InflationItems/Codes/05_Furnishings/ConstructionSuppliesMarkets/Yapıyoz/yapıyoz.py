@@ -5,6 +5,7 @@ import sys
 import time
 import random
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import urljoin
 
 import undetected_chromedriver as uc
@@ -12,6 +13,9 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / "coicop").is_dir())))
+import coicop  # noqa: E402
 
 
 BASE_URL = "https://www.yapiyoz.net/"
@@ -100,7 +104,8 @@ def get_category_links(driver):
 
 def get_product_links_from_category(driver, category_url: str):
     visited_pages = set()
-    product_links = set()
+    # product link -> the (sub)category page it was first listed on
+    product_links = {}
     queue = [category_url]
 
     while queue:
@@ -126,7 +131,7 @@ def get_product_links_from_category(driver, category_url: str):
                 continue
             full = normalize_url(urljoin(BASE_URL, href))
             if full.startswith(BASE_URL.rstrip("/")):
-                product_links.add(full)
+                product_links.setdefault(full, url)
 
        
         for a in soup.select("a[href]"):
@@ -234,14 +239,15 @@ def main():
         categories = get_category_links(driver)
         print(f"[+] {len(categories)} kategori bulundu")
 
-        all_product_links = set()
+        link_category = {}
 
         for i, cat in enumerate(categories, start=1):
             print(f"\n[{i}/{len(categories)}] Kategori taranıyor")
             links = get_product_links_from_category(driver, cat)
-            all_product_links.update(links)
+            for link, page in links.items():
+                link_category.setdefault(link, page)
 
-        all_product_links = sorted(all_product_links)
+        all_product_links = sorted(link_category)
         print(f"\n[+] Toplam benzersiz ürün linki: {len(all_product_links)}")
 
         rows = []
@@ -261,7 +267,7 @@ def main():
                 continue
             seen.add(key)
 
-            rows.append([name, f"{price:.2f}"])
+            rows.append(coicop.row(name, f"{price:.2f}", link_category[product_url], "Yapıyoz"))
 
             print(f"  [OK] {name} -> {price:.2f}")
             time.sleep(random.uniform(0.8, 1.8))
@@ -275,7 +281,7 @@ def main():
         os.makedirs(DATA_DIR, exist_ok=True)
         with open(CSV_FILE, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow(["product_name", "price"])
+            writer.writerow(coicop.FIELDS)
             writer.writerows(rows)
 
         print(f"\n[BİTTİ] {len(rows)} kayıt yazıldı -> {CSV_FILE}")
